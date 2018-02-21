@@ -13,11 +13,12 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handlePlay" prefWidth="75.0" text="Play">
+            <Button fx:id="PlayButton" mnemonicParsing="false" onAction="#handlePlay" prefWidth="75.0" text="Play">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="FrameByFrameButton" mnemonicParsing="false" onAction="#handleFrameByFrame" text="Frame By Frame" />
             <Button mnemonicParsing="false" onAction="#handleStop" prefWidth="75.0" text="Stop">
                <HBox.margin>
                   <Insets left="30.0" />

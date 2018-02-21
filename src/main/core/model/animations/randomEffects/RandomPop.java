@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import main.core.model.animations.Animation;
+import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
-import main.core.util.LedArrayToList;
 
 public class RandomPop implements Animation {
 
@@ -55,14 +55,21 @@ public class RandomPop implements Animation {
 	}
 
 	private void setRandomColors(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		ArrayList<RGBWPixel> leds = LedArrayToList.convert(ledMatrix, matrixWidth, matrixHeight);
+		LedPanel.setBlackPanel(ledMatrix);
+		ArrayList<Integer> ledsIndexes = new ArrayList<>();
+		for (int i = 0; i < matrixWidth * matrixHeight; i++) {
+			ledsIndexes.add(i);
+		}
+		// ArrayList<RGBWPixel> leds = LedArrayToList.convert(ledMatrix, matrixWidth,
+		// matrixHeight);
 		Random random = new Random();
 		for (int i = 0; i < lightOnNumber; i++) {
-			int randomIndex = random.nextInt(leds.size());
-			leds.remove(leds.get(randomIndex));
+			int randomIndex = random.nextInt(ledsIndexes.size());
 
-			int line = randomIndex / matrixWidth;
-			int column = randomIndex % matrixWidth;
+			int line = ledsIndexes.get(randomIndex) / matrixWidth;
+			int column = ledsIndexes.get(randomIndex) % matrixWidth;
+
+			ledsIndexes.remove(ledsIndexes.get(randomIndex));
 
 			if (predefinedRandomType != null) {
 				switch (predefinedRandomType) {
@@ -84,14 +91,17 @@ public class RandomPop implements Animation {
 		int red = random.nextInt(2);
 		int green = random.nextInt(2);
 		int blue = random.nextInt(2);
-		return RGBWPixel.rgbwPixel(255 * red, 255 * green, 255 * blue, whiteLevel);
+		System.out.println("Red" + red * 200);
+		System.out.println("Green" + green * 200);
+		System.out.println("Blue" + blue * 200);
+		return RGBWPixel.rgbwPixel(200 * red, 200 * green, 200 * blue, whiteLevel);
 	}
 
 	private RGBWPixel fullRangeRandomColoredPixel() {
 		Random random = new Random();
-		int red = random.nextInt(255);
-		int green = random.nextInt(255);
-		int blue = random.nextInt(255);
+		int red = random.nextInt(256);
+		int green = random.nextInt(256);
+		int blue = random.nextInt(256);
 		return RGBWPixel.rgbwPixel(red, green, blue, whiteLevel);
 	}
 }

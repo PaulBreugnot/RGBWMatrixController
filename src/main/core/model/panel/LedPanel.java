@@ -31,4 +31,12 @@ public class LedPanel {
 	public void setPixel(int line, int column, RGBWPixel pixel) {
 		LedMatrix[line][column] = pixel;
 	}
+
+	public static void setBlackPanel(RGBWPixel[][] ledMatrix) {
+		for (int line = 0; line < MATRIX_HEIGHT; line++) {
+			for (int column = 0; column < MATRIX_WIDTH; column++) {
+				ledMatrix[line][column] = RGBWPixel.rgbPixel(0, 0, 0);
+			}
+		}
+	}
 }

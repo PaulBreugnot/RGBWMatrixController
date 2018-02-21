@@ -3,6 +3,7 @@ package main.gui.views;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
+import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,6 +13,12 @@ public class MainViewController {
 
 	@FXML
 	private TilePane tilePane;
+
+	@FXML
+	private Button PlayButton;
+
+	@FXML
+	private Button FrameByFrameButton;
 
 	private LedPanel ledPanel;
 	private Rectangle[][] tilePaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
@@ -43,7 +50,7 @@ public class MainViewController {
 	}
 
 	private void displayMatrix() {
-		System.out.println("DisplayingMatrix...");
+		System.out.println("DisplayingMatrix");
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				System.out.print(".");
@@ -51,18 +58,30 @@ public class MainViewController {
 			}
 		}
 		System.out.println("");
-
 	}
 
 	@FXML
 	private void handlePlay() {
+		FrameByFrameButton.setDisable(true);
 		run = true;
 		GUIupdater updater = new GUIupdater(this);
 		updater.start();
 	}
 
 	@FXML
+	private void handleFrameByFrame() {
+		ledPanel.updateDisplay();
+		Platform.runLater(() -> displayMatrix());
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
 	private void handleStop() {
+		FrameByFrameButton.setDisable(false);
 		run = false;
 	}
 
@@ -75,15 +94,20 @@ public class MainViewController {
 
 		@Override
 		public void run() {
-			while (mainViewController.run) {
-				ledPanel.updateDisplay();
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				Platform.runLater(() -> displayMatrix());
+			ledPanel.updateDisplay();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+			// mainViewController.run = false;
+			Platform.runLater(() -> {
+				displayMatrix();
+				if (mainViewController.run) {
+					run();
+				}
+			});
+
 		}
 	}
 
