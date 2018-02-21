@@ -101,4 +101,8 @@ public class RGBWPixel {
 	public void setWhite(int white) {
 		this.white = white;
 	}
+
+	public Color getColor() {
+		return color;
+	}
 }
