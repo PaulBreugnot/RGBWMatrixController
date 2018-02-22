@@ -18,7 +18,7 @@ public class MainTest {
 		// ledPanel.setCurrentAnimation(new TestAnimation());
 		// ledPanel.setCurrentAnimation(RandomPop.classicalRGBColorPop(512, 1, 0));
 		// ledPanel.setCurrentAnimation(RandomPop.fullRangeColorPop(350, 1, 0));
-		ledPanel.setCurrentAnimation(new PixelRain(PixelRain.Source.TOP, 0, 0.1, 1, 0));
+		ledPanel.setCurrentAnimation(new PixelRain(PixelRain.Source.BOTTOM, 0, 0.1, 1, 0));
 		return ledPanel;
 	}
 }
