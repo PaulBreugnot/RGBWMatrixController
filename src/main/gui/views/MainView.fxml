@@ -1,33 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="445.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.MainViewController">
    <center>
-      <TilePane fx:id="tilePane" prefColumns="32" prefHeight="400.0" prefRows="16" prefWidth="800.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <VBox alignment="BOTTOM_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="PlayButton" mnemonicParsing="false" onAction="#handlePlay" prefWidth="75.0" text="Play">
-               <HBox.margin>
-                  <Insets right="30.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="FrameByFrameButton" mnemonicParsing="false" onAction="#handleFrameByFrame" text="Frame By Frame" />
-            <Button mnemonicParsing="false" onAction="#handleStop" prefWidth="75.0" text="Stop">
-               <HBox.margin>
-                  <Insets left="30.0" />
-               </HBox.margin>
-            </Button>
+            <Label text="AWESOME LED MATRIX SIMULATOR" textFill="#2b14c3">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </Label>
+            <TilePane fx:id="tilePane" prefColumns="32" prefHeight="195.0" prefRows="16" prefWidth="390.0">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </TilePane>
+            <HBox alignment="CENTER" prefHeight="75.0" prefWidth="485.0">
+               <children>
+                  <Button fx:id="PlayButton" mnemonicParsing="false" onAction="#handlePlay" prefHeight="50.0" prefWidth="75.0" text="Play">
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="FrameByFrameButton" mnemonicParsing="false" onAction="#handleFrameByFrame" prefHeight="50.0" text="Frame By Frame" />
+                  <Button mnemonicParsing="false" onAction="#handleStop" prefHeight="50.0" prefWidth="75.0" text="Stop">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="40.0" top="10.0" />
+               </VBox.margin>
+            </HBox>
          </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets left="5.0" right="5.0" />
          </BorderPane.margin>
-      </HBox>
-   </bottom>
+      </VBox>
+   </center>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="445.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Available Animations">
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Accordion prefHeight="423.0" prefWidth="202.0">
+              <panes>
+                <TitledPane animated="false" text="Random">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+                  <TitledPane animated="false" text="Geometric">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="Text">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Special">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="319.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <AnchorPane fx:id="ConfigAnchorPane" prefHeight="445.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

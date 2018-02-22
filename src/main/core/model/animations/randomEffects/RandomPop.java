@@ -16,30 +16,30 @@ public class RandomPop implements Animation {
 	private PredefinedRandomType predefinedRandomType;
 	private int lightOnNumber;
 	private double hueMainColorTone;
-	private int speed;
+	private int fps;
 	private int whiteLevel;
 
-	public RandomPop(int lightOnNumber, double hueMainColorTone, int speed, int whiteLevel) {
+	public RandomPop(int lightOnNumber, double hueMainColorTone, int fps, int whiteLevel) {
 		this.lightOnNumber = lightOnNumber;
 		this.hueMainColorTone = hueMainColorTone;
-		this.speed = speed;
+		this.fps = fps;
 		this.whiteLevel = whiteLevel;
 	}
 
-	public RandomPop(int lightOnNumber, int speed, int whiteLevel) {
+	public RandomPop(int lightOnNumber, int fps, int whiteLevel) {
 		this.lightOnNumber = lightOnNumber;
-		this.speed = speed;
+		this.fps = fps;
 		this.whiteLevel = whiteLevel;
 	}
 
-	public static RandomPop fullRangeColorPop(int lightOnNumber, int speed, int whiteLevel) {
-		RandomPop fullRangeColorPop = new RandomPop(lightOnNumber, speed, whiteLevel);
+	public static RandomPop fullRangeColorPop(int lightOnNumber, int fps, int whiteLevel) {
+		RandomPop fullRangeColorPop = new RandomPop(lightOnNumber, fps, whiteLevel);
 		fullRangeColorPop.setPredefinedRandomType(PredefinedRandomType.fullRange);
 		return fullRangeColorPop;
 	}
 
-	public static RandomPop classicalRGBColorPop(int lightOnNumber, int speed, int whiteLevel) {
-		RandomPop classicalRGBColorPop = new RandomPop(lightOnNumber, speed, whiteLevel);
+	public static RandomPop classicalRGBColorPop(int lightOnNumber, int fps, int whiteLevel) {
+		RandomPop classicalRGBColorPop = new RandomPop(lightOnNumber, fps, whiteLevel);
 		classicalRGBColorPop.setPredefinedRandomType(PredefinedRandomType.classicalRGB);
 		return classicalRGBColorPop;
 	}

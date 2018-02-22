@@ -9,6 +9,7 @@ public class LedPanel {
 	public static final int MATRIX_HEIGHT = 16;
 
 	private Animation currentAnimation;
+	private int fps = 10;
 
 	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 
@@ -18,6 +19,14 @@ public class LedPanel {
 
 	public void setCurrentAnimation(Animation currentAnimation) {
 		this.currentAnimation = currentAnimation;
+	}
+
+	public int getFps() {
+		return fps;
+	}
+
+	public void setFps(int fps) {
+		this.fps = fps;
 	}
 
 	public RGBWPixel[][] getLedMatrix() {
