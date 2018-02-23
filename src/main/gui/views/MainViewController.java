@@ -3,14 +3,21 @@ package main.gui.views;
 import java.io.IOException;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.core.model.animations.Animation;
+import main.core.model.animations.pixelRain.PixelRain;
+import main.core.model.animations.randomEffects.RandomPop;
+import main.core.model.animations.text.TextDisplay;
 import main.core.model.panel.LedPanel;
 
 public class MainViewController {
@@ -27,14 +34,83 @@ public class MainViewController {
 	@FXML
 	private AnchorPane ConfigAnchorPane;
 
+	@FXML
+	private ListView<Animation> RandomListView;
+
+	@FXML
+	private ListView<Animation> GeometricListView;
+
+	@FXML
+	private ListView<Animation> TextListView;
+
+	@FXML
+	private ListView<Animation> SpecialListView;
+
+	private ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
+	private ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
+	private ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
+	private ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
+
 	private LedPanel ledPanel;
 	private Rectangle[][] tilePaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 	private boolean run;
 
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
+		setListViews();
 		initTilePane();
 		setAnimationSettings();
+	}
+
+	private void setListViews() {
+
+		ListRandomEffects.add(new RandomPop());
+
+		ListGeometricEffects.add(new PixelRain());
+
+		ListTextEffects.add(new TextDisplay());
+
+		RandomListView.setItems(ListRandomEffects);
+		GeometricListView.setItems(ListGeometricEffects);
+		TextListView.setItems(ListTextEffects);
+		SpecialListView.setItems(ListSpecialEffects);
+
+		RandomListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				GeometricListView.getSelectionModel().clearSelection();
+				TextListView.getSelectionModel().clearSelection();
+				SpecialListView.getSelectionModel().clearSelection();
+				setAnimation(newSelection);
+			}
+		});
+
+		GeometricListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				RandomListView.getSelectionModel().clearSelection();
+				TextListView.getSelectionModel().clearSelection();
+				SpecialListView.getSelectionModel().clearSelection();
+				setAnimation(newSelection);
+			}
+		});
+
+		TextListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				GeometricListView.getSelectionModel().clearSelection();
+				RandomListView.getSelectionModel().clearSelection();
+				SpecialListView.getSelectionModel().clearSelection();
+				setAnimation(newSelection);
+			}
+		});
+
+		SpecialListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				GeometricListView.getSelectionModel().clearSelection();
+				TextListView.getSelectionModel().clearSelection();
+				RandomListView.getSelectionModel().clearSelection();
+				setAnimation(newSelection);
+			}
+		});
+
 	}
 
 	private void initTilePane() {
@@ -55,6 +131,11 @@ public class MainViewController {
 			}
 		}
 		System.out.println("Init TilePane OK");
+	}
+
+	private void setAnimation(Animation animation) {
+		ledPanel.setCurrentAnimation(animation);
+		// config?
 	}
 
 	private void setAnimationSettings() throws IOException {

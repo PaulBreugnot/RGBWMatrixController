@@ -9,6 +9,8 @@ import main.core.model.pixel.RGBWPixel;
 
 public class TextDisplay implements Animation {
 
+	public static final String effectName = "Text Scrolling";
+
 	private String textToDisplay;
 	private double hueTextColor;
 	private Color backgroundColor;
@@ -18,6 +20,10 @@ public class TextDisplay implements Animation {
 	private int textImageLength;
 
 	private int offset = 0;
+
+	public TextDisplay() {
+
+	}
 
 	public TextDisplay(String textToDisplay, double hueTextColor, Font font, int whiteLevel) {
 		this.textToDisplay = textToDisplay;
@@ -54,5 +60,10 @@ public class TextDisplay implements Animation {
 			}
 		}
 		offset++;
+	}
+
+	@Override
+	public String toString() {
+		return effectName;
 	}
 }

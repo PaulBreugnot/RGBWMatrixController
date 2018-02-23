@@ -9,6 +9,8 @@ import main.core.model.pixel.RGBWPixel;
 
 public class RandomPop implements Animation {
 
+	public static final String effectName = "Random Pop";
+
 	private enum PredefinedRandomType {
 		fullRange, classicalRGB
 	};
@@ -18,6 +20,10 @@ public class RandomPop implements Animation {
 	private double hueMainColorTone;
 	private int fps;
 	private int whiteLevel;
+
+	public RandomPop() {
+
+	}
 
 	public RandomPop(int lightOnNumber, double hueMainColorTone, int fps, int whiteLevel) {
 		this.lightOnNumber = lightOnNumber;
@@ -104,4 +110,10 @@ public class RandomPop implements Animation {
 		int blue = random.nextInt(256);
 		return RGBWPixel.rgbwPixel(red, green, blue, whiteLevel);
 	}
+
+	@Override
+	public String toString() {
+		return effectName;
+	}
+
 }

@@ -14,6 +14,8 @@ import main.core.model.pixel.RGBWPixel;
 
 public class PixelRain implements Animation {
 
+	public static final String effectName = "Pixel Rain!";
+
 	public enum Source {
 		TOP, BOTTOM, LEFT, RIGHT
 	};
@@ -25,6 +27,10 @@ public class PixelRain implements Animation {
 	private int spreadLength;
 
 	private TreeMap<Coordinates, RGBWPixel> fallingPixels = new TreeMap<>();
+
+	public PixelRain() {
+
+	}
 
 	public PixelRain(Source source, double hueColor, double density, int spreadLength, int whiteLevel) {
 		this.source = source;
@@ -174,5 +180,10 @@ public class PixelRain implements Animation {
 				fallingPixels.put(new Coordinates(0, i), newPixel);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return effectName;
 	}
 }
