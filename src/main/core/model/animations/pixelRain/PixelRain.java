@@ -1,5 +1,6 @@
 package main.core.model.animations.pixelRain;
 
+import java.io.IOException;
 //import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -7,10 +8,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.AnchorPane;
 //import javafx.util.Pair;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.gui.views.settings.RainPixelSettingsController;
 
 public class PixelRain implements Animation {
 
@@ -29,7 +33,7 @@ public class PixelRain implements Animation {
 	private TreeMap<Coordinates, RGBWPixel> fallingPixels = new TreeMap<>();
 
 	public PixelRain() {
-
+		source = Source.TOP;
 	}
 
 	public PixelRain(Source source, double hueColor, double density, int spreadLength, int whiteLevel) {
@@ -180,6 +184,15 @@ public class PixelRain implements Animation {
 				fallingPixels.put(new Coordinates(0, i), newPixel);
 			}
 		}
+	}
+
+	@Override
+	public void setAnimationSettings(AnchorPane ConfigAnchorPane, LedPanel ledPanel) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/RainPixelSettings.fxml"));
+		ConfigAnchorPane.getChildren().add(loader.load());
+		RainPixelSettingsController rainPixelSettingsController = loader.getController();
+		rainPixelSettingsController.setPixelRain((PixelRain) ledPanel.getCurrentAnimation());
 	}
 
 	@Override

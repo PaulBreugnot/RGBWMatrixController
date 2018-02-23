@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -59,7 +58,6 @@ public class MainViewController {
 		this.ledPanel = ledPanel;
 		setListViews();
 		initTilePane();
-		setAnimationSettings();
 	}
 
 	private void setListViews() {
@@ -80,7 +78,13 @@ public class MainViewController {
 				GeometricListView.getSelectionModel().clearSelection();
 				TextListView.getSelectionModel().clearSelection();
 				SpecialListView.getSelectionModel().clearSelection();
-				setAnimation(newSelection);
+				handleStop();
+				try {
+					setAnimation(newSelection);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -89,7 +93,13 @@ public class MainViewController {
 				RandomListView.getSelectionModel().clearSelection();
 				TextListView.getSelectionModel().clearSelection();
 				SpecialListView.getSelectionModel().clearSelection();
-				setAnimation(newSelection);
+				handleStop();
+				try {
+					setAnimation(newSelection);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -98,7 +108,13 @@ public class MainViewController {
 				GeometricListView.getSelectionModel().clearSelection();
 				RandomListView.getSelectionModel().clearSelection();
 				SpecialListView.getSelectionModel().clearSelection();
-				setAnimation(newSelection);
+				handleStop();
+				try {
+					setAnimation(newSelection);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -107,7 +123,13 @@ public class MainViewController {
 				GeometricListView.getSelectionModel().clearSelection();
 				TextListView.getSelectionModel().clearSelection();
 				RandomListView.getSelectionModel().clearSelection();
-				setAnimation(newSelection);
+				handleStop();
+				try {
+					setAnimation(newSelection);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -133,19 +155,9 @@ public class MainViewController {
 		System.out.println("Init TilePane OK");
 	}
 
-	private void setAnimation(Animation animation) {
+	private void setAnimation(Animation animation) throws IOException {
 		ledPanel.setCurrentAnimation(animation);
-		// config?
-	}
-
-	private void setAnimationSettings() throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/RainPixelSettings.fxml"));
-		ConfigAnchorPane.getChildren().add(loader.load());
-		// RainPixelSettingsController rainPixelSettingsController =
-		// loader.getController();
-		// rainPixelSettingsController.setPixelRain((PixelRain)
-		// ledPanel.getCurrentAnimation());
+		animation.setAnimationSettings(ConfigAnchorPane, ledPanel);
 	}
 
 	private void displayMatrix() {

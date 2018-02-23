@@ -1,5 +1,8 @@
 package test;
 
+import java.io.IOException;
+
+import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
@@ -47,5 +50,11 @@ public class TestAnimation implements Animation {
 				ledMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 255);
 			}
 		}
+	}
+
+	@Override
+	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+		// TODO Auto-generated method stub
+
 	}
 }

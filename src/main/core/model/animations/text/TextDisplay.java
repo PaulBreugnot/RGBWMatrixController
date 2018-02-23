@@ -1,10 +1,14 @@
 package main.core.model.animations.text;
 
+import java.io.IOException;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.core.model.animations.Animation;
+import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
 public class TextDisplay implements Animation {
@@ -60,6 +64,12 @@ public class TextDisplay implements Animation {
 			}
 		}
 		offset++;
+	}
+
+	@Override
+	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
