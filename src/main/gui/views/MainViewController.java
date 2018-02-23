@@ -11,9 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.panel.LedPanel;
-import main.gui.views.settings.RainPixelSettingsController;
 
 public class MainViewController {
 
@@ -63,8 +61,10 @@ public class MainViewController {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/RainPixelSettings.fxml"));
 		ConfigAnchorPane.getChildren().add(loader.load());
-		RainPixelSettingsController rainPixelSettingsController = loader.getController();
-		rainPixelSettingsController.setPixelRain((PixelRain) ledPanel.getCurrentAnimation());
+		// RainPixelSettingsController rainPixelSettingsController =
+		// loader.getController();
+		// rainPixelSettingsController.setPixelRain((PixelRain)
+		// ledPanel.getCurrentAnimation());
 	}
 
 	private void displayMatrix() {
