@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.randomEffects.RandomPop;
-import main.core.model.animations.text.TextDisplay;
+import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 
 public class MainViewController {
@@ -66,7 +66,7 @@ public class MainViewController {
 
 		ListGeometricEffects.add(new PixelRain());
 
-		ListTextEffects.add(new TextDisplay());
+		ListTextEffects.add(new ScrollingText());
 
 		RandomListView.setItems(ListRandomEffects);
 		GeometricListView.setItems(ListGeometricEffects);
@@ -157,18 +157,16 @@ public class MainViewController {
 
 	private void setAnimation(Animation animation) throws IOException {
 		ledPanel.setCurrentAnimation(animation);
+		ConfigAnchorPane.getChildren().clear();
 		animation.setAnimationSettings(ConfigAnchorPane, ledPanel);
 	}
 
 	private void displayMatrix() {
-		System.out.println("DisplayingMatrix");
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				System.out.print(".");
 				tilePaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getColor());
 			}
 		}
-		System.out.println("");
 	}
 
 	@FXML

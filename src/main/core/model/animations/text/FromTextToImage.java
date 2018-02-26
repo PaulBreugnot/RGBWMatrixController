@@ -11,20 +11,19 @@ import javafx.scene.text.Font;
 public abstract class FromTextToImage {
 
 	public static Image convertText(String textToConvert, Font font, Color color, Color backGround) {
-		Canvas canvas = new Canvas(textToConvert.length() * 16, 16);
+		Canvas canvas = new Canvas(textToConvert.length() * (int) font.getSize(), 16);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(backGround);
-		gc.fillRect(0, 0, textToConvert.length() * 16, 16);
+		gc.fillRect(0, 0, textToConvert.length() * (int) font.getSize(), 16);
 		gc.setFill(color);
 		gc.setFont(font);
 		gc.fillText(textToConvert, 2, 14);
 
-		WritableImage image = new WritableImage(textToConvert.length() * 16, 16);
+		WritableImage image = new WritableImage(textToConvert.length() * (int) font.getSize(), 16);
 		canvas.snapshot(null, image);
-		Image truncatedImage = TruncateImage(image, backGround);
-		System.out.println(truncatedImage.getWidth());
+		// Image truncatedImage = TruncateImage(image, backGround);
 
-		return truncatedImage;
+		return image;
 	}
 
 	private static Image TruncateImage(WritableImage image, Color backGround) {
@@ -36,6 +35,9 @@ public abstract class FromTextToImage {
 		while (column >= 0 && blackColumn) {
 			int line = 0;
 			while (line < imageHeight && blackColumn) {
+				System.out.println(pixelReader.getColor(column, line));
+				System.out.println(backGround);
+				System.out.println(pixelReader.getColor(column, line).equals(backGround));
 				if (!pixelReader.getColor(column, line).equals(backGround)) {
 					blackColumn = false;
 				}
