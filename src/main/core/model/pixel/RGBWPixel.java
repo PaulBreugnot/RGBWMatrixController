@@ -30,6 +30,9 @@ public class RGBWPixel {
 	private RGBWPixel(double hue, double saturation, double brightness, int white) {
 		color = Color.hsb(hue, saturation, brightness);
 		this.white = white;
+		this.red = (int) (color.getRed() * 255);
+		this.green = (int) (color.getGreen() * 255);
+		this.blue = (int) (color.getBlue() * 255);
 	}
 
 	public static RGBWPixel rgbwPixel(int red, int green, int blue, int white) {

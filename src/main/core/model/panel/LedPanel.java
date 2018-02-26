@@ -1,5 +1,6 @@
 package main.core.model.panel;
 
+import main.com.SendArray;
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
 
@@ -8,10 +9,16 @@ public class LedPanel {
 	public static final int MATRIX_WIDTH = 32;
 	public static final int MATRIX_HEIGHT = 16;
 
+	private SendArray sendArray;
 	private Animation currentAnimation;
-	private int fps = 10;
+	private int fps;
 
 	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
+
+	public LedPanel(String portCom, int fps) {
+		this.fps = fps;
+		sendArray = new SendArray(portCom);
+	}
 
 	public Animation getCurrentAnimation() {
 		return currentAnimation;
@@ -35,6 +42,7 @@ public class LedPanel {
 
 	public void updateDisplay() {
 		currentAnimation.setNextPicture(LedMatrix, MATRIX_WIDTH, MATRIX_HEIGHT);
+		sendArray.send(LedMatrix);
 	}
 
 	public void setPixel(int line, int column, RGBWPixel pixel) {

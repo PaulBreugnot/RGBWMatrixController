@@ -6,13 +6,16 @@ import main.gui.app.MatrixControllerApp;
 public class MainTest {
 
 	public static void main(String[] args) {
+		for (int i = 0; i < 256; i++) {
+			System.out.println((byte) i);
+		}
 
 		MatrixControllerApp app = new MatrixControllerApp();
 		app.launchApp();
 	}
 
 	public static LedPanel getAppConfig() {
-		LedPanel ledPanel = new LedPanel();
+		LedPanel ledPanel = new LedPanel("COM1", 7);
 		LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 		// ledPanel.setCurrentAnimation(new TestAnimation());
 		// ledPanel.setCurrentAnimation(RandomPop.classicalRGBColorPop(512, 1, 0));
