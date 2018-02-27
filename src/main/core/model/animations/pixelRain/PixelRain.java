@@ -30,7 +30,7 @@ public class PixelRain implements Animation {
 	private double density; // Average poping pixels number each frame
 	private int spreadLength;
 
-	private TreeMap<Coordinates, RGBWPixel> fallingPixels = new TreeMap<>();
+	private TreeMap<Coordinates, FallingPixel> fallingPixels = new TreeMap<>();
 
 	public PixelRain() {
 		source = Source.TOP;
@@ -95,26 +95,26 @@ public class PixelRain implements Animation {
 		// Remove pixels
 		for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 			fallingPixels.remove(new Coordinates(0, column));
-			ledMatrix[0][column] = RGBWPixel.hsbwPixel(hueColor, 0, 0, whiteLevel);
+			ledMatrix[0][column] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
 		}
 
 		// Move pixels
-		Map<Coordinates, RGBWPixel> followingPixels = new TreeMap<>();
+		Map<Coordinates, FallingPixel> followingPixels = new TreeMap<>();
 		Set<Coordinates> blackPixelsToRemove = new HashSet<>();
-		for (Coordinates pixel : fallingPixels.keySet()) {
-			ledMatrix[pixel.getKey() - 1][pixel.getValue()] = fallingPixels.get(pixel);
-			followingPixels.put(new Coordinates(pixel.getKey() - 1, pixel.getValue()), fallingPixels.get(pixel));
+		for (Coordinates pixelCoordinates : fallingPixels.keySet()) {
+			ledMatrix[fallingPixels.get(pixelCoordinates).getDiscreteProgress()][pixelCoordinates.getValue()] = fallingPixels.get(pixelCoordinates);
+			followingPixels.put(new Coordinates(fallingPixels.get(pixelCoordinates).getDiscreteProgress(), pixelCoordinates.getValue()), fallingPixels.get(pixelCoordinates));
 
-			RGBWPixel followingPixel;
-			if (fallingPixels.get(pixel).getBrightness() - 1.0 / spreadLength > 0) {
+			FallingPixel followingPixel;
+			if (fallingPixels.get(pixelCoordinates).getBrightness() - 1.0 / spreadLength > 0) {
 				followingPixel = RGBWPixel.hsbwPixel(hueColor, 1.0,
-						fallingPixels.get(pixel).getBrightness() - 1.0 / spreadLength, whiteLevel);
-				followingPixels.put(new Coordinates(pixel.getKey(), pixel.getValue()), followingPixel);
+						fallingPixels.get(pixelCoordinates).getBrightness() - 1.0 / spreadLength, whiteLevel);
+				followingPixels.put(new Coordinates(pixelCoordinates.getKey(), pixelCoordinates.getValue()), followingPixel);
 			} else {
 				followingPixel = RGBWPixel.hsbwPixel(hueColor, 0, 0, whiteLevel);
-				blackPixelsToRemove.add(pixel);
+				blackPixelsToRemove.add(pixelCoordinates);
 			}
-			ledMatrix[pixel.getKey()][pixel.getValue()] = followingPixel;
+			ledMatrix[pixelCoordinates.getKey()][pixelCoordinates.getValue()] = followingPixel;
 		}
 		// Remove black pixels
 		for (Coordinates blackPixel : blackPixelsToRemove) {
