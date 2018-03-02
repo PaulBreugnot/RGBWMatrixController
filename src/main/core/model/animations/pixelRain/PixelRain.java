@@ -30,9 +30,10 @@ public class PixelRain implements Animation {
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
 	private int spreadLength;
-	private double speed = 0.5;
+	private double speed = 2;
 
 	private int frame = 0;
+	private double displayTreshold = 0;
 
 	private TreeMap<Coordinates, FallingPixel> fallingPixels = new TreeMap<>();
 
@@ -85,10 +86,21 @@ public class PixelRain implements Animation {
 		switch (source) {
 		case TOP:
 			makeTopPixelsFall(ledMatrix);
-			if (frame % ((int) Math.floor(1 / speed)) == 0) {
+			if (speed <= 1) {
+				if (frame % ((int) Math.floor(1 / speed)) == 0) {
+					popTopNewPixels(ledMatrix);
+				}
+				frame++;
+			} else {
 				popTopNewPixels(ledMatrix);
+				frame++;
+				while (frame < displayTreshold) {
+					makeTopPixelsFall(ledMatrix);
+					popTopNewPixels(ledMatrix);
+					frame++;
+				}
+				displayTreshold += speed;
 			}
-			frame++;
 			break;
 		case BOTTOM:
 			// makeBottomPixelsFall(ledMatrix);
@@ -100,7 +112,7 @@ public class PixelRain implements Animation {
 
 	public void makeTopPixelsFall(RGBWPixel[][] ledMatrix) {
 		// Remove pixels
-		if (frame % ((int) Math.floor(1 / speed)) == 0) {
+		if ((speed <= 1 && frame % ((int) Math.floor(1 / speed)) == 0) || speed > 1) {
 			for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 				fallingPixels.remove(new Coordinates(0, column));
 				ledMatrix[0][column] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
