@@ -16,6 +16,9 @@ public class RainPixelSettingsController {
 
 	@FXML
 	private Slider lengthSlider;
+	
+	@FXML
+	private Slider speedSlider;
 
 	private PixelRain pixelRain;
 
@@ -40,8 +43,13 @@ public class RainPixelSettingsController {
 
 		lengthSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				System.out.println("length : " + (int) Math.floor((double) new_val));
 				pixelRain.setSpreadLength((int) Math.floor((double) new_val));
+			}
+		});
+		
+		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				pixelRain.setSpeed((double) new_val);
 			}
 		});
 	}

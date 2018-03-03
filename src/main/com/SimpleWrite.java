@@ -23,9 +23,11 @@ public class SimpleWrite {
 
 	public void initCOMPort() {
 		portList = CommPortIdentifier.getPortIdentifiers();
+		System.out.println(portList.hasMoreElements());
 
 		while (portList.hasMoreElements()) {
 			portId = (CommPortIdentifier) portList.nextElement();
+			System.out.println(portId.getName());
 			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				if (portId.getName().equals(COM)) {
 					// if (portId.getName().equals("/dev/term/a")) {
@@ -35,6 +37,9 @@ public class SimpleWrite {
 					}
 					try {
 						outputStream = serialPort.getOutputStream();
+						if(outputStream != null) {
+							System.out.println("USB connected");
+						}
 					} catch (IOException e) {
 					}
 					try {
@@ -49,7 +54,9 @@ public class SimpleWrite {
 
 	public void write(byte[] message) {
 		try {
-			outputStream.write(message);
+			if(outputStream != null) {
+				outputStream.write(message);
+			}
 		} catch (IOException e) {
 		}
 

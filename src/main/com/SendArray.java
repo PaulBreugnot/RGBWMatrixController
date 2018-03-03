@@ -16,7 +16,9 @@ public class SendArray {
 	}
 
 	private byte[] convertTo1DByteArray(RGBWPixel[][] LedMatrix) {
-		byte[] byteArray = new byte[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH];
+		byte[] byteArray = new byte[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH +1];
+		byte initialByte = (byte) 0b11111111;
+		byteArray[0] = initialByte;
 		boolean readingDirection = true;
 		for (int line = 0; line < LedPanel.MATRIX_HEIGHT; line++) {
 			for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
@@ -26,10 +28,10 @@ public class SendArray {
 				} else {
 					pixelToSend = LedMatrix[line][LedPanel.MATRIX_WIDTH - column - 1];
 				}
-				byteArray[line + column] = (byte) pixelToSend.getRed();
-				byteArray[line + column + 1] = (byte) pixelToSend.getGreen();
-				byteArray[line + column + 2] = (byte) pixelToSend.getBlue();
-				byteArray[line + column + 3] = (byte) pixelToSend.getWhite();
+				byteArray[1 + line + column] = (byte) pixelToSend.getRed();
+				byteArray[1 + line + column + 1] = (byte) pixelToSend.getGreen();
+				byteArray[1 + line + column + 2] = (byte) pixelToSend.getBlue();
+				byteArray[1 + line + column + 3] = (byte) pixelToSend.getWhite();
 			}
 			readingDirection = !readingDirection;
 		}

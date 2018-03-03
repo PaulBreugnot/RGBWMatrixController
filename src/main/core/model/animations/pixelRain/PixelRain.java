@@ -30,7 +30,7 @@ public class PixelRain implements Animation {
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
 	private int spreadLength;
-	private double speed = 2.5;
+	private double speed = 2;
 
 	private int frame = 0;
 	private double displayTreshold = 0;
@@ -80,18 +80,27 @@ public class PixelRain implements Animation {
 	public void setSpreadLength(int spreadLength) {
 		this.spreadLength = spreadLength;
 	}
+	
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
 		switch (source) {
 		case TOP:
-			makeTopPixelsFall(ledMatrix);
 			if (speed <= 1) {
-				if (frame % ((int) Math.floor(1 / speed)) == 0) {
+				if(frame >= displayTreshold) {
+					makeTopPixelsFall(ledMatrix);
 					popTopNewPixels(ledMatrix);
+					while (displayTreshold <= frame+1) {
+						displayTreshold += speed;
+					}
 				}
-				frame++;
+				frame ++;
+			
 			} else {
+				makeTopPixelsFall(ledMatrix);
 				popTopNewPixels(ledMatrix);
 			}
 
@@ -104,7 +113,7 @@ public class PixelRain implements Animation {
 
 	public void makeTopPixelsFall(RGBWPixel[][] ledMatrix) {
 		// Remove pixels
-		if ((speed <= 1 && frame % ((int) Math.floor(1 / speed)) == 0) || speed > 1) {
+		if (speed <= 1 && (frame >= displayTreshold) || speed > 1) {
 			for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 				fallingPixels.remove(new Coordinates(0, column));
 				ledMatrix[0][column] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
@@ -115,11 +124,12 @@ public class PixelRain implements Animation {
 		Set<Coordinates> blackPixelsToRemove = new HashSet<>();
 		for (Coordinates pixelCoordinates : fallingPixels.keySet()) {
 			FallingPixel fallingPixel = fallingPixels.get(pixelCoordinates);
-			int currentVerticalProgress = fallingPixel.getDiscreteProgress();
+			double currentVerticalProgress = fallingPixel.getProgress();
+			int currentVerticalDiscreteProgress = fallingPixel.getDiscreteProgress();
 			int constantAbscissValue = pixelCoordinates.getValue();
 			int stepsNum = fallingPixel.progress();
 
-			if (fallingPixel.getDiscreteProgress() != currentVerticalProgress) {// possible equality with speeds < 1
+			if (fallingPixel.getDiscreteProgress() != currentVerticalDiscreteProgress) {// possible equality with speeds < 1
 				if (fallingPixel.getDiscreteProgress() < LedPanel.MATRIX_HEIGHT) {// Pixel still in matrix
 					ledMatrix[LedPanel.MATRIX_HEIGHT - 1
 							- fallingPixel.getDiscreteProgress()][constantAbscissValue] = fallingPixels

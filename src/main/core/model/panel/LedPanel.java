@@ -17,7 +17,7 @@ public class LedPanel {
 
 	public LedPanel(String portCom, int fps) {
 		this.fps = fps;
-		// sendArray = new SendArray(portCom);
+		sendArray = new SendArray(portCom);
 	}
 
 	public Animation getCurrentAnimation() {
@@ -42,7 +42,7 @@ public class LedPanel {
 
 	public void updateDisplay() {
 		currentAnimation.setNextPicture(LedMatrix, MATRIX_WIDTH, MATRIX_HEIGHT);
-		// sendArray.send(LedMatrix);
+		sendArray.send(LedMatrix);
 	}
 
 	public void setPixel(int line, int column, RGBWPixel pixel) {
