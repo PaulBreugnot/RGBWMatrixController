@@ -126,7 +126,6 @@ public class PixelRain implements Animation {
 									.get(pixelCoordinates);
 					followingPixels.put(new Coordinates(LedPanel.MATRIX_HEIGHT - 1 - fallingPixel.getDiscreteProgress(),
 							constantAbscissValue), fallingPixel);
-					System.out.println("Steps num : " + stepsNum);
 					for (int step = 0; step < stepsNum; step++) {
 						if (pixelCoordinates.getKey() - step > 0) {
 							FallingPixel followingPixel;
