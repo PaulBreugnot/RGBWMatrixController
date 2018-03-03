@@ -17,15 +17,16 @@ public class FallingPixel extends RGBWPixel {
 		super(color, white);
 		this.speed = speed;
 		this.progress = progress;
+		currentDiscretePosition = (int) Math.floor(progress);
 	}
 
-	public void progress() {
-		System.out.print("Old Progress : ");
-		System.out.println(progress);
+	public int progress() {
+		int formerDiscretePosition = currentDiscretePosition;
 		progress += speed;
 		System.out.print("New Progress : ");
 		System.out.println(progress);
 		currentDiscretePosition = (int) Math.floor(progress);
+		return currentDiscretePosition - formerDiscretePosition;
 	}
 
 	public double getProgress() {
