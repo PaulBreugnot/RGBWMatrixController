@@ -30,7 +30,7 @@ public class PixelRain implements Animation {
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
 	private int spreadLength;
-	private double speed = 0.5;
+	private double speed = 2.5;
 
 	private int frame = 0;
 	private double displayTreshold = 0;
