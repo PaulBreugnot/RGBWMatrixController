@@ -30,7 +30,8 @@ public class PixelRain implements Animation {
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
 	private int spreadLength;
-	private double speed = 2;
+	private double speed = 1;
+	public static final double AllowedSpeeds[] = {0.25, 0.5, 1, 2, 3, 4, 5};
 
 	private int frame = 0;
 	private double displayTreshold = 0;
@@ -158,6 +159,7 @@ public class PixelRain implements Animation {
 					}
 				} else {
 					blackPixelsToRemove.add(pixelCoordinates);
+					ledMatrix[pixelCoordinates.getKey()][pixelCoordinates.getValue()] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
 				}
 			}
 

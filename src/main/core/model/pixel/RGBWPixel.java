@@ -16,6 +16,9 @@ public class RGBWPixel {
 
 	public RGBWPixel(Color color, int white) {
 		this.color = color;
+		this.red = (int) (color.getRed() * 255);
+		this.green = (int) (color.getGreen() * 255);
+		this.blue = (int) (color.getBlue() * 255);
 		this.white = white;
 	}
 
