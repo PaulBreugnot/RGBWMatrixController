@@ -7,12 +7,19 @@ public class SendArray {
 
 	private SimpleWrite simpleWrite;
 
+	private boolean connectionSet = false;
+	
 	public SendArray(String comPort) {
 		simpleWrite = new SimpleWrite(comPort);
+		connectionSet = simpleWrite.isConnected();
 	}
 
 	public void send(RGBWPixel[][] LedMatrix) {
 		simpleWrite.write(convertTo1DByteArray(LedMatrix));
+	}
+	
+	public boolean isConnectionSet() {
+		return connectionSet;
 	}
 
 	private byte[] convertTo1DByteArray(RGBWPixel[][] LedMatrix) {

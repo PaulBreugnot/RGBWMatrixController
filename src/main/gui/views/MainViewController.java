@@ -1,13 +1,17 @@
 package main.gui.views;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
+import gnu.io.CommPortIdentifier;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
@@ -45,7 +49,15 @@ public class MainViewController {
 
 	@FXML
 	private ListView<Animation> SpecialListView;
-
+	
+	@FXML
+	private ComboBox<String> ComPortComboBox;
+	
+	@FXML
+	private Label ErrorLabel;
+	
+	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
+	
 	private ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
 	private ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
 	private ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
@@ -59,6 +71,7 @@ public class MainViewController {
 		this.ledPanel = ledPanel;
 		setListViews();
 		initTilePane();
+		initComPort();
 	}
 
 	private void setListViews() {
@@ -156,6 +169,17 @@ public class MainViewController {
 		}
 		System.out.println("Init TilePane OK");
 	}
+	
+	public void initComPort() {
+		Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
+		while(portList.hasMoreElements()) {
+			ListComPort.add(portList.nextElement().getName());
+		}
+		if(ListComPort.size() == 1) {
+			ComPortComboBox.getSelectionModel().selectFirst();
+			handleConnect();
+		}
+	}
 
 	private void setAnimation(Animation animation) throws IOException {
 		ledPanel.setCurrentAnimation(animation);
@@ -194,6 +218,23 @@ public class MainViewController {
 	private void handleStop() {
 		FrameByFrameButton.setDisable(false);
 		run = false;
+	}
+	
+	@FXML
+	private void handleConnect() {
+		String comName = ComPortComboBox.getSelectionModel().getSelectedItem();
+		if(comName != null) {
+			ledPanel.setConnection(comName);
+			if(ledPanel.isConnected()) {
+				ErrorLabel.setText("Label Connected!");
+			}
+			else {
+				ErrorLabel.setText("Fail to connect " + comName);
+			}
+		}
+		else {
+			ErrorLabel.setText("No port selected");
+		}
 	}
 
 	private class GUIupdater extends Thread {

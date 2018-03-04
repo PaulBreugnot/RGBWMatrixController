@@ -12,12 +12,22 @@ public class LedPanel {
 	private SendArray sendArray;
 	private Animation currentAnimation;
 	private int fps;
+	private boolean isConnected;
 
 	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 
 	public LedPanel(String portCom, int fps) {
 		this.fps = fps;
 		sendArray = new SendArray(portCom);
+	}
+	
+	public void setConnection(String portCom) {
+		sendArray = new SendArray(portCom);
+		isConnected = sendArray.isConnectionSet();
+	}
+	
+	public boolean isConnected() {
+		return isConnected;
 	}
 
 	public Animation getCurrentAnimation() {

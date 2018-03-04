@@ -10,7 +10,7 @@ import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
 
 public class SimpleWrite {
-	private Enumeration portList;
+	private Enumeration<CommPortIdentifier> portList;
 	private CommPortIdentifier portId;
 	private SerialPort serialPort;
 	private OutputStream outputStream;
@@ -23,7 +23,6 @@ public class SimpleWrite {
 
 	public void initCOMPort() {
 		portList = CommPortIdentifier.getPortIdentifiers();
-		System.out.println(portList.hasMoreElements());
 
 		while (portList.hasMoreElements()) {
 			portId = (CommPortIdentifier) portList.nextElement();
@@ -54,11 +53,15 @@ public class SimpleWrite {
 
 	public void write(byte[] message) {
 		try {
-			if(outputStream != null) {
+			if(isConnected()) {
 				outputStream.write(message);
 			}
 		} catch (IOException e) {
 		}
 
+	}
+	
+	public boolean isConnected() {
+		return outputStream == null;
 	}
 }
