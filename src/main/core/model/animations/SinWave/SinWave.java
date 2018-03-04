@@ -18,7 +18,7 @@ public class SinWave implements Animation {
 	private Source source;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private double waveLength = 10;
+	private double waveLength = 50;
 	private double contrast = 0.4;
 	private int speed = 1;
 	private int offset = 0;
