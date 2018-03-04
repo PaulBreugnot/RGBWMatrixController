@@ -14,6 +14,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
+import main.core.model.animations.SinWave.SinWave;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.randomEffects.RandomPop;
 import main.core.model.animations.text.ScrollingText;
@@ -65,6 +66,7 @@ public class MainViewController {
 		ListRandomEffects.add(new RandomPop());
 
 		ListGeometricEffects.add(new PixelRain());
+		ListGeometricEffects.add(new SinWave());
 
 		ListTextEffects.add(new ScrollingText());
 
