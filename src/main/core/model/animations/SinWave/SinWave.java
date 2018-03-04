@@ -2,10 +2,12 @@ package main.core.model.animations.SinWave;
 
 import java.io.IOException;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.gui.views.settings.SinWaveSettingsController;
 
 public class SinWave implements Animation {
 
@@ -23,17 +25,41 @@ public class SinWave implements Animation {
 	private int speed = 1;
 	private int offset = 0;
 
+	public void setHueColor(double hueColor) {
+		this.hueColor = hueColor;
+	}
+
+	public void setWhiteLevel(int whiteLevel) {
+		this.whiteLevel = whiteLevel;
+	}
+
+	public void setWaveLength(double waveLength) {
+		this.waveLength = waveLength;
+	}
+
+	public void setContrast(double contrast) {
+		this.contrast = contrast;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
 		displayWave(ledMatrix);
-		offset++;
+		offset += speed;
 		// offset = (offset + speed) % (LedPanel.MATRIX_WIDTH - 1);
 
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
-		// TODO Auto-generated method stub
+	public void setAnimationSettings(AnchorPane ConfigAnchorPane, LedPanel ledPanel) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/SinWaveSettings.fxml"));
+		ConfigAnchorPane.getChildren().add(loader.load());
+		SinWaveSettingsController sinWaveSettingsController = loader.getController();
+		sinWaveSettingsController.setSinWave((SinWave) ledPanel.getCurrentAnimation());
 
 	}
 
