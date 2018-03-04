@@ -29,12 +29,15 @@ public class PixelRain implements Animation {
 	private double hueColor;
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
-	private int spreadLength;
-	private double speed = 1;
-	public static final double AllowedSpeeds[] = {0.25, 0.5, 1, 2, 3, 4, 5};
+	private int spreadLength = 1;
+	private double speed = 0.5;
+	public static final double AllowedSpeeds[] = { 0.25, 0.5, 1, 2, 3, 4, 5 };
 
 	private int frame = 0;
-	private double displayTreshold = 0;
+	private double displayProgress = 0;
+	private double synchronisedPopProgress = 0;
+
+	boolean clearPanel = false;
 
 	private TreeMap<Coordinates, FallingPixel> fallingPixels = new TreeMap<>();
 
@@ -81,30 +84,30 @@ public class PixelRain implements Animation {
 	public void setSpreadLength(int spreadLength) {
 		this.spreadLength = spreadLength;
 	}
-	
+
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
+		if (clearPanel) {
+			LedPanel.setBlackPanel(ledMatrix);
+			clearPanel = false;
+		}
 		switch (source) {
 		case TOP:
 			if (speed <= 1) {
-				if(frame >= displayTreshold) {
-					makeTopPixelsFall(ledMatrix);
+				makeTopPixelsFall(ledMatrix);
+				if (displayProgress >= 1) {
+					displayProgress -= Math.floor(displayProgress);
 					popTopNewPixels(ledMatrix);
-					while (displayTreshold <= frame+1) {
-						displayTreshold += speed;
-					}
 				}
-				frame ++;
-			
+				displayProgress += speed;
 			} else {
 				makeTopPixelsFall(ledMatrix);
 				popTopNewPixels(ledMatrix);
 			}
-
 			break;
 		case BOTTOM:
 			break;
@@ -112,54 +115,68 @@ public class PixelRain implements Animation {
 
 	}
 
+	public void clearMatrix() {
+		fallingPixels.clear();
+		clearPanel = true;
+	}
+
 	public void makeTopPixelsFall(RGBWPixel[][] ledMatrix) {
 		// Remove pixels
-		if (speed <= 1 && (frame >= displayTreshold) || speed > 1) {
+		if (speed <= 1 && (displayProgress >= 1) || speed > 1) {
 			for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 				fallingPixels.remove(new Coordinates(0, column));
 				ledMatrix[0][column] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
 			}
 		}
+		boolean synchronisedSet = false;
 		// Move pixels
 		Map<Coordinates, FallingPixel> followingPixels = new TreeMap<>();
 		Set<Coordinates> blackPixelsToRemove = new HashSet<>();
 		for (Coordinates pixelCoordinates : fallingPixels.keySet()) {
 			FallingPixel fallingPixel = fallingPixels.get(pixelCoordinates);
-			double currentVerticalProgress = fallingPixel.getProgress();
-			int currentVerticalDiscreteProgress = fallingPixel.getDiscreteProgress();
+			double initVerticalProgress = fallingPixel.getProgress();
+			int initVerticalDiscreteProgress = fallingPixel.getDiscreteProgress();
 			int constantAbscissValue = pixelCoordinates.getValue();
 			int stepsNum = fallingPixel.progress();
+			int newVerticalPosition = LedPanel.MATRIX_HEIGHT - 1 - fallingPixel.getDiscreteProgress();
+			System.out.println("New vertical position : " + newVerticalPosition);
 
-			if (fallingPixel.getDiscreteProgress() != currentVerticalDiscreteProgress) {// possible equality with speeds < 1
-				if (fallingPixel.getDiscreteProgress() < LedPanel.MATRIX_HEIGHT) {// Pixel still in matrix
-					ledMatrix[LedPanel.MATRIX_HEIGHT - 1
-							- fallingPixel.getDiscreteProgress()][constantAbscissValue] = fallingPixels
-									.get(pixelCoordinates);
-					followingPixels.put(new Coordinates(LedPanel.MATRIX_HEIGHT - 1 - fallingPixel.getDiscreteProgress(),
-							constantAbscissValue), fallingPixel);
+			if (!synchronisedSet) {
+				synchronisedPopProgress = fallingPixel.getProgress() - Math.floor(fallingPixel.getProgress());
+				synchronisedSet = true;
+			}
+
+			if (stepsNum >= 1) {// possibly equal to 0 with speed < 1
+				if (newVerticalPosition >= 0) {// Pixel still in matrix
+					ledMatrix[newVerticalPosition][constantAbscissValue] = fallingPixels.get(pixelCoordinates);
+					followingPixels.put(new Coordinates(newVerticalPosition, constantAbscissValue), fallingPixel);
 					for (int step = 0; step < stepsNum; step++) {
-						if (pixelCoordinates.getKey() - step > 0) {
+						if (initVerticalProgress + step < LedPanel.MATRIX_HEIGHT) {
+							System.out
+									.print(fallingPixels.get(pixelCoordinates).getBrightness() - (1.0 / spreadLength));
 							FallingPixel followingPixel;
-							if (fallingPixels.get(pixelCoordinates).getBrightness()
-									- (stepsNum - step + 1) * (1.0 / spreadLength) > 0) {
+							if (fallingPixels.get(pixelCoordinates).getBrightness() - (1.0 / spreadLength) > 0) {
 								double lowerBrightness = fallingPixels.get(pixelCoordinates).getBrightness()
-										- (stepsNum - step + 1) * (1.0 / spreadLength);
+										- (1.0 / spreadLength);
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 1.0, lowerBrightness), whiteLevel,
-										speed, currentVerticalProgress + step);
+										speed, initVerticalProgress - step);
 								followingPixels.put(
-										new Coordinates(pixelCoordinates.getKey() - step, pixelCoordinates.getValue()),
+										new Coordinates(newVerticalPosition + step + 1, constantAbscissValue),
 										followingPixel);
 							} else {
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 0, 0), whiteLevel, speed,
-										currentVerticalProgress + step);
-								blackPixelsToRemove.add(pixelCoordinates);
+										initVerticalProgress - step);
+								System.out.println("Following position : " + newVerticalPosition + step + 1);
+								blackPixelsToRemove
+										.add(new Coordinates(newVerticalPosition + step + 1, constantAbscissValue));
 							}
-							ledMatrix[pixelCoordinates.getKey() - step][pixelCoordinates.getValue()] = followingPixel;
+							ledMatrix[newVerticalPosition + step + 1][constantAbscissValue] = followingPixel;
 						}
 					}
 				} else {
 					blackPixelsToRemove.add(pixelCoordinates);
-					ledMatrix[pixelCoordinates.getKey()][pixelCoordinates.getValue()] = RGBWPixel.hsbwPixel(hueColor, 0, 0, 0);
+					ledMatrix[pixelCoordinates.getKey()][pixelCoordinates.getValue()] = RGBWPixel.hsbwPixel(hueColor, 0,
+							0, 0);
 				}
 			}
 
@@ -179,7 +196,8 @@ public class PixelRain implements Animation {
 		Random random = new Random();
 		for (int i = 0; i < LedPanel.MATRIX_WIDTH; i++) {
 			if (random.nextFloat() < density / LedPanel.MATRIX_WIDTH) {
-				FallingPixel newPixel = new FallingPixel(Color.hsb(hueColor, 1, 1), whiteLevel, speed, 0);
+				FallingPixel newPixel = new FallingPixel(Color.hsb(hueColor, 1, 1), whiteLevel, speed,
+						synchronisedPopProgress);
 				ledMatrix[LedPanel.MATRIX_HEIGHT - 1][i] = newPixel;
 				fallingPixels.put(new Coordinates(LedPanel.MATRIX_HEIGHT - 1, i), newPixel);
 			}
