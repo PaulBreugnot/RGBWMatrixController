@@ -30,10 +30,8 @@ public class PixelRain implements Animation {
 	private int whiteLevel;
 	private double density; // Average poping pixels number each frame
 	private int spreadLength = 1;
-	private double speed = 0.5;
-	public static final double AllowedSpeeds[] = { 0.25, 0.5, 1, 2, 3, 4, 5 };
+	private double speed = 1;
 
-	private int frame = 0;
 	private double displayProgress = 0;
 	private double synchronisedPopProgress = 0;
 
@@ -151,22 +149,20 @@ public class PixelRain implements Animation {
 					ledMatrix[newVerticalPosition][constantAbscissValue] = fallingPixels.get(pixelCoordinates);
 					followingPixels.put(new Coordinates(newVerticalPosition, constantAbscissValue), fallingPixel);
 					for (int step = 0; step < stepsNum; step++) {
-						if (initVerticalProgress + step < LedPanel.MATRIX_HEIGHT) {
-							System.out
-									.print(fallingPixels.get(pixelCoordinates).getBrightness() - (1.0 / spreadLength));
+						if (newVerticalPosition + step + 1 < LedPanel.MATRIX_HEIGHT) {
 							FallingPixel followingPixel;
 							if (fallingPixels.get(pixelCoordinates).getBrightness() - (1.0 / spreadLength) > 0) {
 								double lowerBrightness = fallingPixels.get(pixelCoordinates).getBrightness()
 										- (1.0 / spreadLength);
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 1.0, lowerBrightness), whiteLevel,
-										speed, initVerticalProgress - step);
+										speed, fallingPixel.getProgress() - 1 - step);
+								System.out.println("Following position : " + (newVerticalPosition + step + 1));
 								followingPixels.put(
 										new Coordinates(newVerticalPosition + step + 1, constantAbscissValue),
 										followingPixel);
 							} else {
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 0, 0), whiteLevel, speed,
-										initVerticalProgress - step);
-								System.out.println("Following position : " + newVerticalPosition + step + 1);
+										fallingPixel.getProgress() - 1 - step);
 								blackPixelsToRemove
 										.add(new Coordinates(newVerticalPosition + step + 1, constantAbscissValue));
 							}

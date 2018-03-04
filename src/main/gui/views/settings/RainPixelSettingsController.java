@@ -49,11 +49,10 @@ public class RainPixelSettingsController {
 
 		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				pixelRain.setSpeed(PixelRain.AllowedSpeeds[(int) Math.floor((double) new_val)]);
 				pixelRain.clearMatrix();
-				// double roundValue = Math.floor(((double) new_val) * 100) / 100;
-				// System.out.println(roundValue);
-				// pixelRain.setSpeed(roundValue);
+				double roundValue = Math.floor(((double) new_val) * 100) / 100;
+				System.out.println(roundValue);
+				pixelRain.setSpeed(roundValue);
 			}
 		});
 	}
