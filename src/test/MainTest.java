@@ -11,7 +11,7 @@ public class MainTest {
 	}
 
 	public static LedPanel getAppConfig() {
-		LedPanel ledPanel = new LedPanel("/dev/ttyUSB1", 1);
+		LedPanel ledPanel = new LedPanel(1);
 		LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 		// ledPanel.setCurrentAnimation(new TestAnimation());
 		// ledPanel.setCurrentAnimation(RandomPop.classicalRGBColorPop(512, 1, 0));

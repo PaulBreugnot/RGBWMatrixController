@@ -16,9 +16,8 @@ public class LedPanel {
 
 	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 
-	public LedPanel(String portCom, int fps) {
+	public LedPanel(int fps) {
 		this.fps = fps;
-		sendArray = new SendArray(portCom);
 	}
 	
 	public void setConnection(String portCom) {
