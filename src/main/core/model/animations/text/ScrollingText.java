@@ -46,6 +46,10 @@ public class ScrollingText implements Animation {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	public void setWhiteLevel(int whiteLevel) {
+		this.whiteLevel = whiteLevel;
+	}
 
 	public void setTextToDisplay(String textToDisplay) {
 		this.textToDisplay = textToDisplay;

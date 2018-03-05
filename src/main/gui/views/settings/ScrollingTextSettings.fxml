@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -11,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="445.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.ScrollingTextSettingsController">
+<AnchorPane prefHeight="445.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.ScrollingTextSettingsController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -44,8 +48,6 @@
                                     <Slider fx:id="TextSaturationSlider" max="1.0" value="1.0" />
                                     <Label prefHeight="17.0" prefWidth="225.0" text="Brightness :" />
                                     <Slider fx:id="TextBrightnessSlider" max="1.0" value="1.0" />
-                                    <Label prefHeight="17.0" prefWidth="233.0" text="White :" />
-                                    <Slider fx:id="TextWhiteSlider" max="255.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -64,8 +66,6 @@
                                     <Slider fx:id="BackgroundSaturationSlider" max="1.0" value="1.0" />
                                     <Label prefHeight="17.0" prefWidth="225.0" text="Brightness :" />
                                     <Slider fx:id="BackgroundBrightnessSlider" max="1.0" value="1.0" />
-                                    <Label prefHeight="17.0" prefWidth="233.0" text="White :" />
-                                    <Slider fx:id="BackgroundWhiteSlider" max="255.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -109,6 +109,16 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Accordion>
+            <Label prefHeight="19.0" prefWidth="235.0" text="White :">
+               <padding>
+                  <Insets left="10.0" top="5.0" />
+               </padding>
+            </Label>
+            <Slider fx:id="whiteSlider" max="255.0">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </VBox.margin>
+            </Slider>
          </children>
       </VBox>
    </children>

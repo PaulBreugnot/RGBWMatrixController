@@ -171,10 +171,11 @@ public class MainViewController {
 	}
 	
 	public void initComPort() {
-		Enumeration<CommPortIdentifier> portList = CommPortIdentifier.getPortIdentifiers();
+		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
 		while(portList.hasMoreElements()) {
-			ListComPort.add(portList.nextElement().getName());
+			ListComPort.add(((CommPortIdentifier) portList.nextElement()).getName());
 		}
+		ComPortComboBox.setItems(ListComPort);
 		if(ListComPort.size() == 1) {
 			ComPortComboBox.getSelectionModel().selectFirst();
 			handleConnect();
@@ -226,7 +227,7 @@ public class MainViewController {
 		if(comName != null) {
 			ledPanel.setConnection(comName);
 			if(ledPanel.isConnected()) {
-				ErrorLabel.setText("Label Connected!");
+				ErrorLabel.setText("Connected to " + comName);
 			}
 			else {
 				ErrorLabel.setText("Fail to connect " + comName);
