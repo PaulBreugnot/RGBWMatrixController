@@ -151,9 +151,9 @@ public class PixelRain implements Animation {
 					for (int step = 0; step < stepsNum; step++) {
 						if (newVerticalPosition + step + 1 < LedPanel.MATRIX_HEIGHT) {
 							FallingPixel followingPixel;
-							if (fallingPixels.get(pixelCoordinates).getBrightness() - (1.0 / spreadLength) > 0) {
+							if (fallingPixels.get(pixelCoordinates).getBrightness() - (step + 1) * (1.0 / spreadLength) > 0) {
 								double lowerBrightness = fallingPixels.get(pixelCoordinates).getBrightness()
-										- (1.0 / spreadLength);
+										- (step + 1) * (1.0 / spreadLength);
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 1.0, lowerBrightness), whiteLevel,
 										speed, fallingPixel.getProgress() - 1 - step);
 								System.out.println("Following position : " + (newVerticalPosition + step + 1));
