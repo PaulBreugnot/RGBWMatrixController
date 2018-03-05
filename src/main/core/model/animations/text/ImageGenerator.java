@@ -8,12 +8,12 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public abstract class FromTextToImage {
+public abstract class ImageGenerator {
 
-	public static Image convertText(String textToConvert, Font font, Color color, Color backGround) {
+	public static Image convertText(String textToConvert, Font font, Color color) {
 		Canvas canvas = new Canvas(textToConvert.length() * (int) font.getSize(), 16);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(backGround);
+		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, textToConvert.length() * (int) font.getSize(), 16);
 		gc.setFill(color);
 		gc.setFont(font);
