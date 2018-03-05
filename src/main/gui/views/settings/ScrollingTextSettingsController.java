@@ -96,24 +96,24 @@ public class ScrollingTextSettingsController {
 	private void setBackgroundSliders() {
 		BackgroundHueSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				double saturation = scrollingText.getTextColor().getSaturation();
-				double brightness = scrollingText.getTextColor().getBrightness();
+				double saturation = scrollingText.getBackgroundColor().getSaturation();
+				double brightness = scrollingText.getBackgroundColor().getBrightness();
 				scrollingText.setBackgroundColor(Color.hsb((double) new_val, saturation, brightness));
 				scrollingText.setTextArray();
 			}
 		});
 		BackgroundSaturationSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				double hue = scrollingText.getTextColor().getHue();
-				double brightness = scrollingText.getTextColor().getBrightness();
+				double hue = scrollingText.getBackgroundColor().getHue();
+				double brightness = scrollingText.getBackgroundColor().getBrightness();
 				scrollingText.setBackgroundColor(Color.hsb(hue, (double) new_val, brightness));
 				scrollingText.setTextArray();
 			}
 		});
 		BackgroundBrightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				double hue = scrollingText.getTextColor().getHue();
-				double saturation = scrollingText.getTextColor().getSaturation();
+				double hue = scrollingText.getBackgroundColor().getHue();
+				double saturation = scrollingText.getBackgroundColor().getSaturation();
 				scrollingText.setBackgroundColor(Color.hsb(hue, saturation, (double) new_val));
 				scrollingText.setTextArray();
 			}

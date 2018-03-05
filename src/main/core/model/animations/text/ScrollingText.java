@@ -82,7 +82,7 @@ public class ScrollingText implements Animation {
 	}
 	
 	public RGBWPixel treatedPixel(int line, int column, Color readColor) {
-		if(readColor.getHue() == 0 || (readColor.getBrightness() == 0 && readColor.getSaturation() == 0)){
+		if(readColor.getBrightness() == 0 && readColor.getSaturation() == 0){
 			return textArray[line][column]; //background color
 		}
 		else {
