@@ -137,7 +137,6 @@ public class PixelRain implements Animation {
 			int constantAbscissValue = pixelCoordinates.getValue();
 			int stepsNum = fallingPixel.progress();
 			int newVerticalPosition = LedPanel.MATRIX_HEIGHT - 1 - fallingPixel.getDiscreteProgress();
-			System.out.println("New vertical position : " + newVerticalPosition);
 
 			if (!synchronisedSet) {
 				synchronisedPopProgress = fallingPixel.getProgress() - Math.floor(fallingPixel.getProgress());
@@ -156,7 +155,6 @@ public class PixelRain implements Animation {
 										- (step + 1) * (1.0 / spreadLength);
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 1.0, lowerBrightness), whiteLevel,
 										speed, fallingPixel.getProgress() - 1 - step);
-								System.out.println("Following position : " + (newVerticalPosition + step + 1));
 								followingPixels.put(
 										new Coordinates(newVerticalPosition + step + 1, constantAbscissValue),
 										followingPixel);
