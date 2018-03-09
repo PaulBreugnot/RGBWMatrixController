@@ -8,11 +8,11 @@ public class RGBWPixel {
 		RGB, HSB
 	};
 
-	private Color color;
+	protected Color color;
 	private int red;
 	private int green;
 	private int blue;
-	private int white;
+	protected int white;
 
 	public RGBWPixel(Color color, int white) {
 		this.color = color;

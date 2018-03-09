@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.core.util.Coordinates;
 import main.gui.views.settings.RainPixelSettingsController;
 
 public class PixelRain implements Animation {
