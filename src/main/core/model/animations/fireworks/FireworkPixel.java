@@ -1,7 +1,7 @@
 package main.core.model.animations.fireworks;
 
-import java.util.HashSet;
 import java.util.Random;
+import java.util.TreeMap;
 
 import javafx.scene.paint.Color;
 import main.core.model.panel.LedPanel;
@@ -15,8 +15,8 @@ public class FireworkPixel extends RGBWPixel {
 	};
 
 	private double speed;
-	private double progress;
-	private int popHeight = 10;
+	private double progress = 0;
+	private int popHeight = 5;
 	private int initialHeight;
 	private int initialAbsciss;
 	private Coordinates coordinates;
@@ -26,6 +26,7 @@ public class FireworkPixel extends RGBWPixel {
 			double speed) {
 		super(color, white);
 		this.direction = direction;
+		System.out.println("Initial height : " + initialHeight);
 		this.initialHeight = initialHeight;
 		this.initialAbsciss = initialAbsciss;
 		this.speed = speed;
@@ -41,15 +42,13 @@ public class FireworkPixel extends RGBWPixel {
 			coordinates = new Coordinates(initialAbsciss, initialHeight + (int) Math.floor(progress));
 			break;
 		case BOTTOM:
-			coordinates = new Coordinates(initialAbsciss,
-					LedPanel.MATRIX_HEIGHT - initialHeight - (int) Math.floor(progress) - 1);
+			coordinates = new Coordinates(initialAbsciss, initialHeight - (int) Math.floor(progress));
 			break;
 		case RIGHT:
 			coordinates = new Coordinates(initialAbsciss + (int) Math.floor(progress), initialHeight);
 			break;
 		case LEFT:
-			coordinates = new Coordinates(LedPanel.MATRIX_WIDTH - initialAbsciss - (int) Math.floor(progress) - 1,
-					initialHeight);
+			coordinates = new Coordinates(initialAbsciss - (int) Math.floor(progress), initialHeight);
 			break;
 		}
 		return coordinates;
@@ -59,8 +58,8 @@ public class FireworkPixel extends RGBWPixel {
 		return progress >= popHeight;
 	}
 
-	public HashSet<FireworkPixel> pop() {
-		HashSet<FireworkPixel> sons = new HashSet<>();
+	public TreeMap<Coordinates, FireworkPixel> pop() {
+		TreeMap<Coordinates, FireworkPixel> sons = new TreeMap<>();
 		Random random = new Random();
 		double randomHue1 = random.nextDouble() * 360;
 		Color randomColor1 = Color.hsb(randomHue1, color.getSaturation(), color.getBrightness());
@@ -69,42 +68,50 @@ public class FireworkPixel extends RGBWPixel {
 		switch (direction) {
 		case TOP:
 			if (coordinates.getKey() - 1 >= 0) {
-				sons.add(new FireworkPixel(randomColor1, white, Direction.LEFT, coordinates.getValue(),
-						coordinates.getKey() - 1, speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey() - 1, coordinates.getValue());
+				sons.put(newCoordinates, new FireworkPixel(randomColor1, white, Direction.LEFT,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			if (coordinates.getKey() + 1 < LedPanel.MATRIX_WIDTH) {
-				sons.add(new FireworkPixel(randomColor2, white, Direction.RIGHT, coordinates.getValue(),
-						coordinates.getKey() + 1, speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey() + 1, coordinates.getValue());
+				sons.put(newCoordinates, new FireworkPixel(randomColor2, white, Direction.RIGHT,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			break;
 		case BOTTOM:
 			if (coordinates.getKey() - 1 >= 0) {
-				sons.add(new FireworkPixel(randomColor1, white, Direction.LEFT, coordinates.getValue(),
-						coordinates.getKey() - 1, speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey() - 1, coordinates.getValue());
+				sons.put(newCoordinates, new FireworkPixel(randomColor1, white, Direction.LEFT,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			if (coordinates.getKey() + 1 < LedPanel.MATRIX_WIDTH) {
-				sons.add(new FireworkPixel(randomColor2, white, Direction.RIGHT, coordinates.getValue(),
-						coordinates.getKey() + 1, speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey() + 1, coordinates.getValue());
+				sons.put(newCoordinates, new FireworkPixel(randomColor2, white, Direction.RIGHT,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			break;
 		case LEFT:
 			if (coordinates.getValue() + 1 < LedPanel.MATRIX_HEIGHT) {
-				sons.add(new FireworkPixel(randomColor1, white, Direction.TOP, coordinates.getValue() + 1,
-						coordinates.getKey(), speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey(), coordinates.getValue() + 1);
+				sons.put(newCoordinates, new FireworkPixel(randomColor1, white, Direction.TOP,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			if (coordinates.getValue() - 1 >= 0) {
-				sons.add(new FireworkPixel(randomColor2, white, Direction.BOTTOM, coordinates.getValue() - 1,
-						coordinates.getKey(), speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey(), coordinates.getValue() - 1);
+				sons.put(newCoordinates, new FireworkPixel(randomColor2, white, Direction.BOTTOM,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			break;
 		case RIGHT:
 			if (coordinates.getValue() + 1 < LedPanel.MATRIX_HEIGHT) {
-				sons.add(new FireworkPixel(randomColor1, white, Direction.TOP, coordinates.getValue() + 1,
-						coordinates.getKey(), speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey(), coordinates.getValue() + 1);
+				sons.put(newCoordinates, new FireworkPixel(randomColor1, white, Direction.TOP,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			if (coordinates.getValue() - 1 >= 0) {
-				sons.add(new FireworkPixel(randomColor2, white, Direction.BOTTOM, coordinates.getValue() - 1,
-						coordinates.getKey(), speed));
+				Coordinates newCoordinates = new Coordinates(coordinates.getKey(), coordinates.getValue() - 1);
+				sons.put(newCoordinates, new FireworkPixel(randomColor2, white, Direction.BOTTOM,
+						newCoordinates.getValue(), newCoordinates.getKey(), speed));
 			}
 			break;
 		}

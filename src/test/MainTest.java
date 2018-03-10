@@ -1,5 +1,6 @@
 package test;
 
+import main.core.model.animations.fireworks.Fireworks;
 import main.core.model.panel.LedPanel;
 import main.gui.app.MatrixControllerApp;
 
@@ -24,6 +25,7 @@ public class MainTest {
 		// ledPanel.setCurrentAnimation(
 		// new ScrollingText("MIN'PERIUM", 0.0,
 		// Font.loadFont("file:fonts/8-BITWONDER.TTF", 14), 0));
+		ledPanel.setCurrentAnimation(new Fireworks());
 		return ledPanel;
 	}
 }

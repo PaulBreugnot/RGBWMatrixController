@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 
 public class RGBWPixel {
 
+	public static final RGBWPixel BLACK_PIXEL = new RGBWPixel(0, 0, 0, 0);
+
 	public enum ColorType {
 		RGB, HSB
 	};

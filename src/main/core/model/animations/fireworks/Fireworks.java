@@ -1,7 +1,9 @@
 package main.core.model.animations.fireworks;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javafx.scene.layout.AnchorPane;
@@ -23,7 +25,7 @@ public class Fireworks implements Animation {
 	private double hueColor = 0;
 	private double brightness = 1;
 	private int whiteLevel = 0;
-	private double density; // Average poping pixels number each frame
+	private double density = 0.1; // Average poping pixels number each frame
 	private int spreadLength = 1;
 	private double speed = 1;
 	TreeMap<Coordinates, FireworkPixel> fireworks = new TreeMap<>();
@@ -54,8 +56,8 @@ public class Fireworks implements Animation {
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
+		updateDisplay(ledMatrix);
 		createNewFireworks(ledMatrix);
-
 	}
 
 	private void createNewFireworks(RGBWPixel[][] ledMatrix) {
@@ -69,13 +71,44 @@ public class Fireworks implements Animation {
 						FireworkPixel newFireworkPixel = new FireworkPixel(Color.hsb(hueColor, 1, brightness),
 								whiteLevel, FireworkPixel.Direction.BOTTOM, LedPanel.MATRIX_HEIGHT - 1, i, speed);
 						fireworks.put(newCoordinates, newFireworkPixel);
-						ledMatrix[i][LedPanel.MATRIX_HEIGHT - 1] = newFireworkPixel;
+						ledMatrix[LedPanel.MATRIX_HEIGHT - 1][i] = newFireworkPixel;
 					}
 				}
 			}
 
 		}
 
+	}
+
+	private void updateDisplay(RGBWPixel[][] ledMatrix) {
+		Set<Coordinates> availableCoordinates = new HashSet<>();
+		availableCoordinates.addAll(fireworks.keySet());
+		TreeMap<Coordinates, FireworkPixel> updatedPixels = new TreeMap<>();
+		for (Coordinates coordinates : availableCoordinates) {
+			FireworkPixel pixel = fireworks.get(coordinates);
+			pixel.progress();
+			int newAbsciss = pixel.coordinates().getKey();
+			int newHeight = pixel.coordinates().getValue();
+			if (newAbsciss >= 0 && newAbsciss < LedPanel.MATRIX_WIDTH && newHeight >= 0
+					&& newHeight < LedPanel.MATRIX_HEIGHT) {
+				updatedPixels.put(pixel.coordinates(), pixel);
+				if (pixel.isReadyToPop()) {
+					updatedPixels.putAll(pixel.pop());
+				}
+			}
+		}
+		for (Coordinates coordinatesToRemove : availableCoordinates) {
+			fireworks.remove(coordinatesToRemove);
+			ledMatrix[coordinatesToRemove.getValue()][coordinatesToRemove.getKey()] = RGBWPixel.BLACK_PIXEL;
+		}
+		fireworks.putAll(updatedPixels);
+		updateMatrix(ledMatrix);
+	}
+
+	private void updateMatrix(RGBWPixel[][] ledMatrix) {
+		for (Coordinates coordinates : fireworks.keySet()) {
+			ledMatrix[coordinates.getValue()][coordinates.getKey()] = fireworks.get(coordinates);
+		}
 	}
 
 	@Override
