@@ -19,6 +19,8 @@ public class FireworkPixel extends RGBWPixel {
 	private int popHeight = 5;
 	private int initialHeight;
 	private int initialAbsciss;
+	private boolean isReadyToPop;
+	private boolean hasPop;
 	private Coordinates coordinates;
 	private Direction direction;
 
@@ -30,10 +32,15 @@ public class FireworkPixel extends RGBWPixel {
 		this.initialHeight = initialHeight;
 		this.initialAbsciss = initialAbsciss;
 		this.speed = speed;
+		Random rd = new Random();
+		popHeight = rd.nextInt(32);
 	}
 
 	public void progress() {
 		progress += speed;
+		if (progress >= popHeight && !hasPop) {
+			isReadyToPop = true;
+		}
 	}
 
 	public Coordinates coordinates() {
@@ -55,10 +62,12 @@ public class FireworkPixel extends RGBWPixel {
 	}
 
 	public boolean isReadyToPop() {
-		return progress >= popHeight;
+		return isReadyToPop;
 	}
 
 	public TreeMap<Coordinates, FireworkPixel> pop() {
+		hasPop = true;
+		isReadyToPop = false;
 		TreeMap<Coordinates, FireworkPixel> sons = new TreeMap<>();
 		Random random = new Random();
 		double randomHue1 = random.nextDouble() * 360;

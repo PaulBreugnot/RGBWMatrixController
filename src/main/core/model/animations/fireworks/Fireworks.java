@@ -25,7 +25,7 @@ public class Fireworks implements Animation {
 	private double hueColor = 0;
 	private double brightness = 1;
 	private int whiteLevel = 0;
-	private double density = 0.1; // Average poping pixels number each frame
+	private double density = 1; // Average poping pixels number each frame
 	private int spreadLength = 1;
 	private double speed = 1;
 	TreeMap<Coordinates, FireworkPixel> fireworks = new TreeMap<>();
@@ -68,8 +68,9 @@ public class Fireworks implements Animation {
 				case TOP:
 					if (random.nextFloat() < density / LedPanel.MATRIX_WIDTH) {
 						Coordinates newCoordinates = new Coordinates(i, LedPanel.MATRIX_HEIGHT - 1);
-						FireworkPixel newFireworkPixel = new FireworkPixel(Color.hsb(hueColor, 1, brightness),
-								whiteLevel, FireworkPixel.Direction.BOTTOM, LedPanel.MATRIX_HEIGHT - 1, i, speed);
+						FireworkPixel newFireworkPixel = new FireworkPixel(
+								Color.hsb(random.nextDouble() * 360, 1, brightness), whiteLevel,
+								FireworkPixel.Direction.BOTTOM, LedPanel.MATRIX_HEIGHT - 1, i, speed);
 						fireworks.put(newCoordinates, newFireworkPixel);
 						ledMatrix[LedPanel.MATRIX_HEIGHT - 1][i] = newFireworkPixel;
 					}
@@ -91,9 +92,10 @@ public class Fireworks implements Animation {
 			int newHeight = pixel.coordinates().getValue();
 			if (newAbsciss >= 0 && newAbsciss < LedPanel.MATRIX_WIDTH && newHeight >= 0
 					&& newHeight < LedPanel.MATRIX_HEIGHT) {
-				updatedPixels.put(pixel.coordinates(), pixel);
 				if (pixel.isReadyToPop()) {
 					updatedPixels.putAll(pixel.pop());
+				} else {
+					updatedPixels.put(pixel.coordinates(), pixel);
 				}
 			}
 		}
