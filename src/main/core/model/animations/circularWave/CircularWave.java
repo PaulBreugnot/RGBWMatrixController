@@ -2,23 +2,20 @@ package main.core.model.animations.circularWave;
 
 import java.io.IOException;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.gui.views.settings.CircularWaveSettingsController;
 
 public class CircularWave implements Animation {
 
 	public static final String effectName = "Circular Wave!";
 
-	public enum Source {
-		TOP, BOTTOM, LEFT, RIGHT
-	};
-
-	private Source source;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private double waveLength = 50;
+	private double waveLength = 8;
 	private double contrast = 0.4;
 	private int speed = 1;
 	private int offset = 0;
@@ -72,8 +69,11 @@ public class CircularWave implements Animation {
 
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
-		// TODO Auto-generated method stub
-
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/CircularWaveSettings.fxml"));
+		configAnchorPane.getChildren().add(loader.load());
+		CircularWaveSettingsController circularWaveSettingsController = loader.getController();
+		circularWaveSettingsController.setCircularWave((CircularWave) ledPanel.getCurrentAnimation());
 	}
 
 	@Override

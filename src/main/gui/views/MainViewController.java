@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.SinWave.SinWave;
+import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.randomEffects.RandomPop;
 import main.core.model.animations.text.ScrollingText;
@@ -49,15 +50,15 @@ public class MainViewController {
 
 	@FXML
 	private ListView<Animation> SpecialListView;
-	
+
 	@FXML
 	private ComboBox<String> ComPortComboBox;
-	
+
 	@FXML
 	private Label ErrorLabel;
-	
+
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
-	
+
 	private ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
 	private ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
 	private ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
@@ -80,6 +81,7 @@ public class MainViewController {
 
 		ListGeometricEffects.add(new PixelRain());
 		ListGeometricEffects.add(new SinWave());
+		ListGeometricEffects.add(new CircularWave());
 
 		ListTextEffects.add(new ScrollingText());
 
@@ -169,14 +171,14 @@ public class MainViewController {
 		}
 		System.out.println("Init TilePane OK");
 	}
-	
+
 	public void initComPort() {
 		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
-		while(portList.hasMoreElements()) {
+		while (portList.hasMoreElements()) {
 			ListComPort.add(((CommPortIdentifier) portList.nextElement()).getName());
 		}
 		ComPortComboBox.setItems(ListComPort);
-		if(ListComPort.size() == 1) {
+		if (ListComPort.size() == 1) {
 			ComPortComboBox.getSelectionModel().selectFirst();
 			handleConnect();
 		}
@@ -220,20 +222,18 @@ public class MainViewController {
 		FrameByFrameButton.setDisable(false);
 		run = false;
 	}
-	
+
 	@FXML
 	private void handleConnect() {
 		String comName = ComPortComboBox.getSelectionModel().getSelectedItem();
-		if(comName != null) {
+		if (comName != null) {
 			ledPanel.setConnection(comName);
-			if(ledPanel.isConnected()) {
+			if (ledPanel.isConnected()) {
 				ErrorLabel.setText("Connected to " + comName);
-			}
-			else {
+			} else {
 				ErrorLabel.setText("Fail to connect " + comName);
 			}
-		}
-		else {
+		} else {
 			ErrorLabel.setText("No port selected");
 		}
 	}

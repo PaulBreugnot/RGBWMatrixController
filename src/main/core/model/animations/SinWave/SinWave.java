@@ -60,7 +60,6 @@ public class SinWave implements Animation {
 		ConfigAnchorPane.getChildren().add(loader.load());
 		SinWaveSettingsController sinWaveSettingsController = loader.getController();
 		sinWaveSettingsController.setSinWave((SinWave) ledPanel.getCurrentAnimation());
-
 	}
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
