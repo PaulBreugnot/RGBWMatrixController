@@ -13,8 +13,14 @@ public class CircularWave implements Animation {
 
 	public static final String effectName = "Circular Wave!";
 
+	public enum WaveMode {
+		SATURATION, BRIGHTNESS, RAINBOW
+	}
+
+	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
+	private double brightness = 1;
 	private double waveLength = 8;
 	private double contrast = 0.4;
 	private int speed = 1;
@@ -40,6 +46,14 @@ public class CircularWave implements Animation {
 		this.speed = speed;
 	}
 
+	public void setBrightness(double brightness) {
+		this.brightness = brightness;
+	}
+
+	public void setWaveMode(WaveMode waveMode) {
+		this.waveMode = waveMode;
+	}
+
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
 		displayWave(ledMatrix);
@@ -54,8 +68,21 @@ public class CircularWave implements Animation {
 				int distanceToCenter = (int) Math
 						.floor(Math.sqrt(Math.pow(column - (int) Math.floor(LedPanel.MATRIX_WIDTH / 2), 2)
 								+ Math.pow(line - (int) Math.floor(LedPanel.MATRIX_HEIGHT / 2), 2)));
-				double saturation = SinAmp(distanceToCenter);
-				RGBWPixel pixel = RGBWPixel.hsbwPixel(hueColor, 1, saturation, whiteLevel);
+				RGBWPixel pixel = RGBWPixel.BLACK_PIXEL;
+				switch (waveMode) {
+				case SATURATION:
+					double saturation = SinAmp(distanceToCenter);
+					pixel = RGBWPixel.hsbwPixel(hueColor, this.brightness, saturation, whiteLevel);
+					break;
+				case BRIGHTNESS:
+					double brightness = SinAmp(distanceToCenter);
+					pixel = RGBWPixel.hsbwPixel(hueColor, this.brightness * brightness, 1, whiteLevel);
+					break;
+				case RAINBOW:
+					double hue = SinAmp(distanceToCenter) * 360;
+					pixel = RGBWPixel.hsbwPixel(hue, this.brightness, 1, whiteLevel);
+					break;
+				}
 				ledMatrix[line][column] = pixel;
 			}
 		}

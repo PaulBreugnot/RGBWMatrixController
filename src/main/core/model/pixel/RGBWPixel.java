@@ -8,6 +8,7 @@ public class RGBWPixel {
 		RGB, HSB
 	};
 
+	public static final RGBWPixel BLACK_PIXEL = new RGBWPixel(0, 0, 0, 0);
 	private Color color;
 	private int red;
 	private int green;
