@@ -19,11 +19,11 @@ public class DiamondWave implements Animation {
 	private int speed = 1;
 	private int frame = 0;
 
-	private int a0;
-	private int b0;
-	private int xCenter;
-	private int yCenter;
-	int diamondNum = (LedPanel.MATRIX_WIDTH - xCenter) + b0;
+	private int a0 = 5;
+	private int b0 = 5;
+	private int xCenter = 16;
+	private int yCenter = 8;
+	int diamondNum = 10;
 
 	public void setHueColor(double hueColor) {
 		this.hueColor = hueColor;
@@ -63,30 +63,32 @@ public class DiamondWave implements Animation {
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
 		for (int offset = 0; offset < diamondNum; offset++) {
-			for (int x = -offset; x <= offset; x++) {
+			for (int x = -(offset + (speed * frame)); x <= offset + (speed * frame); x++) {
 				int y = (int) Math.floor(y(x, offset));
-				if ((x - xCenter) >= 0 && (x - xCenter) < LedPanel.MATRIX_WIDTH) {
-					if ((y - yCenter) >= 0) {
-						ledMatrix[x - xCenter][y - yCenter] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
+				if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
+					if ((y + yCenter) >= 0 && (y + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						ledMatrix[y + yCenter][xCenter - x] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
 								whiteLevel);
 					}
-					if ((y - yCenter) < LedPanel.MATRIX_HEIGHT) {
-						ledMatrix[x - xCenter][-y + yCenter] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
+					if ((-y + yCenter) >= 0 && (-y + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						ledMatrix[-y + yCenter][xCenter - x] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
 								whiteLevel);
 					}
 				}
 			}
 		}
+		// diamondNum++;
 	}
 
 	public double y(int x, int offset) {
-		double b = b0 + speed * frame + offset;
+		double b = ((speed * frame) + offset) % diamondNum;
 		double a = b * a0 / b0;
-		return Math.abs((x * a / b) - a);
+		return Math.abs((x * a / b)) - a;
 	}
 
 	public double color(int offset) {
-		return 360 * offset / diamondNum;
+		// return 360 * Math.sin(2 * Math.PI / waveLength * (offset - frame * speed));
+		return (offset * 10) % 360;
 	}
 
 	@Override

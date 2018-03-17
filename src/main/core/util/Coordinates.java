@@ -1,4 +1,4 @@
-package main.core.model.animations.pixelRain;
+package main.core.util;
 
 import javafx.util.Pair;
 
