@@ -1,12 +1,16 @@
 package main.core.model.animations.diamondWave;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
 import main.core.model.animations.circularWave.CircularWave.WaveMode;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.core.util.Coordinates;
 
 public class DiamondWave implements Animation {
 
@@ -14,16 +18,19 @@ public class DiamondWave implements Animation {
 	private double hueColor = 0;
 	private int whiteLevel = 0;
 	private double brightness = 1;
-	private double waveLength = 8;
-	private double contrast = 0.4;
-	private int speed = 1;
+	private double waveLength = 50;
+	private double contrast = 1;
+	private double speed = 1;
 	private int frame = 0;
+	boolean clearPanel = false;
+	private double displayProgress = 0;
 
-	private int a0 = 5;
-	private int b0 = 5;
-	private int xCenter = 16;
+	private double ratio = 1;
+	private int xCenter = 0;
 	private int yCenter = 8;
 	int diamondNum = 10;
+
+	private HashSet<Diamond> diamonds = new HashSet<>();
 
 	public void setHueColor(double hueColor) {
 		this.hueColor = hueColor;
@@ -55,40 +62,54 @@ public class DiamondWave implements Animation {
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		displayWave(ledMatrix);
+		if (clearPanel) {
+			LedPanel.setBlackPanel(ledMatrix);
+			clearPanel = false;
+		}
+		if (speed <= 1) {
+			displayWave(ledMatrix);
+			if (displayProgress >= 1) {
+				displayProgress -= Math.floor(displayProgress);
+				popDiamond(ledMatrix);
+			}
+			displayProgress += speed;
+		} else {
+			displayWave(ledMatrix);
+			popDiamond(ledMatrix);
+		}
 		frame++;
-		// TODO Auto-generated method stub
-
 	}
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
-		for (int offset = 0; offset < diamondNum; offset++) {
-			for (int x = -(offset + (speed * frame)); x <= offset + (speed * frame); x++) {
-				int y = (int) Math.floor(y(x, offset));
-				if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
-					if ((y + yCenter) >= 0 && (y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-						ledMatrix[y + yCenter][xCenter - x] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
-								whiteLevel);
-					}
-					if ((-y + yCenter) >= 0 && (-y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-						ledMatrix[-y + yCenter][xCenter - x] = RGBWPixel.hsbwPixel(color(offset), 1, brightness * 1,
-								whiteLevel);
-					}
+		HashSet<Diamond> diamondsToRemove = new HashSet<>();
+		for (Diamond diamond : diamonds) {
+			diamond.progress(speed);
+			HashMap<Coordinates, RGBWPixel> pixels = diamond.getPixels();
+			if (pixels.keySet().size() == 0) {
+				diamondsToRemove.add(diamond);
+			} else {
+				for (Coordinates coordinates : pixels.keySet()) {
+					ledMatrix[coordinates.getValue()][coordinates.getKey()] = pixels.get(coordinates);
 				}
 			}
 		}
-		// diamondNum++;
+
 	}
 
-	public double y(int x, int offset) {
-		double b = ((speed * frame) + offset) % diamondNum;
-		double a = b * a0 / b0;
-		return Math.abs((x * a / b)) - a;
+	private void popDiamond(RGBWPixel[][] ledMatrix) {
+		Color color = Color.hsb(SinAmp() * 360, 1, brightness);
+		diamonds.add(new Diamond(color, whiteLevel, ratio, xCenter, yCenter));
+		ledMatrix[yCenter][xCenter] = new RGBWPixel(color, whiteLevel);
 	}
 
 	public double color(int offset) {
 		// return 360 * Math.sin(2 * Math.PI / waveLength * (offset - frame * speed));
 		return (offset * 10) % 360;
+	}
+
+	private double SinAmp() {
+		double pi = Math.PI;
+		return (1 - contrast) / 2 + 0.5 * (1 + contrast * Math.sin(2 * pi * frame / waveLength));
 	}
 
 	@Override
