@@ -7,7 +7,7 @@ import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.Coordinates;
 
-public class Diamond {
+public class Diamond implements Comparable<Diamond> {
 
 	private Color color;
 	private int white;
@@ -28,25 +28,32 @@ public class Diamond {
 		pixels.put(new Coordinates(xCenter, yCenter), new RGBWPixel(color, white));
 	}
 
+	public double getProgress() {
+		return progress;
+	}
+
 	public void progress(double speed) {
 		progress += speed;
 		if (width != (int) Math.floor(progress)) {
+			int steps = (int) Math.floor(progress) - width;
 			width = (int) Math.floor(progress);
 			height = (int) Math.floor(ratio * width);
-			updatePixels();
+			updatePixels(steps);
 		}
 	}
 
-	private void updatePixels() {
+	private void updatePixels(int steps) {
 		pixels.clear();
-		for (int x = -width; x <= width; x++) {
-			int y = (int) Math.floor(y(x));
-			if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
-				if ((y + yCenter) >= 0 && (y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-					pixels.put(new Coordinates(xCenter - x, y + yCenter), new RGBWPixel(color, white));
-				}
-				if ((-y + yCenter) >= 0 && (-y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-					pixels.put(new Coordinates(xCenter - x, -y + yCenter), new RGBWPixel(color, white));
+		for (int i = 0; i <= steps; i++) {
+			for (int x = -width + i; x <= width - i; x++) {
+				int y = (int) Math.floor(y(x, height - (int) Math.floor(ratio * i)));
+				if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
+					if ((y + yCenter) >= 0 && (y + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						pixels.put(new Coordinates(xCenter - x, y + yCenter), new RGBWPixel(color, white));
+					}
+					if ((-y + yCenter) >= 0 && (-y + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						pixels.put(new Coordinates(xCenter - x, -y + yCenter), new RGBWPixel(color, white));
+					}
 				}
 			}
 		}
@@ -56,7 +63,15 @@ public class Diamond {
 		return pixels;
 	}
 
-	public double y(int x) {
+	public double y(int x, int height) {
 		return Math.abs((x * ratio)) - height;
+	}
+
+	@Override
+	public int compareTo(Diamond o) {
+		if (getProgress() >= o.getProgress()) {
+			return 0;
+		}
+		return 1;
 	}
 }

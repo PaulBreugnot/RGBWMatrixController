@@ -3,6 +3,7 @@ package main.core.model.animations.diamondWave;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -26,11 +27,11 @@ public class DiamondWave implements Animation {
 	private double displayProgress = 0;
 
 	private double ratio = 1;
-	private int xCenter = 0;
+	private int xCenter = 8;
 	private int yCenter = 8;
 	int diamondNum = 10;
 
-	private HashSet<Diamond> diamonds = new HashSet<>();
+	private TreeSet<Diamond> diamonds = new TreeSet<>();
 
 	public void setHueColor(double hueColor) {
 		this.hueColor = hueColor;
