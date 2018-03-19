@@ -50,7 +50,7 @@ public class Diamond implements Comparable<Diamond> {
 
 	public int progress(double speed) {
 		progress += speed;
-		int steps = (int) Math.floor(progress) - width;
+		int steps = (int) Math.ceil(progress) - width;
 		if (width != (int) Math.floor(progress)) {
 			width = (int) Math.floor(progress);
 			height = (int) Math.floor(ratio * width);

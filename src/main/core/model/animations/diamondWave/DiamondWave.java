@@ -20,7 +20,7 @@ public class DiamondWave implements Animation {
 	private double brightness = 1;
 	private double waveLength = 50;
 	private double contrast = 1;
-	private double speed = 3;
+	private double speed = 2.7;
 	boolean clearPanel = false;
 	private double displayProgress = 0;
 	private double sinProgress;
