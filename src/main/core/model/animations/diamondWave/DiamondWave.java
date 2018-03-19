@@ -2,7 +2,6 @@ package main.core.model.animations.diamondWave;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import javafx.scene.layout.AnchorPane;
@@ -21,13 +20,13 @@ public class DiamondWave implements Animation {
 	private double brightness = 1;
 	private double waveLength = 50;
 	private double contrast = 1;
-	private double speed = 1;
+	private double speed = 3;
 	private int frame = 0;
 	boolean clearPanel = false;
 	private double displayProgress = 0;
 
 	private double ratio = 1;
-	private int xCenter = 8;
+	private int xCenter = 16;
 	private int yCenter = 8;
 	int diamondNum = 10;
 
@@ -82,19 +81,25 @@ public class DiamondWave implements Animation {
 	}
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
-		HashSet<Diamond> diamondsToRemove = new HashSet<>();
+		// HashSet<Diamond> diamondsToRemove = new HashSet<>();
+		int diamondsToRemove = 0;
+		System.out.println("Diamonds size : " + diamonds.size());
 		for (Diamond diamond : diamonds) {
 			diamond.progress(speed);
 			HashMap<Coordinates, RGBWPixel> pixels = diamond.getPixels();
-			if (pixels.keySet().size() == 0) {
-				diamondsToRemove.add(diamond);
+			if (pixels.size() == 0) {
+				diamondsToRemove++;
 			} else {
 				for (Coordinates coordinates : pixels.keySet()) {
 					ledMatrix[coordinates.getValue()][coordinates.getKey()] = pixels.get(coordinates);
 				}
 			}
 		}
-
+		System.out.println("Diamonds to remove : " + diamondsToRemove);
+		for (int i = 0; i < diamondsToRemove; i++) {
+			diamonds.remove(diamonds.first());
+		}
+		// diamonds.removeAll(diamondsToRemove);
 	}
 
 	private void popDiamond(RGBWPixel[][] ledMatrix) {

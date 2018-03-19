@@ -28,23 +28,34 @@ public class Diamond implements Comparable<Diamond> {
 		pixels.put(new Coordinates(xCenter, yCenter), new RGBWPixel(color, white));
 	}
 
+	public Diamond(Color color, int white, double ratio, int xCenter, int yCenter, int width, int height) {
+		this.color = color;
+		this.ratio = ratio;
+		this.xCenter = xCenter;
+		this.yCenter = yCenter;
+		this.width = width;
+		this.height = height;
+		updatePixels();
+	}
+
 	public double getProgress() {
 		return progress;
 	}
 
-	public void progress(double speed) {
+	public int progress(double speed) {
 		progress += speed;
+		int steps = (int) Math.floor(progress) - width;
 		if (width != (int) Math.floor(progress)) {
-			int steps = (int) Math.floor(progress) - width;
 			width = (int) Math.floor(progress);
 			height = (int) Math.floor(ratio * width);
-			updatePixels(steps);
+			updatePixels();
 		}
+		return steps;
 	}
 
-	private void updatePixels(int steps) {
+	private void updatePixels() {
 		pixels.clear();
-		for (int i = 0; i <= steps; i++) {
+		for (int i = 0; i < steps; i++) {
 			for (int x = -width + i; x <= width - i; x++) {
 				int y = (int) Math.floor(y(x, height - (int) Math.floor(ratio * i)));
 				if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
@@ -70,8 +81,12 @@ public class Diamond implements Comparable<Diamond> {
 	@Override
 	public int compareTo(Diamond o) {
 		if (getProgress() >= o.getProgress()) {
-			return 0;
+			if (getProgress() == o.getProgress()) {
+				return 0;
+			}
+			return -1;
 		}
 		return 1;
 	}
+
 }
