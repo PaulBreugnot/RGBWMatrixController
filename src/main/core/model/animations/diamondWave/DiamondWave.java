@@ -21,9 +21,10 @@ public class DiamondWave implements Animation {
 	private double waveLength = 50;
 	private double contrast = 1;
 	private double speed = 3;
-	private int frame = 0;
 	boolean clearPanel = false;
 	private double displayProgress = 0;
+	private double sinProgress;
+	private int frame;
 
 	private double ratio = 1;
 	private int xCenter = 16;
@@ -77,15 +78,30 @@ public class DiamondWave implements Animation {
 			displayWave(ledMatrix);
 			popDiamond(ledMatrix);
 		}
-		frame++;
+		sinProgress += speed;
 	}
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
-		// HashSet<Diamond> diamondsToRemove = new HashSet<>();
 		int diamondsToRemove = 0;
 		System.out.println("Diamonds size : " + diamonds.size());
+		TreeSet<Diamond> newDiamonds = new TreeSet<>();
 		for (Diamond diamond : diamonds) {
-			diamond.progress(speed);
+			int steps = diamond.progress(speed);
+			// add diamonds if necessary
+			System.out.println("progress : " + diamond.getProgress());
+			if (diamond.getProgress() == speed) {
+				for (int i = 1; i < steps; i++) {
+					Color color = Color.hsb(SinAmp(sinProgress - speed + i * speed / steps) * 360, 1, brightness);
+					Diamond newDiamond = new Diamond(color, whiteLevel, ratio, xCenter, yCenter, diamond.getWidth() - i,
+							(int) Math.floor((diamond.getWidth() - i) * ratio), diamond.getProgress() - i);
+					newDiamonds.add(newDiamond);
+				}
+			}
+			newDiamonds.add(diamond);
+		}
+		diamonds.clear();
+		diamonds.addAll(newDiamonds);
+		for (Diamond diamond : diamonds) {
 			HashMap<Coordinates, RGBWPixel> pixels = diamond.getPixels();
 			if (pixels.size() == 0) {
 				diamondsToRemove++;
@@ -99,11 +115,10 @@ public class DiamondWave implements Animation {
 		for (int i = 0; i < diamondsToRemove; i++) {
 			diamonds.remove(diamonds.first());
 		}
-		// diamonds.removeAll(diamondsToRemove);
 	}
 
 	private void popDiamond(RGBWPixel[][] ledMatrix) {
-		Color color = Color.hsb(SinAmp() * 360, 1, brightness);
+		Color color = Color.hsb(SinAmp(sinProgress) * 360, 1, brightness);
 		diamonds.add(new Diamond(color, whiteLevel, ratio, xCenter, yCenter));
 		ledMatrix[yCenter][xCenter] = new RGBWPixel(color, whiteLevel);
 	}
@@ -113,9 +128,9 @@ public class DiamondWave implements Animation {
 		return (offset * 10) % 360;
 	}
 
-	private double SinAmp() {
+	private double SinAmp(double x) {
 		double pi = Math.PI;
-		return (1 - contrast) / 2 + 0.5 * (1 + contrast * Math.sin(2 * pi * frame / waveLength));
+		return (1 - contrast) / 2 + 0.5 * (1 + contrast * Math.sin(2 * pi * x / waveLength));
 	}
 
 	@Override
