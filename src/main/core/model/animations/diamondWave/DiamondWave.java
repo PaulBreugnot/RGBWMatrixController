@@ -20,16 +20,14 @@ public class DiamondWave implements Animation {
 	private double brightness = 1;
 	private double waveLength = 50;
 	private double contrast = 1;
-	private double speed = 2.7;
+	private double speed = 1;
 	boolean clearPanel = false;
 	private double displayProgress = 0;
 	private double sinProgress;
-	private int frame;
 
 	private double ratio = 1;
 	private int xCenter = 16;
 	private int yCenter = 8;
-	int diamondNum = 10;
 
 	private TreeSet<Diamond> diamonds = new TreeSet<>();
 
@@ -88,7 +86,6 @@ public class DiamondWave implements Animation {
 		for (Diamond diamond : diamonds) {
 			int steps = diamond.progress(speed);
 			// add diamonds if necessary
-			System.out.println("progress : " + diamond.getProgress());
 			if (diamond.getProgress() == speed) {
 				for (int i = 1; i < steps; i++) {
 					Color color = Color.hsb(SinAmp(sinProgress - speed + i * speed / steps) * 360, 1, brightness);

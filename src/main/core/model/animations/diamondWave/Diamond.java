@@ -50,7 +50,7 @@ public class Diamond implements Comparable<Diamond> {
 
 	public int progress(double speed) {
 		progress += speed;
-		int steps = (int) Math.ceil(progress) - width;
+		int steps = Math.max((int) Math.ceil(progress) - width, (int) ((Math.ceil(progress) - width) * ratio));
 		if (width != (int) Math.floor(progress)) {
 			width = (int) Math.floor(progress);
 			height = (int) Math.floor(ratio * width);
@@ -64,11 +64,13 @@ public class Diamond implements Comparable<Diamond> {
 		for (int x = -width; x <= width; x++) {
 			int y = (int) Math.floor(y(x));
 			if ((xCenter - x) >= 0 && (xCenter - x) < LedPanel.MATRIX_WIDTH) {
-				if ((y + yCenter) >= 0 && (y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-					pixels.put(new Coordinates(xCenter - x, y + yCenter), new RGBWPixel(color, white));
-				}
-				if ((-y + yCenter) >= 0 && (-y + yCenter) < LedPanel.MATRIX_HEIGHT) {
-					pixels.put(new Coordinates(xCenter - x, -y + yCenter), new RGBWPixel(color, white));
+				for (int i = 0; i < ratio; i++) {
+					if ((y + i + yCenter) >= 0 && (y + i + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						pixels.put(new Coordinates(xCenter - x, y + i + yCenter), new RGBWPixel(color, white));
+					}
+					if ((-(y + i) + yCenter) >= 0 && (-(y + i) + yCenter) < LedPanel.MATRIX_HEIGHT) {
+						pixels.put(new Coordinates(xCenter - x, -(y + i) + yCenter), new RGBWPixel(color, white));
+					}
 				}
 			}
 
