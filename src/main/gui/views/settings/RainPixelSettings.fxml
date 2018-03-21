@@ -24,10 +24,10 @@
             </Label>
             <AnchorPane prefHeight="60.0" prefWidth="200.0">
                <children>
-                  <RadioButton mnemonicParsing="false" text="BOTTOM" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
-                  <RadioButton mnemonicParsing="false" text="TOP" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
-                  <RadioButton mnemonicParsing="false" text="LEFT" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
-                  <RadioButton mnemonicParsing="false" text="RIGHT" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                  <RadioButton disable="true" mnemonicParsing="false" text="BOTTOM" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+                  <RadioButton disable="true" mnemonicParsing="false" text="TOP" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
+                  <RadioButton disable="true" mnemonicParsing="false" text="LEFT" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                  <RadioButton disable="true" mnemonicParsing="false" text="RIGHT" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0" />
                </children>
             </AnchorPane>
             <Label prefWidth="200.0" text="Color :">
