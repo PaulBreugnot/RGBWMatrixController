@@ -105,13 +105,13 @@ public class DiamondWave implements Animation {
 				for (int i = 1; i < steps; i++) {
 					double hue = hueColor;
 					double saturation = intensity;
-					double brightness = 1;
+					double brightness = intensity;
 					switch (waveMode) {
 					case SATURATION:
 						saturation = SinAmp(sinProgress - speed + i * speed / steps) * intensity;
 						break;
 					case BRIGHTNESS:
-						brightness = SinAmp(sinProgress - speed + i * speed / steps);
+						brightness = SinAmp(sinProgress - speed + i * speed / steps) * intensity;
 						break;
 					case RAINBOW:
 						hue = SinAmp(sinProgress - speed + i * speed / steps) * 360;
@@ -146,13 +146,13 @@ public class DiamondWave implements Animation {
 	private void popDiamond(RGBWPixel[][] ledMatrix) {
 		double hue = hueColor;
 		double saturation = intensity;
-		double brightness = 1;
+		double brightness = intensity;
 		switch (waveMode) {
 		case SATURATION:
 			saturation = SinAmp(sinProgress) * intensity;
 			break;
 		case BRIGHTNESS:
-			brightness = SinAmp(sinProgress);
+			brightness = SinAmp(sinProgress) * intensity;
 			break;
 		case RAINBOW:
 			hue = SinAmp(sinProgress) * 360;
