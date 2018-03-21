@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.SinWave.SinWave;
 import main.core.model.animations.circularWave.CircularWave;
+import main.core.model.animations.diamondWave.DiamondWave;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.randomEffects.RandomPop;
 import main.core.model.animations.text.ScrollingText;
@@ -82,6 +83,7 @@ public class MainViewController {
 		ListGeometricEffects.add(new PixelRain());
 		ListGeometricEffects.add(new SinWave());
 		ListGeometricEffects.add(new CircularWave());
+		ListGeometricEffects.add(new DiamondWave());
 
 		ListTextEffects.add(new ScrollingText());
 

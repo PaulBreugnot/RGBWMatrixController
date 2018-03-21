@@ -4,20 +4,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.TreeSet;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
-import main.core.model.animations.circularWave.CircularWave.WaveMode;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.Coordinates;
+import main.gui.views.settings.DiamondWaveSettingsController;
 
 public class DiamondWave implements Animation {
+
+	public static final String effectName = "Diamond Wave!";
+
+	public enum WaveMode {
+		SATURATION, BRIGHTNESS, RAINBOW
+	}
 
 	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private double brightness = 1;
+	private double intensity = 1;
 	private double waveLength = 50;
 	private double contrast = 1;
 	private double speed = 1;
@@ -43,16 +50,24 @@ public class DiamondWave implements Animation {
 		this.waveLength = waveLength;
 	}
 
+	public void setXCenter(int xCenter) {
+		this.xCenter = xCenter;
+	}
+
+	public void setYCenter(int yCenter) {
+		this.yCenter = yCenter;
+	}
+
 	public void setContrast(double contrast) {
 		this.contrast = contrast;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
-	public void setBrightness(double brightness) {
-		this.brightness = brightness;
+	public void setIntensity(double intensity) {
+		this.intensity = intensity;
 	}
 
 	public void setWaveMode(WaveMode waveMode) {
@@ -88,7 +103,21 @@ public class DiamondWave implements Animation {
 			// add diamonds if necessary
 			if (diamond.getProgress() == speed) {
 				for (int i = 1; i < steps; i++) {
-					Color color = Color.hsb(SinAmp(sinProgress - speed + i * speed / steps) * 360, 1, brightness);
+					double hue = hueColor;
+					double saturation = intensity;
+					double brightness = 1;
+					switch (waveMode) {
+					case SATURATION:
+						saturation = SinAmp(sinProgress - speed + i * speed / steps) * intensity;
+						break;
+					case BRIGHTNESS:
+						brightness = SinAmp(sinProgress - speed + i * speed / steps);
+						break;
+					case RAINBOW:
+						hue = SinAmp(sinProgress - speed + i * speed / steps) * 360;
+						break;
+					}
+					Color color = Color.hsb(hue, saturation, brightness);
 					Diamond newDiamond = new Diamond(color, whiteLevel, ratio, xCenter, yCenter, diamond.getWidth() - i,
 							(int) Math.floor((diamond.getWidth() - i) * ratio), diamond.getProgress() - i);
 					newDiamonds.add(newDiamond);
@@ -115,7 +144,21 @@ public class DiamondWave implements Animation {
 	}
 
 	private void popDiamond(RGBWPixel[][] ledMatrix) {
-		Color color = Color.hsb(SinAmp(sinProgress) * 360, 1, brightness);
+		double hue = hueColor;
+		double saturation = intensity;
+		double brightness = 1;
+		switch (waveMode) {
+		case SATURATION:
+			saturation = SinAmp(sinProgress) * intensity;
+			break;
+		case BRIGHTNESS:
+			brightness = SinAmp(sinProgress);
+			break;
+		case RAINBOW:
+			hue = SinAmp(sinProgress) * 360;
+			break;
+		}
+		Color color = Color.hsb(hue, saturation, brightness);
 		diamonds.add(new Diamond(color, whiteLevel, ratio, xCenter, yCenter));
 		ledMatrix[yCenter][xCenter] = new RGBWPixel(color, whiteLevel);
 	}
@@ -132,8 +175,16 @@ public class DiamondWave implements Animation {
 
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
-		// TODO Auto-generated method stub
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/DiamondWaveSettings.fxml"));
+		configAnchorPane.getChildren().add(loader.load());
+		DiamondWaveSettingsController diamondWaveSettingsController = loader.getController();
+		diamondWaveSettingsController.setDiamondWave((DiamondWave) ledPanel.getCurrentAnimation());
+	}
 
+	@Override
+	public String toString() {
+		return effectName;
 	}
 
 }

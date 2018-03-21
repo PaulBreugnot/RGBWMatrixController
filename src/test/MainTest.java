@@ -1,6 +1,5 @@
 package test;
 
-import main.core.model.animations.diamondWave.DiamondWave;
 import main.core.model.panel.LedPanel;
 import main.gui.app.MatrixControllerApp;
 
@@ -12,10 +11,9 @@ public class MainTest {
 	}
 
 	public static LedPanel getAppConfig() {
-		LedPanel ledPanel = new LedPanel(10);
+		LedPanel ledPanel = new LedPanel(25);
 		LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 
-		ledPanel.setCurrentAnimation(new DiamondWave());
 		return ledPanel;
 	}
 }
