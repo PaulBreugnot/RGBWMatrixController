@@ -24,7 +24,7 @@ public class CircularWaveSettingsController {
 	private Slider speedSlider;
 
 	@FXML
-	private Slider brightnessSlider;
+	private Slider intensitySlider;
 
 	@FXML
 	private RadioButton saturationButton;
@@ -70,13 +70,13 @@ public class CircularWaveSettingsController {
 
 		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				circularWave.setSpeed((int) Math.floor((double) new_val));
+				circularWave.setSpeed(Math.floor(((double) new_val) * 10) / 10);
 			}
 		});
 
-		brightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
+		intensitySlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				circularWave.setBrightness((double) new_val);
+				circularWave.setIntensity((double) new_val);
 			}
 		});
 	}
