@@ -18,6 +18,12 @@ public class CircularWaveSettingsController {
 	private Slider whiteLevelSlider;
 
 	@FXML
+	private Slider xCenterSlider;
+
+	@FXML
+	private Slider yCenterSlider;
+
+	@FXML
 	private Slider contrastSlider;
 
 	@FXML
@@ -59,6 +65,18 @@ public class CircularWaveSettingsController {
 		whiteLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				circularWave.setWhiteLevel((int) Math.floor((double) new_val));
+			}
+		});
+
+		xCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				circularWave.setXCenter((int) Math.floor((double) new_val));
+			}
+		});
+
+		yCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				circularWave.setYCenter((int) Math.floor((double) new_val));
 			}
 		});
 

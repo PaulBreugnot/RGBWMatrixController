@@ -20,6 +20,8 @@ public class CircularWave implements Animation {
 	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
+	private int xCenter = 0;
+	private int yCenter = 8;
 	private double intensity = 1;
 	private double waveLength = 8;
 	private double contrast = 0.4;
@@ -36,6 +38,14 @@ public class CircularWave implements Animation {
 
 	public void setWaveLength(double waveLength) {
 		this.waveLength = waveLength;
+	}
+
+	public void setXCenter(int xCenter) {
+		this.xCenter = xCenter;
+	}
+
+	public void setYCenter(int yCenter) {
+		this.yCenter = yCenter;
 	}
 
 	public void setContrast(double contrast) {
@@ -66,8 +76,7 @@ public class CircularWave implements Animation {
 		for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 			for (int line = 0; line < LedPanel.MATRIX_HEIGHT; line++) {
 				int distanceToCenter = (int) Math
-						.floor(Math.sqrt(Math.pow(column - (int) Math.floor(LedPanel.MATRIX_WIDTH / 2), 2)
-								+ Math.pow(line - (int) Math.floor(LedPanel.MATRIX_HEIGHT / 2), 2)));
+						.floor(Math.sqrt(Math.pow(column - xCenter, 2) + Math.pow(line - yCenter, 2)));
 				RGBWPixel pixel = RGBWPixel.BLACK_PIXEL;
 				switch (waveMode) {
 				case SATURATION:
