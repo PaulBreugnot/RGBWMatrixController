@@ -1,5 +1,7 @@
 package main.gui.views.settings;
 
+import java.io.InputStream;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -84,7 +86,7 @@ public class ScrollingTextSettingsController {
 				scrollingText.setTextArray();
 			}
 		});
-		
+
 		whiteSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				scrollingText.setWhiteLevel((int) Math.floor((double) new_val));
@@ -135,9 +137,11 @@ public class ScrollingTextSettingsController {
 							new Font(DefaultFontsComboBox.getSelectionModel().getSelectedItem(), (double) new_val));
 					scrollingText.setTextArray();
 				} else if (EmbeddedFontsComboBox.getSelectionModel().getSelectedItem() != null) {
-					scrollingText.setFont(Font.loadFont(
-							"file:fonts/" + EmbeddedFontsComboBox.getSelectionModel().getSelectedItem() + ".TTF",
-							(double) new_val));
+					Font font = null;
+					InputStream is = this.getClass().getResourceAsStream(
+							"/fonts/" + EmbeddedFontsComboBox.getSelectionModel().getSelectedItem() + ".ttf");
+					font = Font.loadFont(is, SizeSlider.getValue());
+					scrollingText.setFont(font);
 					scrollingText.setTextArray();
 				}
 			}
@@ -167,7 +171,11 @@ public class ScrollingTextSettingsController {
 			public void changed(ObservableValue<? extends String> ov, String t, String t1) {
 				if (t1 != null) {
 					DefaultFontsComboBox.getSelectionModel().clearSelection();
-					scrollingText.setFont(Font.loadFont("file:fonts/" + t1 + ".TTF", SizeSlider.getValue()));
+					Font font = null;
+					InputStream is = this.getClass().getResourceAsStream(
+							"/fonts/" + EmbeddedFontsComboBox.getSelectionModel().getSelectedItem() + ".ttf");
+					font = Font.loadFont(is, SizeSlider.getValue());
+					scrollingText.setFont(font);
 					scrollingText.setTextArray();
 				}
 			}

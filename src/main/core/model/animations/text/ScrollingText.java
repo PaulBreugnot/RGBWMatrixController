@@ -20,7 +20,7 @@ public class ScrollingText implements Animation {
 	private String textToDisplay = "Min'Bot 2K18";
 	private Color textColor = Color.BLUE;
 	private Color backgroundColor = Color.YELLOW;
-	private Font font = Font.loadFont("file:fonts/8-BITWONDER.TTF", 9);
+	private Font font = Font.getDefault();
 	private int whiteLevel;
 	private RGBWPixel[][] textArray;
 	private int textImageLength;
@@ -46,7 +46,7 @@ public class ScrollingText implements Animation {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
+
 	public void setWhiteLevel(int whiteLevel) {
 		this.whiteLevel = whiteLevel;
 	}
@@ -66,31 +66,28 @@ public class ScrollingText implements Animation {
 			PixelReader pixelReader = textImage.getPixelReader();
 			for (int line = 0; line < imageHeight; line++) {
 				for (int column = 0; column < imageWidth; column++) {
-					textArray[line][column] = treatedPixel(line, column, pixelReader.getColor(column, imageHeight - line - 1));
+					textArray[line][column] = treatedPixel(line, column,
+							pixelReader.getColor(column, imageHeight - line - 1));
 				}
 			}
 		}
 	}
-	
+
 	public void setBackground(int height, int width) {
 		for (int line = 0; line < height; line++) {
 			for (int column = 0; column < width; column++) {
-				textArray[line][column] = new RGBWPixel(backgroundColor,
-						whiteLevel);
+				textArray[line][column] = new RGBWPixel(backgroundColor, whiteLevel);
 			}
 		}
 	}
-	
+
 	public RGBWPixel treatedPixel(int line, int column, Color readColor) {
-		if(readColor.getBrightness() == 0 && readColor.getSaturation() == 0){
-			return textArray[line][column]; //background color
-		}
-		else {
+		if (readColor.getBrightness() == 0 && readColor.getSaturation() == 0) {
+			return textArray[line][column]; // background color
+		} else {
 			return new RGBWPixel(textColor, whiteLevel);
 		}
 	}
-	
-	
 
 	public Color getTextColor() {
 		return textColor;
