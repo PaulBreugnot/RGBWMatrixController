@@ -20,7 +20,7 @@ public class CircularWave implements Animation {
 	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private int xCenter = 0;
+	private int xCenter = 16;
 	private int yCenter = 8;
 	private double intensity = 1;
 	private double waveLength = 8;
