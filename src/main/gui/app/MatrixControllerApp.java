@@ -3,6 +3,7 @@ package main.gui.app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.core.model.panel.LedPanel;
@@ -37,7 +38,9 @@ public class MatrixControllerApp extends Application {
 		mainViewController.setLedPanel(ledPanel);
 
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Test");
+		primaryStage.setTitle("Min'Bot 2018 - RGBWMatrixController");
+		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/LogoMinBot.jpg")));
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
