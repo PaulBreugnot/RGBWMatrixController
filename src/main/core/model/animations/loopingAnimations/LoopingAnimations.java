@@ -11,12 +11,17 @@ import main.core.model.pixel.RGBWPixel;
 public class LoopingAnimations implements Animation {
 
 	private TreeMap<Integer, Animation> animations = new TreeMap<>();
+	private int end;
 	private int time = 0;
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
 		getAnimation(time).setNextPicture(ledMatrix, matrixWidth, matrixHeight);
-		time++;
+		if (time >= end) {
+			time = 0;
+		} else {
+			time++;
+		}
 	}
 
 	public void addAnimation(int time, Animation animation) {
@@ -25,6 +30,10 @@ public class LoopingAnimations implements Animation {
 
 	public Animation getAnimation(int time) {
 		return animations.get(animations.floorKey(time));
+	}
+
+	public void setEnd(int end) {
+		this.end = end;
 	}
 
 	@Override
