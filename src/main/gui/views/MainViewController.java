@@ -78,10 +78,7 @@ public class MainViewController {
 
 	private void setListViews() {
 
-		ListRandomEffects.add(new RandomPop());
-
 		ListGeometricEffects.add(new PixelRain());
-		ListGeometricEffects.add(new SinWave());
 		ListGeometricEffects.add(new CircularWave());
 		ListGeometricEffects.add(new DiamondWave());
 

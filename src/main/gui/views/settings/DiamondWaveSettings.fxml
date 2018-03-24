@@ -109,7 +109,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Slider fx:id="contrastSlider" max="1.0" value="0.5" />
+                                    <Slider fx:id="contrastSlider" max="1.0" value="1" />
                                     <Label prefHeight="19.0" prefWidth="231.0" text="Speed :">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="10.0" />
@@ -121,7 +121,7 @@
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Slider fx:id="intensitySlider" max="1.0" value="1.0" />
+                                    <Slider fx:id="intensitySlider" max="1.0" value="0.1" />
                                  </children>
                               </VBox>
                            </children>

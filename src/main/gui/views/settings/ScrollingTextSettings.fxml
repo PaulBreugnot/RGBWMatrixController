@@ -47,7 +47,7 @@
                                     <Label prefHeight="17.0" prefWidth="217.0" text="Saturation :" />
                                     <Slider fx:id="TextSaturationSlider" max="1.0" value="1.0" />
                                     <Label prefHeight="17.0" prefWidth="225.0" text="Brightness :" />
-                                    <Slider fx:id="TextBrightnessSlider" max="1.0" value="1.0" />
+                                    <Slider fx:id="TextBrightnessSlider" max="1.0" value="0.1" />
                                  </children>
                               </VBox>
                            </children>
@@ -63,9 +63,9 @@
                                     <Label prefHeight="17.0" prefWidth="205.0" text="Color :" />
                                     <Slider fx:id="BackgroundHueSlider" max="360.0" />
                                     <Label prefHeight="17.0" prefWidth="217.0" text="Saturation :" />
-                                    <Slider fx:id="BackgroundSaturationSlider" max="1.0" value="1.0" />
+                                    <Slider fx:id="BackgroundSaturationSlider" max="1.0" value="0" />
                                     <Label prefHeight="17.0" prefWidth="225.0" text="Brightness :" />
-                                    <Slider fx:id="BackgroundBrightnessSlider" max="1.0" value="1.0" />
+                                    <Slider fx:id="BackgroundBrightnessSlider" max="1.0" value="0" />
                                  </children>
                               </VBox>
                            </children>
@@ -97,7 +97,7 @@
                               <VBox layoutX="19.6" layoutY="19.6" prefHeight="63.0" prefWidth="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="213.0" text="Scrolling Speed :" />
-                                    <Slider fx:id="SpeedSlider" max="10.0" />
+                                    <Slider fx:id="SpeedSlider" max="10.0" value="1" />
                                  </children>
                               </VBox>
                            </children>

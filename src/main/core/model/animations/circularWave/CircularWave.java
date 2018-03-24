@@ -22,9 +22,9 @@ public class CircularWave implements Animation {
 	private int whiteLevel = 0;
 	private int xCenter = 16;
 	private int yCenter = 8;
-	private double intensity = 1;
-	private double waveLength = 8;
-	private double contrast = 0.4;
+	private double intensity = 0.1;
+	private double waveLength = 50;
+	private double contrast = 1;
 	private double speed = 1;
 	private double offset = 0;
 
@@ -81,15 +81,15 @@ public class CircularWave implements Animation {
 				switch (waveMode) {
 				case SATURATION:
 					double saturation = SinAmp(distanceToCenter);
-					pixel = RGBWPixel.hsbwPixel(hueColor, intensity, saturation * intensity, whiteLevel);
+					pixel = RGBWPixel.hsbwPixel(hueColor, saturation, intensity, whiteLevel);
 					break;
 				case BRIGHTNESS:
 					double brightness = SinAmp(distanceToCenter);
-					pixel = RGBWPixel.hsbwPixel(hueColor, intensity * brightness, intensity, whiteLevel);
+					pixel = RGBWPixel.hsbwPixel(hueColor, 1, intensity * brightness, whiteLevel);
 					break;
 				case RAINBOW:
 					double hue = SinAmp(distanceToCenter) * 360;
-					pixel = RGBWPixel.hsbwPixel(hue, intensity, 1, whiteLevel);
+					pixel = RGBWPixel.hsbwPixel(hue, 1, intensity, whiteLevel);
 					break;
 				}
 				ledMatrix[line][column] = pixel;
