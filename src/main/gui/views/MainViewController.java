@@ -184,7 +184,7 @@ public class MainViewController {
 	private void setAnimation(Animation animation) throws IOException {
 		ledPanel.setCurrentAnimation(animation);
 		ConfigAnchorPane.getChildren().clear();
-		animation.setAnimationSettings(ConfigAnchorPane, ledPanel);
+		animation.setAnimationSettings(ConfigAnchorPane);
 	}
 
 	private void displayMatrix() {
@@ -250,7 +250,6 @@ public class MainViewController {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			// mainViewController.run = false;
 			Platform.runLater(() -> {
 				displayMatrix();
 				if (mainViewController.run) {

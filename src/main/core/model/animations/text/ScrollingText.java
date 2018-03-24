@@ -154,12 +154,12 @@ public class ScrollingText implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/ScrollingTextSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		ScrollingTextSettingsController scrollingTextSettingsController = loader.getController();
-		scrollingTextSettingsController.setScrollingText((ScrollingText) ledPanel.getCurrentAnimation());
+		scrollingTextSettingsController.setScrollingText(this);
 
 	}
 

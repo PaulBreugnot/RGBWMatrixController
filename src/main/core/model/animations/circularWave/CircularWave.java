@@ -140,12 +140,12 @@ public class CircularWave implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/CircularWaveSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		CircularWaveSettingsController circularWaveSettingsController = loader.getController();
-		circularWaveSettingsController.setCircularWave((CircularWave) ledPanel.getCurrentAnimation());
+		circularWaveSettingsController.setCircularWave(this);
 	}
 
 	@Override

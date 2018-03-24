@@ -114,7 +114,7 @@ public class RandomPop implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		// TODO Auto-generated method stub
 
 	}

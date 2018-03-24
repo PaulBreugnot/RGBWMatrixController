@@ -204,50 +204,13 @@ public class PixelRain implements Animation {
 		}
 	}
 
-	/*
-	 * public void makeBottomPixelsFall(RGBWPixel[][] ledMatrix) { // Remove pixels
-	 * for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
-	 * fallingPixels.remove(new Coordinates(LedPanel.MATRIX_HEIGHT - 1, column));
-	 * ledMatrix[LedPanel.MATRIX_HEIGHT - 1][column] = RGBWPixel.hsbwPixel(hueColor,
-	 * 0, 0, whiteLevel); }
-	 * 
-	 * // Move pixels TreeMap<Coordinates, RGBWPixel> followingPixels = new
-	 * TreeMap<>(); Set<Coordinates> blackPixelsToRemove = new HashSet<>(); for
-	 * (Coordinates pixel : fallingPixels.descendingMap().keySet()) {
-	 * ledMatrix[pixel.getKey() + 1][pixel.getValue()] = fallingPixels.get(pixel);
-	 * followingPixels.put(new Coordinates(pixel.getKey() + 1, pixel.getValue()),
-	 * fallingPixels.get(pixel));
-	 * 
-	 * RGBWPixel followingPixel;
-	 * 
-	 * if (fallingPixels.get(pixel).getBrightness() - 1.0 / spreadLength > 0) {
-	 * followingPixel = RGBWPixel.hsbwPixel(hueColor, 1.0,
-	 * fallingPixels.get(pixel).getBrightness() - 1.0 / spreadLength, whiteLevel);
-	 * followingPixels.put(new Coordinates(pixel.getKey(), pixel.getValue()),
-	 * followingPixel); } else { followingPixel = RGBWPixel.hsbwPixel(hueColor, 0,
-	 * 0, whiteLevel); blackPixelsToRemove.add(pixel); }
-	 * ledMatrix[pixel.getKey()][pixel.getValue()] = followingPixel; } // Remove
-	 * black pixels for (Coordinates blackPixel : blackPixelsToRemove) {
-	 * fallingPixels.remove(blackPixel); }
-	 * 
-	 * // Add following pixels for (Coordinates followingPixel :
-	 * followingPixels.keySet()) { fallingPixels.put(followingPixel,
-	 * followingPixels.get(followingPixel)); } }
-	 * 
-	 * public void popBottomNewPixels(RGBWPixel[][] ledMatrix) { Random random = new
-	 * Random(); for (int i = 0; i < LedPanel.MATRIX_WIDTH; i++) { if
-	 * (random.nextFloat() < density / LedPanel.MATRIX_WIDTH) { RGBWPixel newPixel =
-	 * RGBWPixel.hsbwPixel(hueColor, 1, 1, whiteLevel); ledMatrix[0][i] = newPixel;
-	 * fallingPixels.put(new Coordinates(0, i), newPixel); } } }
-	 */
-
 	@Override
-	public void setAnimationSettings(AnchorPane ConfigAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane ConfigAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/RainPixelSettings.fxml"));
 		ConfigAnchorPane.getChildren().add(loader.load());
 		RainPixelSettingsController rainPixelSettingsController = loader.getController();
-		rainPixelSettingsController.setPixelRain((PixelRain) ledPanel.getCurrentAnimation());
+		rainPixelSettingsController.setPixelRain(this);
 	}
 
 	@Override

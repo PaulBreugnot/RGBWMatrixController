@@ -208,12 +208,12 @@ public class DiamondWave implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/DiamondWaveSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		DiamondWaveSettingsController diamondWaveSettingsController = loader.getController();
-		diamondWaveSettingsController.setDiamondWave((DiamondWave) ledPanel.getCurrentAnimation());
+		diamondWaveSettingsController.setDiamondWave(this);
 	}
 
 	@Override

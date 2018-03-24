@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
-import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
 public class LoopingAnimations implements Animation {
@@ -37,7 +36,7 @@ public class LoopingAnimations implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		// TODO Auto-generated method stub
 
 	}

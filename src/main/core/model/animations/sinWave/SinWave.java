@@ -74,12 +74,12 @@ public class SinWave implements Animation {
 	}
 
 	@Override
-	public void setAnimationSettings(AnchorPane ConfigAnchorPane, LedPanel ledPanel) throws IOException {
+	public void setAnimationSettings(AnchorPane ConfigAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/SinWaveSettings.fxml"));
 		ConfigAnchorPane.getChildren().add(loader.load());
 		SinWaveSettingsController sinWaveSettingsController = loader.getController();
-		sinWaveSettingsController.setSinWave((SinWave) ledPanel.getCurrentAnimation());
+		sinWaveSettingsController.setSinWave(this);
 	}
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
