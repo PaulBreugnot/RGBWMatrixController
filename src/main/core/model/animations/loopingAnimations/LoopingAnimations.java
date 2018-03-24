@@ -35,6 +35,10 @@ public class LoopingAnimations implements Animation {
 		this.end = end;
 	}
 
+	public void delete(int time) {
+		animations.remove(time);
+	}
+
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		// TODO Auto-generated method stub

@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
+import main.core.model.animations.loopingAnimations.LoopingAnimations;
 
 public class LoopItemController {
 
@@ -18,10 +19,22 @@ public class LoopItemController {
 	@FXML
 	private AnchorPane ConfigPane;
 
+	private int time;
 	private Animation animation;
+
+	private LoopingAnimations loopingAnimations;
 
 	public void setAnimation(Animation animation) throws IOException {
 		ConfigPane.getChildren().clear();
 		animation.setAnimationSettings(ConfigPane);
+	}
+
+	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
+		this.loopingAnimations = loopingAnimations;
+	}
+
+	@FXML
+	private void handleDelete() {
+		loopingAnimations.delete(time);
 	}
 }
