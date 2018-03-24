@@ -19,14 +19,22 @@ public class LoopItemController {
 	@FXML
 	private AnchorPane ConfigPane;
 
-	private int time;
-	private Animation animation;
+	private Integer index;
+	private Integer time;
 
 	private LoopingAnimations loopingAnimations;
 
-	public void setAnimation(Animation animation) throws IOException {
+	public void setAnimation(Animation animation, int index, int time) throws IOException {
 		ConfigPane.getChildren().clear();
 		animation.setAnimationSettings(ConfigPane);
+		this.index = index;
+		this.time = time;
+		setLabels();
+	}
+
+	private void setLabels() {
+		indexLabel.setText(index.toString());
+		timeLabel.setText(time.toString());
 	}
 
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
