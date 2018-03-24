@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.core.model.animations.text.ScrollingText;
+import main.core.model.panel.LedPanel;
 
 public class ScrollingTextSettingsController {
 
@@ -42,8 +43,7 @@ public class ScrollingTextSettingsController {
 	private Slider SpeedSlider;
 
 	private ScrollingText scrollingText;
-	private String[] embeddedFonts = { "8-BITWONDER", "04B_30__", "Perfect DOS VGA 437 Win", "Minecraft", "I-pixel-u",
-			"pixelart" };
+	private String[] embeddedFonts = { "04B_30__", "Perfect DOS VGA 437 Win", "Minecraft", "I-pixel-u", "pixelart" };
 
 	private ObservableList<String> ListDefaultFonts = FXCollections.observableArrayList();
 	private ObservableList<String> ListEmbeddedFonts = FXCollections.observableArrayList();
@@ -58,7 +58,7 @@ public class ScrollingTextSettingsController {
 
 	public void setScrollingText(ScrollingText scrollingText) {
 		this.scrollingText = scrollingText;
-		EmbeddedFontsComboBox.getSelectionModel().selectFirst();
+		DefaultFontsComboBox.getSelectionModel().select("Times New Roman");
 	}
 
 	private void setTextSliders() {
@@ -78,6 +78,10 @@ public class ScrollingTextSettingsController {
 				scrollingText.setTextArray();
 			}
 		});
+
+		TextBrightnessSlider.setMax(LedPanel.MAX_INTENSITY);
+		TextBrightnessSlider.setMin(0.01 * LedPanel.MAX_INTENSITY); // Don't like 0...
+		TextBrightnessSlider.setValue(LedPanel.MAX_INTENSITY);
 		TextBrightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				double hue = scrollingText.getTextColor().getHue();
@@ -112,6 +116,10 @@ public class ScrollingTextSettingsController {
 				scrollingText.setTextArray();
 			}
 		});
+
+		BackgroundBrightnessSlider.setMax(LedPanel.MAX_INTENSITY);
+		BackgroundBrightnessSlider.setMin(0.01 * LedPanel.MAX_INTENSITY); // Don't like 0...
+		BackgroundBrightnessSlider.setValue(0.01 * LedPanel.MAX_INTENSITY);
 		BackgroundBrightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				double hue = scrollingText.getBackgroundColor().getHue();

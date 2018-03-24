@@ -24,7 +24,7 @@ public class DiamondWave implements Animation {
 	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private double intensity = 0.1;
+	private double intensity = LedPanel.MAX_INTENSITY;
 	private double waveLength = 50;
 	private double contrast = 1;
 	private double speed = 1;
@@ -96,7 +96,6 @@ public class DiamondWave implements Animation {
 
 	public void displayWave(RGBWPixel[][] ledMatrix) {
 		int diamondsToRemove = 0;
-		System.out.println("Diamonds size : " + diamonds.size());
 		TreeSet<Diamond> newDiamonds = new TreeSet<>();
 		for (Diamond diamond : diamonds) {
 			int steps = diamond.progress(speed);
@@ -137,7 +136,6 @@ public class DiamondWave implements Animation {
 				}
 			}
 		}
-		System.out.println("Diamonds to remove : " + diamondsToRemove);
 		for (int i = 0; i < diamondsToRemove; i++) {
 			diamonds.remove(diamonds.first());
 		}

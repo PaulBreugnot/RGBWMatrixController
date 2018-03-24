@@ -22,7 +22,7 @@ public class CircularWave implements Animation {
 	private int whiteLevel = 0;
 	private int xCenter = 16;
 	private int yCenter = 8;
-	private double intensity = 0.1;
+	private double intensity = LedPanel.MAX_INTENSITY;
 	private double waveLength = 50;
 	private double contrast = 1;
 	private double speed = 1;

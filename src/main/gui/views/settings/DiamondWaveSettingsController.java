@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import main.core.model.animations.diamondWave.DiamondWave;
+import main.core.model.panel.LedPanel;
 
 public class DiamondWaveSettingsController {
 	@FXML
@@ -92,6 +93,8 @@ public class DiamondWaveSettingsController {
 			}
 		});
 
+		intensitySlider.setMax(LedPanel.MAX_INTENSITY);
+		intensitySlider.setValue(LedPanel.MAX_INTENSITY);
 		intensitySlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				diamondWave.setIntensity((double) new_val);

@@ -9,6 +9,8 @@ public class LedPanel {
 	public static final int MATRIX_WIDTH = 32;
 	public static final int MATRIX_HEIGHT = 16;
 
+	public static final double MAX_INTENSITY = 0.1;
+
 	private SendArray sendArray;
 	private Animation currentAnimation;
 	private int fps;

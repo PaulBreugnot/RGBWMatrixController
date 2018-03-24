@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import main.core.model.animations.circularWave.CircularWave;
+import main.core.model.panel.LedPanel;
 
 public class CircularWaveSettingsController {
 	@FXML
@@ -91,7 +92,8 @@ public class CircularWaveSettingsController {
 				circularWave.setSpeed(Math.floor(((double) new_val) * 10) / 10);
 			}
 		});
-
+		intensitySlider.setMax(LedPanel.MAX_INTENSITY);
+		intensitySlider.setValue(LedPanel.MAX_INTENSITY);
 		intensitySlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				circularWave.setIntensity((double) new_val);

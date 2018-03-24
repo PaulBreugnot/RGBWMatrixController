@@ -18,8 +18,8 @@ public class ScrollingText implements Animation {
 	public static final String effectName = "Text Scrolling";
 
 	private String textToDisplay = "Min'Bot 2K18";
-	private Color textColor = Color.hsb(0, 1, 0.1);
-	private Color backgroundColor = Color.hsb(0, 0, 0);
+	private Color textColor = Color.hsb(0, 1, LedPanel.MAX_INTENSITY);
+	private Color backgroundColor = Color.hsb(0, 0, 0.01 * LedPanel.MAX_INTENSITY);
 	private Font font = Font.getDefault();
 	private int whiteLevel;
 	private RGBWPixel[][] textArray;

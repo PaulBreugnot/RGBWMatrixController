@@ -1,6 +1,7 @@
 package main.core.model.pixel;
 
 import javafx.scene.paint.Color;
+import main.core.model.panel.LedPanel;
 
 public class RGBWPixel {
 
@@ -116,5 +117,11 @@ public class RGBWPixel {
 
 	public Color getColor() {
 		return color;
+	}
+
+	public Color getDisplayColor() {
+		Color displayColor = Color.hsb(color.getHue(), color.getSaturation(),
+				Math.min(1.0, color.getBrightness() / LedPanel.MAX_INTENSITY));
+		return displayColor;
 	}
 }

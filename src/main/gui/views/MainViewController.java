@@ -18,11 +18,9 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
-import main.core.model.animations.SinWave.SinWave;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.animations.diamondWave.DiamondWave;
 import main.core.model.animations.pixelRain.PixelRain;
-import main.core.model.animations.randomEffects.RandomPop;
 import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 
@@ -192,7 +190,7 @@ public class MainViewController {
 	private void displayMatrix() {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				tilePaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getColor());
+				tilePaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getDisplayColor());
 			}
 		}
 	}
