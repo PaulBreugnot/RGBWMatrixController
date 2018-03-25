@@ -1,4 +1,4 @@
-package main.core.model.animations.sinWave;
+package main.core.model.animations.SinWave;
 
 import java.io.IOException;
 
