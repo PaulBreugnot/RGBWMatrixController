@@ -104,6 +104,35 @@ public class DiamondWaveSettingsController {
 
 	public void setDiamondWave(DiamondWave diamondWave) {
 		this.diamondWave = diamondWave;
+		setDisplayedParameters();
+	}
+
+	private void setDisplayedParameters() {
+		colorSlider.setValue(diamondWave.getHueColor());
+		waveLengthSlider.setValue(diamondWave.getWaveLength());
+		whiteLevelSlider.setValue(diamondWave.getWhiteLevel());
+		xCenterSlider.setValue(diamondWave.getXCenter());
+		yCenterSlider.setValue(diamondWave.getYCenter());
+		contrastSlider.setValue(diamondWave.getContrast());
+		speedSlider.setValue(diamondWave.getSpeed());
+		intensitySlider.setValue(diamondWave.getIntensity());
+		switch (diamondWave.getWaveMode()) {
+		case SATURATION:
+			saturationButton.setSelected(true);
+			brightnessButton.setSelected(false);
+			rainbowButton.setSelected(false);
+			break;
+		case BRIGHTNESS:
+			saturationButton.setSelected(false);
+			brightnessButton.setSelected(true);
+			rainbowButton.setSelected(false);
+			break;
+		case RAINBOW:
+			saturationButton.setSelected(false);
+			brightnessButton.setSelected(false);
+			rainbowButton.setSelected(true);
+			break;
+		}
 	}
 
 	@FXML

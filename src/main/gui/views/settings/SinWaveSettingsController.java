@@ -65,5 +65,14 @@ public class SinWaveSettingsController {
 
 	public void setSinWave(SinWave sinWave) {
 		this.sinWave = sinWave;
+		setDisplayedParameters();
+	}
+
+	private void setDisplayedParameters() {
+		colorSlider.setValue(sinWave.getHueColor());
+		waveLengthSlider.setValue(sinWave.getWaveLength());
+		whiteLevelSlider.setValue(sinWave.getWhiteLevel());
+		contrastSlider.setValue(sinWave.getContrast());
+		speedSlider.setValue(sinWave.getSpeed());
 	}
 }

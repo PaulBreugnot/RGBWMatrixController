@@ -20,7 +20,9 @@ public class ScrollingText implements Animation {
 	private String textToDisplay = "Min'Bot 2K18";
 	private Color textColor = Color.hsb(0, 1, LedPanel.MAX_INTENSITY);
 	private Color backgroundColor = Color.hsb(0, 0, 0.01 * LedPanel.MAX_INTENSITY);
-	private Font font = Font.getDefault();
+	private Font font = new Font("Times New Roman", 19);
+	private String selectedDefaultFontName = "Times New Roman";
+	private String selectedEmbeddedFontName = null;
 	private int whiteLevel;
 	private RGBWPixel[][] textArray;
 	private int textImageLength;
@@ -65,6 +67,22 @@ public class ScrollingText implements Animation {
 
 	public Font getFont() {
 		return font;
+	}
+
+	public String getSelectedDefaultFontName() {
+		return selectedDefaultFontName;
+	}
+
+	public void setSelectedDefaultFontName(String selectedDefaultFontName) {
+		this.selectedDefaultFontName = selectedDefaultFontName;
+	}
+
+	public String getSelectedEmbeddedFontName() {
+		return selectedEmbeddedFontName;
+	}
+
+	public void setSelectedEmbeddedFontName(String selectedEmbeddedFontName) {
+		this.selectedEmbeddedFontName = selectedEmbeddedFontName;
 	}
 
 	public void setTextArray() {

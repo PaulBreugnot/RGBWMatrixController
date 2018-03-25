@@ -58,7 +58,8 @@ public class ScrollingTextSettingsController {
 
 	public void setScrollingText(ScrollingText scrollingText) {
 		this.scrollingText = scrollingText;
-		DefaultFontsComboBox.getSelectionModel().select("Times New Roman");
+		// DefaultFontsComboBox.getSelectionModel().select("Times New Roman");
+		setDisplayedParameters();
 	}
 
 	private void setTextSliders() {
@@ -169,6 +170,8 @@ public class ScrollingTextSettingsController {
 				if (t1 != null) {
 					EmbeddedFontsComboBox.getSelectionModel().clearSelection();
 					scrollingText.setFont(new Font(t1, SizeSlider.getValue()));
+					scrollingText.setSelectedDefaultFontName(t1);
+					scrollingText.setSelectedEmbeddedFontName(null);
 					scrollingText.setTextArray();
 				}
 			}
@@ -184,11 +187,26 @@ public class ScrollingTextSettingsController {
 							"/fonts/" + EmbeddedFontsComboBox.getSelectionModel().getSelectedItem() + ".ttf");
 					font = Font.loadFont(is, SizeSlider.getValue());
 					scrollingText.setFont(font);
+					scrollingText.setSelectedDefaultFontName(null);
+					scrollingText.setSelectedEmbeddedFontName(t1);
 					scrollingText.setTextArray();
 				}
 			}
 		});
 
+	}
+
+	private void setDisplayedParameters() {
+		TextHueSlider.setValue(scrollingText.getTextColor().getHue());
+		TextSaturationSlider.setValue(scrollingText.getTextColor().getSaturation());
+		TextBrightnessSlider.setValue(scrollingText.getTextColor().getBrightness());
+		BackgroundHueSlider.setValue(scrollingText.getBackgroundColor().getHue());
+		BackgroundSaturationSlider.setValue(scrollingText.getBackgroundColor().getSaturation());
+		BackgroundBrightnessSlider.setValue(scrollingText.getBackgroundColor().getBrightness());
+		SizeSlider.setValue(scrollingText.getFont().getSize());
+		SpeedSlider.setValue(scrollingText.getSpeed());
+		DefaultFontsComboBox.getSelectionModel().select(scrollingText.getSelectedDefaultFontName());
+		EmbeddedFontsComboBox.getSelectionModel().select(scrollingText.getSelectedEmbeddedFontName());
 	}
 
 	@FXML

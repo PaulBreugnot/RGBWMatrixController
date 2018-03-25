@@ -59,5 +59,13 @@ public class RainPixelSettingsController {
 
 	public void setPixelRain(PixelRain pixelRain) {
 		this.pixelRain = pixelRain;
+		setDisplayedParameters();
+	}
+
+	private void setDisplayedParameters() {
+		colorSlider.setValue(pixelRain.getHueColor());
+		densitySlider.setValue(pixelRain.getDensity());
+		lengthSlider.setValue(pixelRain.getSpreadLength());
+		speedSlider.setValue(pixelRain.getSpeed());
 	}
 }
