@@ -103,6 +103,35 @@ public class CircularWaveSettingsController {
 
 	public void setCircularWave(CircularWave circularWave) {
 		this.circularWave = circularWave;
+		setDisplayedParameters();
+	}
+
+	private void setDisplayedParameters() {
+		colorSlider.setValue(circularWave.getHueColor());
+		waveLengthSlider.setValue(circularWave.getWaveLength());
+		whiteLevelSlider.setValue(circularWave.getWhiteLevel());
+		xCenterSlider.setValue(circularWave.getxCenter());
+		yCenterSlider.setValue(circularWave.getyCenter());
+		contrastSlider.setValue(circularWave.getContrast());
+		speedSlider.setValue(circularWave.getSpeed());
+		intensitySlider.setValue(circularWave.getIntensity());
+		switch (circularWave.getWaveMode()) {
+		case SATURATION:
+			saturationButton.setSelected(true);
+			brightnessButton.setSelected(false);
+			rainbowButton.setSelected(false);
+			break;
+		case BRIGHTNESS:
+			saturationButton.setSelected(false);
+			brightnessButton.setSelected(true);
+			rainbowButton.setSelected(false);
+			break;
+		case RAINBOW:
+			saturationButton.setSelected(false);
+			brightnessButton.setSelected(false);
+			rainbowButton.setSelected(true);
+			break;
+		}
 	}
 
 	@FXML
