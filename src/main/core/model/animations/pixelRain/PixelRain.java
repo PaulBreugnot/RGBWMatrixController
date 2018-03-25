@@ -151,9 +151,10 @@ public class PixelRain implements Animation {
 					for (int step = 0; step < stepsNum; step++) {
 						if (newVerticalPosition + step + 1 < LedPanel.MATRIX_HEIGHT) {
 							FallingPixel followingPixel;
-							if (fallingPixels.get(pixelCoordinates).getBrightness() - (step + 1) * (1.0 / spreadLength) > 0) {
+							if (fallingPixels.get(pixelCoordinates).getBrightness()
+									- (step + 1) * (LedPanel.MAX_INTENSITY / spreadLength) > 0) {
 								double lowerBrightness = fallingPixels.get(pixelCoordinates).getBrightness()
-										- (step + 1) * (1.0 / spreadLength);
+										- (step + 1) * (LedPanel.MAX_INTENSITY / spreadLength);
 								followingPixel = new FallingPixel(Color.hsb(hueColor, 1.0, lowerBrightness), whiteLevel,
 										speed, fallingPixel.getProgress() - 1 - step);
 								followingPixels.put(
@@ -191,8 +192,8 @@ public class PixelRain implements Animation {
 		Random random = new Random();
 		for (int i = 0; i < LedPanel.MATRIX_WIDTH; i++) {
 			if (random.nextFloat() < density / LedPanel.MATRIX_WIDTH) {
-				FallingPixel newPixel = new FallingPixel(Color.hsb(hueColor, 1, 1), whiteLevel, speed,
-						synchronisedPopProgress);
+				FallingPixel newPixel = new FallingPixel(Color.hsb(hueColor, 1, LedPanel.MAX_INTENSITY), whiteLevel,
+						speed, synchronisedPopProgress);
 				ledMatrix[LedPanel.MATRIX_HEIGHT - 1][i] = newPixel;
 				fallingPixels.put(new Coordinates(LedPanel.MATRIX_HEIGHT - 1, i), newPixel);
 			}
