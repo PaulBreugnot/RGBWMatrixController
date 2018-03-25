@@ -42,36 +42,72 @@ public class DiamondWave implements Animation {
 		this.hueColor = hueColor;
 	}
 
+	public double getHueColor() {
+		return hueColor;
+	}
+
 	public void setWhiteLevel(int whiteLevel) {
 		this.whiteLevel = whiteLevel;
+	}
+
+	public int getWhiteLevel() {
+		return whiteLevel;
 	}
 
 	public void setWaveLength(double waveLength) {
 		this.waveLength = waveLength;
 	}
 
+	public double getWaveLength() {
+		return waveLength;
+	}
+
 	public void setXCenter(int xCenter) {
 		this.xCenter = xCenter;
+	}
+
+	public int getXCenter() {
+		return xCenter;
 	}
 
 	public void setYCenter(int yCenter) {
 		this.yCenter = yCenter;
 	}
 
+	public int getYCenter() {
+		return yCenter;
+	}
+
 	public void setContrast(double contrast) {
 		this.contrast = contrast;
+	}
+
+	public double getContrast() {
+		return contrast;
 	}
 
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 
+	public double getSpeed() {
+		return speed;
+	}
+
 	public void setIntensity(double intensity) {
 		this.intensity = intensity;
 	}
 
+	public double getIntensity() {
+		return intensity;
+	}
+
 	public void setWaveMode(WaveMode waveMode) {
 		this.waveMode = waveMode;
+	}
+
+	public WaveMode getWaveMode() {
+		return waveMode;
 	}
 
 	@Override

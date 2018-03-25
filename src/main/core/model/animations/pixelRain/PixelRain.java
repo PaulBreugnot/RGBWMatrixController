@@ -52,40 +52,44 @@ public class PixelRain implements Animation {
 		this.whiteLevel = whiteLevel;
 	}
 
-	public double getHueColor() {
-		return hueColor;
-	}
-
 	public void setHueColor(double hueColor) {
 		this.hueColor = hueColor;
 	}
 
-	public int getWhiteLevel() {
-		return whiteLevel;
+	public double getHueColor() {
+		return hueColor;
 	}
 
 	public void setWhiteLevel(int whiteLevel) {
 		this.whiteLevel = whiteLevel;
 	}
 
-	public double getDensity() {
-		return density;
+	public int getWhiteLevel() {
+		return whiteLevel;
 	}
 
 	public void setDensity(double density) {
 		this.density = density;
 	}
 
-	public int getSpreadLength() {
-		return spreadLength;
+	public double getDensity() {
+		return density;
 	}
 
 	public void setSpreadLength(int spreadLength) {
 		this.spreadLength = spreadLength;
 	}
 
+	public int getSpreadLength() {
+		return spreadLength;
+	}
+
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+
+	public double getSpeed() {
+		return speed;
 	}
 
 	@Override

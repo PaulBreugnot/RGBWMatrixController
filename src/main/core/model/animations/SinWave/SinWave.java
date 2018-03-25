@@ -29,20 +29,40 @@ public class SinWave implements Animation {
 		this.hueColor = hueColor;
 	}
 
+	public double getHueColor() {
+		return hueColor;
+	}
+
 	public void setWhiteLevel(int whiteLevel) {
 		this.whiteLevel = whiteLevel;
+	}
+
+	public int getWhiteLevel() {
+		return whiteLevel;
 	}
 
 	public void setWaveLength(double waveLength) {
 		this.waveLength = waveLength;
 	}
 
+	public double getWaveLength() {
+		return waveLength;
+	}
+
 	public void setContrast(double contrast) {
 		this.contrast = contrast;
 	}
 
+	public double getContrast() {
+		return contrast;
+	}
+
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public int getSpeed() {
+		return speed;
 	}
 
 	@Override

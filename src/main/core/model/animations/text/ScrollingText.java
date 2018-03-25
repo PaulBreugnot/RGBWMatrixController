@@ -39,20 +39,32 @@ public class ScrollingText implements Animation {
 		setTextArray();
 	}
 
-	public int getSpeed() {
-		return speed;
-	}
-
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public int getSpeed() {
+		return speed;
 	}
 
 	public void setWhiteLevel(int whiteLevel) {
 		this.whiteLevel = whiteLevel;
 	}
 
+	public int getWhiteLevel() {
+		return whiteLevel;
+	}
+
 	public void setTextToDisplay(String textToDisplay) {
 		this.textToDisplay = textToDisplay;
+	}
+
+	public String getTextToDisplay() {
+		return textToDisplay;
+	}
+
+	public Font getFont() {
+		return font;
 	}
 
 	public void setTextArray() {
