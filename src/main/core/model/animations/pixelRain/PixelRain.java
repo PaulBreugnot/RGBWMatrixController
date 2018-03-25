@@ -217,4 +217,9 @@ public class PixelRain implements Animation {
 	public String toString() {
 		return effectName;
 	}
+
+	@Override
+	public Animation newAnimationInstance() {
+		return new PixelRain();
+	}
 }

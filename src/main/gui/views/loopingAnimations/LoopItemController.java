@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
+import main.core.util.AnimationTime;
 
 public class LoopItemController {
 
@@ -20,21 +21,21 @@ public class LoopItemController {
 	private AnchorPane ConfigPane;
 
 	private Integer index;
-	private Integer time;
+	private AnimationTime animationTime;
 
 	private LoopingAnimations loopingAnimations;
 
-	public void setAnimation(Animation animation, int index, int time) throws IOException {
+	public void setAnimation(Animation animation, int index, AnimationTime animationTime) throws IOException {
 		ConfigPane.getChildren().clear();
 		animation.setAnimationSettings(ConfigPane);
 		this.index = index;
-		this.time = time;
+		this.animationTime = animationTime;
 		setLabels();
 	}
 
 	private void setLabels() {
 		indexLabel.setText(index.toString());
-		timeLabel.setText(time.toString());
+		timeLabel.setText(animationTime.getKey().toString());
 	}
 
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
@@ -43,6 +44,6 @@ public class LoopItemController {
 
 	@FXML
 	private void handleDelete() {
-		loopingAnimations.delete(time);
+		loopingAnimations.delete(animationTime);
 	}
 }

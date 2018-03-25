@@ -103,4 +103,9 @@ public class SinWave implements Animation {
 		return effectName;
 	}
 
+	@Override
+	public Animation newAnimationInstance() {
+		return new SinWave();
+	}
+
 }

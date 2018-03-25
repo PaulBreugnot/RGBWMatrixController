@@ -152,4 +152,9 @@ public class CircularWave implements Animation {
 	public String toString() {
 		return effectName;
 	}
+
+	@Override
+	public Animation newAnimationInstance() {
+		return new CircularWave();
+	}
 }

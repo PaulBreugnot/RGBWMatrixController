@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.animations.diamondWave.DiamondWave;
+import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
@@ -58,10 +59,10 @@ public class MainViewController {
 
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
 
-	private ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
-	private ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
-	private ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
-	private ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
 
 	private LedPanel ledPanel;
 	private Rectangle[][] tilePaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
@@ -81,6 +82,8 @@ public class MainViewController {
 		ListGeometricEffects.add(new DiamondWave());
 
 		ListTextEffects.add(new ScrollingText());
+
+		ListSpecialEffects.add(new LoopingAnimations());
 
 		RandomListView.setItems(ListRandomEffects);
 		GeometricListView.setItems(ListGeometricEffects);

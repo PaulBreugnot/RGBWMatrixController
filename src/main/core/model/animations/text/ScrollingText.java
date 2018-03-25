@@ -167,4 +167,9 @@ public class ScrollingText implements Animation {
 	public String toString() {
 		return effectName;
 	}
+
+	@Override
+	public Animation newAnimationInstance() {
+		return new ScrollingText();
+	}
 }

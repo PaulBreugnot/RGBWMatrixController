@@ -124,4 +124,9 @@ public class RandomPop implements Animation {
 		return effectName;
 	}
 
+	@Override
+	public Animation newAnimationInstance() {
+		return new RandomPop();
+	}
+
 }

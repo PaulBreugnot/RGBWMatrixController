@@ -221,4 +221,8 @@ public class DiamondWave implements Animation {
 		return effectName;
 	}
 
+	@Override
+	public Animation newAnimationInstance() {
+		return new DiamondWave();
+	}
 }
