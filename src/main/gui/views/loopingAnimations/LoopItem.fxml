@@ -40,7 +40,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Save" />
+                  <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
                </children>
             </HBox>
             <Button mnemonicParsing="false" onAction="#handleDelete" text="Delete">

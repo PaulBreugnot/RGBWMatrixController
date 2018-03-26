@@ -36,14 +36,6 @@ public class LoopingAnimations implements Animation {
 	}
 
 	public Animation getAnimation(AnimationTime animationTime) {
-		System.out.println("Key : " + animationTime.getKey());
-		System.out.println("Value : " + animationTime.getKey());
-		System.out.println("KeySet : ");
-		for (AnimationTime at : animations.keySet()) {
-			System.out.println("Key : " + at.getKey());
-			System.out.println("Value : " + at.getKey());
-			System.out.println(animationTime.compareTo(at));
-		}
 		return animations.get(animations.floorKey(animationTime));
 	}
 
@@ -68,8 +60,21 @@ public class LoopingAnimations implements Animation {
 		animations.putAll(shiftedAnimations);
 	}
 
-	public void modifyDuration(AnimationTime animationTime, Integer newDuration) {
-
+	public void modifyDuration(AnimationTime animationTimeToModify, Integer newDuration) {
+		end -= animationTimeToModify.getValue();
+		end += newDuration;
+		TreeMap<AnimationTime, Animation> shiftedAnimations = new TreeMap<>();
+		NavigableMap<AnimationTime, Animation> tail = animations.tailMap(animationTimeToModify, false);
+		for (AnimationTime animationTime : tail.keySet()) {
+			shiftedAnimations
+					.put(new AnimationTime(animationTime.getKey() - animationTimeToModify.getValue() + newDuration,
+							animationTime.getValue()), animations.get(animationTime));
+		}
+		tail.clear();
+		Animation a = animations.get(animationTimeToModify);
+		animations.remove(animationTimeToModify);
+		animations.put(new AnimationTime(animationTimeToModify.getKey(), newDuration), a);
+		animations.putAll(shiftedAnimations);
 	}
 
 	@Override

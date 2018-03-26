@@ -21,12 +21,12 @@
             <Separator prefWidth="200.0" />
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="810.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Save">
+                  <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Save">
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Delete All">
+                  <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" text="Delete All">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
