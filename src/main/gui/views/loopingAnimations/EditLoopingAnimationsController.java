@@ -27,7 +27,7 @@ public class EditLoopingAnimationsController {
 	private ListView<Animation> SpecialListView;
 
 	@FXML
-	private TextField timeTextField;
+	private TextField durationTextField;
 
 	@FXML
 	private HBox LoopItems;
@@ -39,8 +39,18 @@ public class EditLoopingAnimationsController {
 
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
 		this.loopingAnimations = loopingAnimations;
-		timeTextField.setText("0");
+		durationTextField.setText(LoopingAnimations.DEFAULT_DURATION.toString());
 		setListViews();
+		displayConfigPanes();
+	}
+
+	public void displayConfigPanes() {
+		lastIndex = 0;
+		LoopItems.getChildren().clear();
+		for (AnimationTime animationTime : loopingAnimations.getAnimations().keySet()) {
+			setConfigPane(loopingAnimations.getAnimations().get(animationTime), animationTime);
+			lastIndex++;
+		}
 	}
 
 	private void setListViews() {
@@ -86,13 +96,21 @@ public class EditLoopingAnimationsController {
 		});
 	}
 
+	private int getBeginTime() {
+		int time = 0;
+		for (AnimationTime animationTime : loopingAnimations.getAnimations().keySet()) {
+			time += animationTime.getValue();
+		}
+		return time;
+	}
+
 	@FXML
 	private void handleAdd() {
-		AnimationTime animationTime = new AnimationTime(Integer.parseInt(timeTextField.getText()),
-				LoopingAnimations.DEFAULT_DURATION);
+		AnimationTime animationTime = new AnimationTime(getBeginTime(), Integer.parseInt(durationTextField.getText()));
 
-		setConfigPane(selectedAnimation, animationTime);
-		loopingAnimations.addAnimation(animationTime, selectedAnimation.newAnimationInstance());
+		Animation newAnimation = selectedAnimation.newAnimationInstance();
+		setConfigPane(newAnimation, animationTime);
+		loopingAnimations.addAnimation(animationTime, newAnimation);
 		lastIndex++;
 	}
 
@@ -106,6 +124,7 @@ public class EditLoopingAnimationsController {
 		}
 		LoopItemController loopItemController = loader.getController();
 		loopItemController.setLoopingAnimations(loopingAnimations);
+		loopItemController.setEditLoopingAnimationsController(this);
 		try {
 			loopItemController.setAnimation(animation, lastIndex, animationTime);
 		} catch (IOException e) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
@@ -20,10 +21,14 @@ public class LoopItemController {
 	@FXML
 	private AnchorPane ConfigPane;
 
+	@FXML
+	private TextField durationTextField;
+
 	private Integer index;
 	private AnimationTime animationTime;
 
 	private LoopingAnimations loopingAnimations;
+	private EditLoopingAnimationsController editLoopingAnimationsController;
 
 	public void setAnimation(Animation animation, int index, AnimationTime animationTime) throws IOException {
 		ConfigPane.getChildren().clear();
@@ -36,14 +41,26 @@ public class LoopItemController {
 	private void setLabels() {
 		indexLabel.setText(index.toString());
 		timeLabel.setText(animationTime.getKey().toString());
+		durationTextField.setText(animationTime.getValue().toString());
 	}
 
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
 		this.loopingAnimations = loopingAnimations;
 	}
 
+	public void setEditLoopingAnimationsController(EditLoopingAnimationsController editLoopingAnimationsController) {
+		this.editLoopingAnimationsController = editLoopingAnimationsController;
+	}
+
 	@FXML
 	private void handleDelete() {
 		loopingAnimations.delete(animationTime);
+		editLoopingAnimationsController.displayConfigPanes();
+	}
+
+	@FXML
+	private void handleSave() {
+		loopingAnimations.modifyDuration(animationTime, Integer.parseInt(durationTextField.getText()));
+		editLoopingAnimationsController.displayConfigPanes();
 	}
 }

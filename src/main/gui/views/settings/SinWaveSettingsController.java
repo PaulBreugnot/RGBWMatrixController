@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
-import main.core.model.animations.SinWave.SinWave;
+import main.core.model.animations.sinWave.SinWave;
 
 public class SinWaveSettingsController {
 

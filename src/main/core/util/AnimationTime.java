@@ -15,13 +15,7 @@ public class AnimationTime extends Pair<Integer, Integer> implements Comparable<
 		} else if (this.getKey() > o.getKey()) {
 			return 1;
 		} else {
-			if (this.getValue() < o.getValue()) {
-				return -1;
-			} else if (this.getValue() > o.getValue()) {
-				return 1;
-			} else {
-				return 0;
-			}
+			return 0;
 		}
 	}
 }

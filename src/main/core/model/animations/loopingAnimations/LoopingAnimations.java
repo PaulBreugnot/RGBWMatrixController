@@ -1,6 +1,7 @@
 package main.core.model.animations.loopingAnimations;
 
 import java.io.IOException;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import javafx.fxml.FXMLLoader;
@@ -13,10 +14,10 @@ import main.gui.views.settings.LoopingAnimationsSettingsController;
 public class LoopingAnimations implements Animation {
 
 	public static final String effectName = "LoopingAnimation";
-	public static final int DEFAULT_DURATION = 125;
+	public static final Integer DEFAULT_DURATION = 125;
 
 	private TreeMap<AnimationTime, Animation> animations = new TreeMap<>();
-	private int end;
+	private int end = 0;
 	private int time = 0;
 
 	@Override
@@ -31,9 +32,18 @@ public class LoopingAnimations implements Animation {
 
 	public void addAnimation(AnimationTime animationTime, Animation animation) {
 		animations.put(animationTime, animation);
+		end += animationTime.getValue();
 	}
 
 	public Animation getAnimation(AnimationTime animationTime) {
+		System.out.println("Key : " + animationTime.getKey());
+		System.out.println("Value : " + animationTime.getKey());
+		System.out.println("KeySet : ");
+		for (AnimationTime at : animations.keySet()) {
+			System.out.println("Key : " + at.getKey());
+			System.out.println("Value : " + at.getKey());
+			System.out.println(animationTime.compareTo(at));
+		}
 		return animations.get(animations.floorKey(animationTime));
 	}
 
@@ -41,8 +51,25 @@ public class LoopingAnimations implements Animation {
 		this.end = end;
 	}
 
-	public void delete(AnimationTime animationTime) {
-		animations.remove(animationTime);
+	public TreeMap<AnimationTime, Animation> getAnimations() {
+		return animations;
+	}
+
+	public void delete(AnimationTime animationTimeToDelete) {
+		end -= animationTimeToDelete.getValue();
+		TreeMap<AnimationTime, Animation> shiftedAnimations = new TreeMap<>();
+		NavigableMap<AnimationTime, Animation> tail = animations.tailMap(animationTimeToDelete, false);
+		for (AnimationTime animationTime : tail.keySet()) {
+			shiftedAnimations.put(new AnimationTime(animationTime.getKey() - animationTimeToDelete.getValue(),
+					animationTime.getValue()), animations.get(animationTime));
+		}
+		tail.clear();
+		animations.remove(animationTimeToDelete);
+		animations.putAll(shiftedAnimations);
+	}
+
+	public void modifyDuration(AnimationTime animationTime, Integer newDuration) {
+
 	}
 
 	@Override

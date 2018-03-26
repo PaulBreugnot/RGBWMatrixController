@@ -35,7 +35,7 @@
             </HBox>
             <HBox>
                <children>
-                  <TextField>
+                  <TextField fx:id="durationTextField">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
