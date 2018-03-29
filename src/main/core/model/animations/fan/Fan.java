@@ -2,10 +2,12 @@ package main.core.model.animations.fan;
 
 import java.io.IOException;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
+import main.gui.views.settings.FanSettingsController;
 
 public class Fan implements Animation {
 
@@ -18,10 +20,10 @@ public class Fan implements Animation {
 	private WaveMode waveMode = WaveMode.BRIGHTNESS;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private int xCenter = -1;
-	private int yCenter = -1;
+	private int xCenter = 16;
+	private int yCenter = 8;
 	private double intensity = LedPanel.MAX_INTENSITY;
-	private double fanNumber = 6;
+	private double fanNumber = 4;
 	private double contrast = 1;
 	private double speed = 5; // degree per frame
 	private double alphaT = 0;
@@ -145,6 +147,10 @@ public class Fan implements Animation {
 				if (0 < yCenter && yCenter < LedPanel.MATRIX_HEIGHT && 0 < xCenter && xCenter < LedPanel.MATRIX_WIDTH) {
 					ledMatrix[yCenter][xCenter] = RGBWPixel.hsbwPixel(hueColor, 1, intensity, whiteLevel);
 				}
+			} else {
+				if (0 < yCenter && yCenter < LedPanel.MATRIX_HEIGHT && 0 < xCenter && xCenter < LedPanel.MATRIX_WIDTH) {
+					ledMatrix[yCenter][xCenter] = RGBWPixel.hsbwPixel(0, 0, intensity, 0);
+				}
 			}
 		}
 	}
@@ -158,14 +164,21 @@ public class Fan implements Animation {
 
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
-		// TODO Auto-generated method stub
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/FanSettings.fxml"));
+		configAnchorPane.getChildren().add(loader.load());
+		FanSettingsController fanSettingsController = loader.getController();
+		fanSettingsController.setFan(this);
+	}
 
+	@Override
+	public String toString() {
+		return effectName;
 	}
 
 	@Override
 	public Animation newAnimationInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Fan();
 	}
 
 }
