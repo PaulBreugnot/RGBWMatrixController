@@ -8,12 +8,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,6 +29,7 @@ import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
+import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
 
 public class MainViewController {
 
@@ -57,6 +62,10 @@ public class MainViewController {
 
 	@FXML
 	private Label ErrorLabel;
+	
+	@FXML
+	private Tab AnimationsTab;
+	private LoopingAnimations loopingAnimations;
 
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
 
@@ -72,6 +81,7 @@ public class MainViewController {
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
 		setListViews();
+		initAnimationsTab();
 		initTilePane();
 		initComPort();
 	}
@@ -153,6 +163,22 @@ public class MainViewController {
 		});
 
 	}
+	
+	private void initAnimationsTab() {
+		BorderPane root;
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(
+				this.getClass().getResource("/main/gui/views/loopingAnimations/EditLoopingAnimationsView.fxml"));
+		try {
+			root = (BorderPane) loader.load();
+			AnimationsTab.setContent(root);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		loopingAnimations = new LoopingAnimations();
+		EditLoopingAnimationsController editLoopingAnimationController = loader.getController();
+		editLoopingAnimationController.setLoopingAnimations(loopingAnimations);
+	}
 
 	private void initTilePane() {
 		tilePane.setOrientation(Orientation.HORIZONTAL);
@@ -175,6 +201,7 @@ public class MainViewController {
 	}
 
 	public void initComPort() {
+		ListComPort.clear();
 		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
 		while (portList.hasMoreElements()) {
 			ListComPort.add(((CommPortIdentifier) portList.nextElement()).getName());

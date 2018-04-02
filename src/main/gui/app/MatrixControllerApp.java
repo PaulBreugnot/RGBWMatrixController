@@ -3,8 +3,8 @@ package main.gui.app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.core.model.panel.LedPanel;
 import main.gui.views.MainViewController;
@@ -29,10 +29,10 @@ public class MatrixControllerApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		BorderPane root;
+		TabPane root;
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MatrixControllerApp.class.getResource("/main/gui/views/MainView.fxml"));
-		root = (BorderPane) loader.load();
+		root = (TabPane) loader.load();
 		mainViewController = loader.getController();
 		ledPanel = MainTest.getAppConfig();
 		mainViewController.setLedPanel(ledPanel);
