@@ -2,11 +2,13 @@ package main.gui.views.loopingAnimations;
 
 import java.io.IOException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.util.AnimationTime;
@@ -30,7 +32,9 @@ public class EditLoopingAnimationsController {
 	private TextField durationTextField;
 
 	@FXML
-	private HBox LoopItems;
+	private ListView<AnchorPane> LoopItems;
+	
+	public static ObservableList<AnchorPane> LoopItemsList = FXCollections.observableArrayList();
 
 	private LoopingAnimations loopingAnimations;
 
@@ -40,17 +44,23 @@ public class EditLoopingAnimationsController {
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
 		this.loopingAnimations = loopingAnimations;
 		durationTextField.setText(LoopingAnimations.DEFAULT_DURATION.toString());
+		configureLoopItemsListView();
 		setListViews();
 		displayConfigPanes();
 	}
 
 	public void displayConfigPanes() {
 		lastIndex = 0;
-		LoopItems.getChildren().clear();
+		LoopItemsList.clear();
 		for (AnimationTime animationTime : loopingAnimations.getAnimations().keySet()) {
 			setConfigPane(loopingAnimations.getAnimations().get(animationTime), animationTime);
 			lastIndex++;
 		}
+	}
+	
+	private void configureLoopItemsListView() {
+		LoopItems.setItems(LoopItemsList);
+		
 	}
 
 	private void setListViews() {
@@ -110,6 +120,7 @@ public class EditLoopingAnimationsController {
 
 		Animation newAnimation = selectedAnimation.newAnimationInstance();
 		setConfigPane(newAnimation, animationTime);
+		LoopItems.getSelectionModel().selectLast();
 		loopingAnimations.addAnimation(animationTime, newAnimation);
 		lastIndex++;
 	}
@@ -118,7 +129,9 @@ public class EditLoopingAnimationsController {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/main/gui/views/loopingAnimations/LoopItem.fxml"));
 		try {
-			LoopItems.getChildren().add(loader.load());
+			AnchorPane animationSettingsAnchorPane = loader.load();
+			LoopItemsList.add(animationSettingsAnchorPane);
+			LoopItems.scrollTo(animationSettingsAnchorPane);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
