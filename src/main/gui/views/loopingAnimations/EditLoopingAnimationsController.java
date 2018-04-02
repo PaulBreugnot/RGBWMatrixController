@@ -6,11 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
+import main.core.model.panel.LedPanel;
 import main.core.util.AnimationTime;
 import main.gui.views.MainViewController;
 
@@ -30,11 +35,16 @@ public class EditLoopingAnimationsController {
 
 	@FXML
 	private TextField durationTextField;
+	
+	@FXML
+	private AnchorPane previewAnchorPane;
 
 	@FXML
 	private ListView<AnchorPane> LoopItems;
 	
 	public static ObservableList<AnchorPane> LoopItemsList = FXCollections.observableArrayList();
+	
+	private Rectangle[][] previewAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 
 	private LoopingAnimations loopingAnimations;
 
@@ -47,6 +57,7 @@ public class EditLoopingAnimationsController {
 		configureLoopItemsListView();
 		setListViews();
 		displayConfigPanes();
+		initPreviewTilePane();
 	}
 
 	public void displayConfigPanes() {
@@ -142,6 +153,22 @@ public class EditLoopingAnimationsController {
 			loopItemController.setAnimation(animation, lastIndex, animationTime);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void initPreviewTilePane() {
+		double tileWidth = previewAnchorPane.getPrefWidth()/LedPanel.MATRIX_WIDTH;
+		double tileHeight = previewAnchorPane.getPrefHeight()/LedPanel.MATRIX_HEIGHT;
+		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
+			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
+				Rectangle pixel = new Rectangle(tileWidth, tileHeight);
+				pixel.setStroke(Color.BLACK);
+				pixel.setFill(Color.WHITE);
+				previewAnchorPaneContent[i][j] = pixel;
+				AnchorPane.setTopAnchor(pixel, i * tileHeight);
+				AnchorPane.setLeftAnchor(pixel, j * tileWidth);
+				previewAnchorPane.getChildren().add(pixel);
+			}
 		}
 	}
 }
