@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import main.core.model.animations.Animation;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.panel.LedPanel;
 
