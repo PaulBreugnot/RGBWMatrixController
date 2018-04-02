@@ -197,7 +197,6 @@ public class MainViewController {
 				tilePane.getChildren().add(pixel);
 			}
 		}
-		System.out.println("Init TilePane OK");
 	}
 
 	public void initComPort() {
