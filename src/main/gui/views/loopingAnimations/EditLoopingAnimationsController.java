@@ -2,7 +2,6 @@ package main.gui.views.loopingAnimations;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -36,20 +35,21 @@ public class EditLoopingAnimationsController {
 
 	@FXML
 	private TextField durationTextField;
-	
+
 	@FXML
 	private AnchorPane previewAnchorPane;
 
 	@FXML
 	private ListView<AnchorPane> LoopItems;
-	
+
 	public static ObservableList<AnchorPane> LoopItemsList = FXCollections.observableArrayList();
-	
+
 	private HashMap<AnchorPane, Animation> SettingsControllersMap = new HashMap<>();
-	
+
 	private LedPanel ledPanel;
 	private Rectangle[][] previewAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
-	
+
+	private MainViewController mainViewController;
 	private LoopingAnimations loopingAnimations;
 
 	private Animation selectedAnimation;
@@ -60,11 +60,16 @@ public class EditLoopingAnimationsController {
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
 		this.loopingAnimations = loopingAnimations;
 		ledPanel = new LedPanel(25);
+		LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 		durationTextField.setText(LoopingAnimations.DEFAULT_DURATION.toString());
 		configureLoopItemsListView();
 		setListViews();
 		displayConfigPanes();
 		initPreviewAnchorPane();
+	}
+
+	public void setMainViewController(MainViewController mainViewController) {
+		this.mainViewController = mainViewController;
 	}
 
 	public void displayConfigPanes() {
@@ -75,13 +80,13 @@ public class EditLoopingAnimationsController {
 			lastIndex++;
 		}
 	}
-	
+
 	private void configureLoopItemsListView() {
 		LoopItems.setItems(LoopItemsList);
 		LoopItems.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				ledPanel.setCurrentAnimation(SettingsControllersMap.get(newSelection));
-				if(!updaterInitialized) {
+				if (!updaterInitialized) {
 					updaterInitialized = true;
 					updater = new GUIupdater(this);
 					updater.start();
@@ -172,30 +177,38 @@ public class EditLoopingAnimationsController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void initPreviewAnchorPane() {
-		double tileWidth = previewAnchorPane.getPrefWidth()/LedPanel.MATRIX_WIDTH;
-		double tileHeight = previewAnchorPane.getPrefHeight()/LedPanel.MATRIX_HEIGHT;
+		double tileWidth = previewAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
+		double tileHeight = previewAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
 		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				Rectangle pixel = new Rectangle(tileWidth, tileHeight);
 				pixel.setStroke(Color.BLACK);
 				pixel.setFill(Color.WHITE);
 				previewAnchorPaneContent[i][j] = pixel;
-				AnchorPane.setTopAnchor(pixel, i * tileHeight);
+				AnchorPane.setTopAnchor(pixel, (LedPanel.MATRIX_HEIGHT - 1 - i) * tileHeight);
 				AnchorPane.setLeftAnchor(pixel, j * tileWidth);
 				previewAnchorPane.getChildren().add(pixel);
 			}
 		}
 	}
-	
+
+	@FXML
+	private void handleLaunch() {
+		// TODO : animationsHardCopy
+		LoopingAnimations displayedAnimations = loopingAnimations;
+		mainViewController.getLedPanel().setCurrentAnimation(displayedAnimations);
+
+	}
+
 	private class GUIupdater extends Thread {
 		private EditLoopingAnimationsController editLoopingAnimationsController;
 
 		public GUIupdater(EditLoopingAnimationsController editLoopingAnimationsController) {
 			this.editLoopingAnimationsController = editLoopingAnimationsController;
 		}
-		
+
 		private void displayMatrix() {
 			for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 				for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
@@ -207,7 +220,7 @@ public class EditLoopingAnimationsController {
 		@Override
 		public void run() {
 			if (ledPanel.getCurrentAnimation() != null) {
-			ledPanel.updateDisplay();
+				ledPanel.updateDisplay();
 			}
 			try {
 				Thread.sleep(1000 / ledPanel.getFps());

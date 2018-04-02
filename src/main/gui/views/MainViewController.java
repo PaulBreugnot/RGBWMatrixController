@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -62,7 +61,7 @@ public class MainViewController {
 
 	@FXML
 	private Label ErrorLabel;
-	
+
 	@FXML
 	private Tab AnimationsTab;
 	private LoopingAnimations loopingAnimations;
@@ -84,6 +83,10 @@ public class MainViewController {
 		initAnimationsTab();
 		initTilePane();
 		initComPort();
+	}
+
+	public LedPanel getLedPanel() {
+		return ledPanel;
 	}
 
 	private void setListViews() {
@@ -163,7 +166,7 @@ public class MainViewController {
 		});
 
 	}
-	
+
 	private void initAnimationsTab() {
 		BorderPane root;
 		FXMLLoader loader = new FXMLLoader();
@@ -178,6 +181,7 @@ public class MainViewController {
 		loopingAnimations = new LoopingAnimations();
 		EditLoopingAnimationsController editLoopingAnimationController = loader.getController();
 		editLoopingAnimationController.setLoopingAnimations(loopingAnimations);
+		editLoopingAnimationController.setMainViewController(this);
 	}
 
 	private void initTilePane() {
