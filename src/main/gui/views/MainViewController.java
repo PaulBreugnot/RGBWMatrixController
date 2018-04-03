@@ -5,6 +5,8 @@ import java.util.Enumeration;
 
 import gnu.io.CommPortIdentifier;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -33,16 +36,19 @@ public class MainViewController {
 	private Button FrameByFrameButton;
 
 	@FXML
-	private AnchorPane ConfigAnchorPane;
-
-	@FXML
 	private ComboBox<String> ComPortComboBox;
 
 	@FXML
 	private Label ErrorLabel;
 
 	@FXML
+	private TabPane mainTabPane;
+
+	@FXML
 	private Tab AnimationsTab;
+
+	private EditLoopingAnimationsController editLoopingAnimationController;
+
 	private LoopingAnimations loopingAnimations;
 
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
@@ -50,6 +56,7 @@ public class MainViewController {
 	private LedPanel ledPanel;
 	private Rectangle[][] matrixAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 	private boolean run;
+	private GUIupdater updater = new GUIupdater(this);
 
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
@@ -74,9 +81,20 @@ public class MainViewController {
 			e.printStackTrace();
 		}
 		loopingAnimations = new LoopingAnimations();
-		EditLoopingAnimationsController editLoopingAnimationController = loader.getController();
+		editLoopingAnimationController = loader.getController();
 		editLoopingAnimationController.setLoopingAnimations(loopingAnimations);
 		editLoopingAnimationController.setMainViewController(this);
+
+		mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+				if (t1 == AnimationsTab) {
+					editLoopingAnimationController.setRunPreview(true);
+				} else {
+					editLoopingAnimationController.setRunPreview(false);
+				}
+			}
+		});
 	}
 
 	private void initTilePane() {
@@ -93,6 +111,7 @@ public class MainViewController {
 				matrixAnchorPane.getChildren().add(pixel);
 			}
 		}
+		updater.start();
 	}
 
 	public void initComPort() {
@@ -120,8 +139,7 @@ public class MainViewController {
 	private void handlePlay() {
 		FrameByFrameButton.setDisable(true);
 		run = true;
-		GUIupdater updater = new GUIupdater(this);
-		updater.start();
+		updater.run();
 	}
 
 	@FXML
