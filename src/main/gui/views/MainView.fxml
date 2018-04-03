@@ -31,12 +31,12 @@
                         <Separator prefHeight="1.0" prefWidth="411.0" />
                         <HBox alignment="CENTER" prefHeight="37.0" prefWidth="810.0">
                            <children>
-                              <VBox>
+                              <VBox prefHeight="65.0" prefWidth="386.0">
                                  <children>
                                     <Label text="USB Connection :" />
                                     <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="386.0">
                                        <children>
-                                          <ComboBox fx:id="ComPortComboBox" prefWidth="150.0" promptText="Available Ports" />
+                                          <ComboBox fx:id="ComPortComboBox" prefHeight="25.0" prefWidth="122.0" promptText="Available Ports" />
                                           <Button mnemonicParsing="false" onAction="#handleConnect" text="Connect">
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />
@@ -48,6 +48,7 @@
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </HBox>
+                                    <Button mnemonicParsing="false" onAction="#initComPort" text="Refresh" />
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" top="10.0" />
@@ -84,7 +85,7 @@
                   </VBox>
                </bottom>
                <center>
-                  <AnchorPane fx:id="matrixAnchorPane" maxHeight="450.0" maxWidth="900.0" minWidth="900.0" prefHeight="450.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                  <AnchorPane fx:id="matrixAnchorPane" maxHeight="450.0" maxWidth="900.0" minHeight="450.0" minWidth="900.0" prefHeight="450.0" prefWidth="900.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </BorderPane.margin>
