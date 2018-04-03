@@ -70,6 +70,7 @@ public class EditLoopingAnimationsController {
 
 	public void setMainViewController(MainViewController mainViewController) {
 		this.mainViewController = mainViewController;
+		handleLaunch();
 	}
 
 	public void displayConfigPanes() {
@@ -91,6 +92,9 @@ public class EditLoopingAnimationsController {
 					updater = new GUIupdater(this);
 					updater.start();
 				}
+			} else {
+				ledPanel.setCurrentAnimation(null);
+				LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 			}
 		});
 	}

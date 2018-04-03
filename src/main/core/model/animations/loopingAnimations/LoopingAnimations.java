@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
+import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.AnimationTime;
 import main.gui.views.settings.LoopingAnimationsSettingsController;
@@ -22,11 +23,15 @@ public class LoopingAnimations implements Animation {
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		getAnimation(new AnimationTime(time, 0)).setNextPicture(ledMatrix, matrixWidth, matrixHeight);
-		if (time >= end) {
-			time = 0;
+		if (animations.size() > 0) {
+			getAnimation(new AnimationTime(time, 0)).setNextPicture(ledMatrix, matrixWidth, matrixHeight);
+			if (time >= end) {
+				time = 0;
+			} else {
+				time++;
+			}
 		} else {
-			time++;
+			LedPanel.setBlackPanel(ledMatrix);
 		}
 	}
 
