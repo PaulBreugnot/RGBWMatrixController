@@ -9,31 +9,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.core.model.animations.Animation;
-import main.core.model.animations.circularWave.CircularWave;
-import main.core.model.animations.diamondWave.DiamondWave;
-import main.core.model.animations.fan.Fan;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
-import main.core.model.animations.pixelRain.PixelRain;
-import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
 
 public class MainViewController {
 
 	@FXML
-	private TilePane tilePane;
+	private AnchorPane matrixAnchorPane;
 
 	@FXML
 	private Button PlayButton;
@@ -43,18 +34,6 @@ public class MainViewController {
 
 	@FXML
 	private AnchorPane ConfigAnchorPane;
-
-	@FXML
-	private ListView<Animation> RandomListView;
-
-	@FXML
-	private ListView<Animation> GeometricListView;
-
-	@FXML
-	private ListView<Animation> TextListView;
-
-	@FXML
-	private ListView<Animation> SpecialListView;
 
 	@FXML
 	private ComboBox<String> ComPortComboBox;
@@ -68,18 +47,12 @@ public class MainViewController {
 
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
 
-	public static ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
-	public static ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
-	public static ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
-	public static ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
-
 	private LedPanel ledPanel;
-	private Rectangle[][] tilePaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
+	private Rectangle[][] matrixAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 	private boolean run;
 
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
-		setListViews();
 		initAnimationsTab();
 		initTilePane();
 		initComPort();
@@ -87,84 +60,6 @@ public class MainViewController {
 
 	public LedPanel getLedPanel() {
 		return ledPanel;
-	}
-
-	private void setListViews() {
-
-		ListGeometricEffects.add(new PixelRain());
-		ListGeometricEffects.add(new CircularWave());
-		ListGeometricEffects.add(new DiamondWave());
-		ListGeometricEffects.add(new Fan());
-
-		ListTextEffects.add(new ScrollingText());
-
-		ListSpecialEffects.add(new LoopingAnimations());
-
-		RandomListView.setItems(ListRandomEffects);
-		GeometricListView.setItems(ListGeometricEffects);
-		TextListView.setItems(ListTextEffects);
-		SpecialListView.setItems(ListSpecialEffects);
-
-		RandomListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				GeometricListView.getSelectionModel().clearSelection();
-				TextListView.getSelectionModel().clearSelection();
-				SpecialListView.getSelectionModel().clearSelection();
-				handleStop();
-				try {
-					setAnimation(newSelection);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
-		GeometricListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				RandomListView.getSelectionModel().clearSelection();
-				TextListView.getSelectionModel().clearSelection();
-				SpecialListView.getSelectionModel().clearSelection();
-				handleStop();
-				try {
-					setAnimation(newSelection);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
-		TextListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				GeometricListView.getSelectionModel().clearSelection();
-				RandomListView.getSelectionModel().clearSelection();
-				SpecialListView.getSelectionModel().clearSelection();
-				handleStop();
-				try {
-					setAnimation(newSelection);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
-		SpecialListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
-				GeometricListView.getSelectionModel().clearSelection();
-				TextListView.getSelectionModel().clearSelection();
-				RandomListView.getSelectionModel().clearSelection();
-				handleStop();
-				try {
-					setAnimation(newSelection);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
 	}
 
 	private void initAnimationsTab() {
@@ -185,20 +80,17 @@ public class MainViewController {
 	}
 
 	private void initTilePane() {
-		tilePane.setOrientation(Orientation.HORIZONTAL);
-		tilePane.setPrefRows(LedPanel.MATRIX_HEIGHT);
-		tilePane.setPrefColumns(LedPanel.MATRIX_WIDTH);
-		tilePane.setPrefTileHeight(tilePane.getPrefHeight() / LedPanel.MATRIX_HEIGHT - 1);
-		tilePane.setPrefTileWidth(tilePane.getPrefWidth() / LedPanel.MATRIX_WIDTH - 1);
-
+		double tileWidth = matrixAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
+		double tileHeight = matrixAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
 		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				Rectangle pixel = new Rectangle(tilePane.getPrefWidth() / LedPanel.MATRIX_WIDTH,
-						tilePane.getPrefHeight() / LedPanel.MATRIX_HEIGHT);
+				Rectangle pixel = new Rectangle(tileWidth, tileHeight);
 				pixel.setStroke(Color.BLACK);
 				pixel.setFill(Color.WHITE);
-				tilePaneContent[i][j] = pixel;
-				tilePane.getChildren().add(pixel);
+				matrixAnchorPaneContent[i][j] = pixel;
+				AnchorPane.setTopAnchor(pixel, (LedPanel.MATRIX_HEIGHT - 1 - i) * tileHeight);
+				AnchorPane.setLeftAnchor(pixel, j * tileWidth);
+				matrixAnchorPane.getChildren().add(pixel);
 			}
 		}
 	}
@@ -216,16 +108,10 @@ public class MainViewController {
 		}
 	}
 
-	private void setAnimation(Animation animation) throws IOException {
-		ledPanel.setCurrentAnimation(animation);
-		ConfigAnchorPane.getChildren().clear();
-		animation.setAnimationSettings(ConfigAnchorPane);
-	}
-
 	private void displayMatrix() {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				tilePaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getDisplayColor());
+				matrixAnchorPaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getDisplayColor());
 			}
 		}
 	}

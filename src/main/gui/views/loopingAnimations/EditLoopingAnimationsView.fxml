@@ -14,27 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="810.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.loopingAnimations.EditLoopingAnimationsController">
-   <bottom>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="810.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleLaunch" prefHeight="25.0" prefWidth="68.0" text="Launch">
-                     <HBox.margin>
-                        <Insets right="50.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete All">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="455.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -121,6 +100,6 @@
       </VBox>
    </left>
    <center>
-      <ListView fx:id="LoopItems" orientation="HORIZONTAL" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="LoopItems" minHeight="600.0" orientation="HORIZONTAL" prefHeight="600.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

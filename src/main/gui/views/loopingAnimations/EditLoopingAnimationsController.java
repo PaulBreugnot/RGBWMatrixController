@@ -14,7 +14,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
+import main.core.model.animations.circularWave.CircularWave;
+import main.core.model.animations.diamondWave.DiamondWave;
+import main.core.model.animations.fan.Fan;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
+import main.core.model.animations.pixelRain.PixelRain;
+import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 import main.core.util.AnimationTime;
 import main.gui.views.MainViewController;
@@ -43,6 +48,11 @@ public class EditLoopingAnimationsController {
 	private ListView<AnchorPane> LoopItems;
 
 	public static ObservableList<AnchorPane> LoopItemsList = FXCollections.observableArrayList();
+
+	public static ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
+	public static ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
 
 	private HashMap<AnchorPane, Animation> SettingsControllersMap = new HashMap<>();
 
@@ -100,10 +110,20 @@ public class EditLoopingAnimationsController {
 	}
 
 	private void setListViews() {
-		RandomListView.setItems(MainViewController.ListRandomEffects);
-		GeometricListView.setItems(MainViewController.ListGeometricEffects);
-		TextListView.setItems(MainViewController.ListTextEffects);
-		SpecialListView.setItems(MainViewController.ListSpecialEffects);
+
+		ListGeometricEffects.add(new PixelRain());
+		ListGeometricEffects.add(new CircularWave());
+		ListGeometricEffects.add(new DiamondWave());
+		ListGeometricEffects.add(new Fan());
+
+		ListTextEffects.add(new ScrollingText());
+
+		ListSpecialEffects.add(new LoopingAnimations());
+
+		RandomListView.setItems(ListRandomEffects);
+		GeometricListView.setItems(ListGeometricEffects);
+		TextListView.setItems(ListTextEffects);
+		SpecialListView.setItems(ListSpecialEffects);
 
 		RandomListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
