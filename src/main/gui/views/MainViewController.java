@@ -63,6 +63,9 @@ public class MainViewController {
 		initAnimationsTab();
 		initTilePane();
 		initComPort();
+		if (!ledPanel.isConnected()) {
+			ledPanel.setWiFiConnection("http://192.168.1.1/");
+		}
 	}
 
 	public LedPanel getLedPanel() {
@@ -163,7 +166,7 @@ public class MainViewController {
 	private void handleConnect() {
 		String comName = ComPortComboBox.getSelectionModel().getSelectedItem();
 		if (comName != null) {
-			ledPanel.setConnection(comName);
+			ledPanel.setUSBConnection(comName);
 			if (ledPanel.isConnected()) {
 				ErrorLabel.setText("Connected to " + comName);
 			} else {
