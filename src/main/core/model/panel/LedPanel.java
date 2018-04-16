@@ -1,10 +1,17 @@
 package main.core.model.panel;
 
+import java.io.IOException;
+
 import main.com.SendArray;
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
+import main.http.HttpPostRequest;
 
 public class LedPanel {
+
+	private enum ConMethod {
+		USB, WIFI, NONE
+	};
 
 	public static final int MATRIX_WIDTH = 32;
 	public static final int MATRIX_HEIGHT = 16;
@@ -12,9 +19,10 @@ public class LedPanel {
 	public static final double MAX_INTENSITY = 0.1;
 
 	private SendArray sendArray;
+	private HttpPostRequest httpPostRequest;
 	private Animation currentAnimation;
 	private int fps;
-	private boolean isConnected = false;
+	private ConMethod conMethod = ConMethod.NONE;
 
 	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 
@@ -22,13 +30,20 @@ public class LedPanel {
 		this.fps = fps;
 	}
 
-	public void setConnection(String portCom) {
+	public void setUSBConnection(String portCom) {
 		sendArray = new SendArray(portCom);
-		isConnected = sendArray.isConnectionSet();
+		if (sendArray.isConnectionSet()) {
+			conMethod = ConMethod.USB;
+		}
+	}
+
+	public void setWiFiConnection(String url) throws IOException {
+		httpPostRequest = new HttpPostRequest(url);
+		conMethod = ConMethod.WIFI;
 	}
 
 	public boolean isConnected() {
-		return isConnected;
+		return conMethod == ConMethod.NONE;
 	}
 
 	public Animation getCurrentAnimation() {
@@ -53,8 +68,19 @@ public class LedPanel {
 
 	public void updateDisplay() {
 		currentAnimation.setNextPicture(LedMatrix, MATRIX_WIDTH, MATRIX_HEIGHT);
-		if (isConnected) {
+		switch (conMethod) {
+		case USB:
 			sendArray.send(LedMatrix);
+			break;
+		case WIFI:
+			try {
+				httpPostRequest.sendPost(LedMatrix);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
