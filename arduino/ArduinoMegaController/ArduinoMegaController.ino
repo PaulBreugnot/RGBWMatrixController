@@ -19,11 +19,12 @@ uint8_t ref=1;
 
 void setup()
 {
+  Serial.begin(9600);
 
   pinMode(PIN1, OUTPUT);
   pinMode(PIN2, OUTPUT);
   pinMode(PINALIM,INPUT);
-  Serial.begin(1000000);
+  Serial1.begin(921600);
   strip1.setBrightness(BRIGHTNESS);
   strip1.begin();
   strip2.setBrightness(BRIGHTNESS);
@@ -41,11 +42,11 @@ void setup()
 void loop()
 { 
     if (digitalRead(PINALIM)){
+       Serial.print("Pin Alim");
       
-    if (Serial.available()) 
+    if (Serial1.available()) 
       {
-       
-      check=Serial.read();
+      check=Serial1.read();
       
       
       if (check == ref ){
@@ -54,7 +55,7 @@ void loop()
         
 
  
-        Serial.readBytes(leds, NUM_LEDS*2*4); 
+        Serial1.readBytes(leds, NUM_LEDS*2*4); 
        
         
         
