@@ -1,23 +1,14 @@
 local SSID = "NodeMCU"
 local SSID_PASSWORD = "12345678"
  
-local function http_header(conn)
-  conn:send('HTTP/1.1 200 OK\n\n')
-  conn:send('<!DOCTYPE HTML>\n')
-  conn:send('<html>\n')
-  conn:send('<head><meta  content="text/html; charset=utf-8">\n')
-  conn:send('<title>ESP8266 znouza test</title></head>\n')
-end
- 
 local function connect (conn, data)
    local query_data
  
    conn:on ("receive",
       function (cn, req_data)
          query_data = get_http_req (req_data)
-         print (query_data["METHOD"] .. " " .. " " .. query_data["User-Agent"])
-         print(query_data["value"])
-         uart.write(0, query_data["value"])
+         --print (query_data["METHOD"] .. " " .. " " .. query_data["User-Agent"])
+         uart.write(1, query_data["matrixValues"])
       end)
 end
  
@@ -67,8 +58,12 @@ cfg.netmask="255.255.255.0";
 cfg.gateway="192.168.1.1";
 wifi.ap.setip(cfg)
 
-uart.setup(0, 921600, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
- 
+print("Set up UART config")
+uart.setup(1, 9600, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
+--while 1 do
+--    uart.write(1, 241)
+--    tmr.delay(1000000)
+--end
 -- Create the httpd server
 svr = net.createServer (net.TCP, 30)
  
