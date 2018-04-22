@@ -19,7 +19,7 @@ uint8_t ref=1;
 
 void setup()
 {
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   pinMode(PIN1, OUTPUT);
   pinMode(PIN2, OUTPUT);
@@ -42,7 +42,6 @@ void setup()
 void loop()
 { 
     if (digitalRead(PINALIM)){
-       Serial.print("Pin Alim");
       
     if (Serial1.available()) 
       {
