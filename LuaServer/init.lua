@@ -2,13 +2,22 @@ local SSID = "NodeMCU"
 local SSID_PASSWORD = "12345678"
  
 local function connect (conn, data)
-   local query_data
  
    conn:on ("receive",
       function (cn, req_data)
-         query_data = get_http_req (req_data)
-         --print (query_data["METHOD"] .. " " .. " " .. query_data["User-Agent"])
-         uart.write(1, query_data["matrixValues"])
+        local query_data = get_http_req (req_data)
+        --print (query_data["METHOD"] .. " " .. " " .. query_data["User-Agent"])
+        if query_data["matrixValues"] ~= nil then
+           uart.write(1, query_data["matrixValues"])
+        end
+        --print("Send response")
+        cn:send('HTTP/1.1 200 OK\n\n', 
+        function()
+            print("close cn ")
+            cn:close()
+        end)
+        --print("Close cn")
+        --cn:close()
       end)
 end
  
@@ -59,7 +68,7 @@ cfg.gateway="192.168.1.1";
 wifi.ap.setip(cfg)
 
 print("Set up UART config")
-uart.setup(1, 9600, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
+uart.setup(1, 921600, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
 --while 1 do
 --    uart.write(1, 241)
 --    tmr.delay(1000000)

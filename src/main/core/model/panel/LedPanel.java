@@ -43,7 +43,7 @@ public class LedPanel {
 	}
 
 	public boolean isConnected() {
-		return conMethod == ConMethod.NONE;
+		return conMethod != ConMethod.NONE;
 	}
 
 	public Animation getCurrentAnimation() {
@@ -64,6 +64,10 @@ public class LedPanel {
 
 	public RGBWPixel[][] getLedMatrix() {
 		return LedMatrix;
+	}
+	
+	public ConMethod getConMethod() {
+		return conMethod;
 	}
 
 	public void updateDisplay() {

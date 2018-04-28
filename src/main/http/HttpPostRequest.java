@@ -10,21 +10,24 @@ import main.core.model.pixel.RGBWPixel;
 
 public class HttpPostRequest {
 
-	private HttpURLConnection con;
+	URL obj;
 
 	public HttpPostRequest(String url) throws IOException {
-		URL obj = new URL(url);
-		con = (HttpURLConnection) obj.openConnection();
+		obj = new URL(url);
 	}
 
 	// HTTP POST request
 	public void sendPost(RGBWPixel[][] LedMatrix) throws Exception {
-
+		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		System.out.println("Sending post");
 		// add reuqest header
 		con.setRequestMethod("POST");
-		con.setRequestProperty("matrix", new String(convertTo1DCharArray(LedMatrix)));
+		con.setRequestProperty("matrixValues", new String(convertTo1DCharArray(LedMatrix)));
 		con.setDoOutput(true);
 
+		
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 		wr.flush();
 		wr.close();
@@ -35,7 +38,7 @@ public class HttpPostRequest {
 	}
 
 	private char[] convertTo1DCharArray(RGBWPixel[][] LedMatrix) {
-		char[] charArray = new char[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH * 4 + 1];
+		char[] charArray = new char[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH * 4 + 1 + 1];
 		char initialChar = (char) 0b00000001;
 		charArray[0] = initialChar;
 		boolean readingDirection = true;
@@ -54,6 +57,8 @@ public class HttpPostRequest {
 			}
 			readingDirection = !readingDirection;
 		}
+		char finalChar = (char) 0b00000000;
+		charArray[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH * 4 + 1] = finalChar;
 		return charArray;
 	}
 
