@@ -11,13 +11,13 @@ local function connect (conn, data)
            uart.write(1, query_data["matrixValues"])
         end
         --print("Send response")
-        cn:send('HTTP/1.1 200 OK\n\n', 
+        --[[cn:send('HTTP/1.1 200 OK\n\n', 
         function()
             print("close cn ")
             cn:close()
-        end)
-        --print("Close cn")
-        --cn:close()
+        end)--]]
+        print("Close cn")
+        cn:close()
       end)
 end
  

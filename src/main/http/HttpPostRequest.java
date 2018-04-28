@@ -32,8 +32,7 @@ public class HttpPostRequest {
 		wr.flush();
 		wr.close();
 
-		int responseCode = con.getResponseCode();
-		System.out.println("Response Code : " + responseCode);
+		con.getResponseCode();
 
 	}
 
