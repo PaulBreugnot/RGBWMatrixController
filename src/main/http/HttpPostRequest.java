@@ -21,20 +21,41 @@ public class HttpPostRequest {
 		
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		
-		System.out.println("Sending post");
+		//System.out.println("Sending post");
 		// add reuqest header
 		con.setRequestMethod("POST");
-		con.setRequestProperty("matrixValues", new String(convertTo1DCharArray(LedMatrix)));
+		con.setRequestProperty("matrixValues", new String(shortConvertTo1DCharArray(LedMatrix)));
 		con.setDoOutput(true);
-
+		System.out.println(new String(shortConvertTo1DCharArray(LedMatrix)).length());
 		
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 		wr.flush();
 		wr.close();
-
 		con.getResponseCode();
 
 	}
+
+	private char[] shortConvertTo1DCharArray(RGBWPixel[][] LedMatrix) {
+		char[] charArray = new char[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH + 1 + 1];
+		char initialChar = (char) 0b00000001;
+		charArray[0] = initialChar;
+		boolean readingDirection = true;
+	for (int line = 0; line < LedPanel.MATRIX_HEIGHT; line++) {
+		for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
+			RGBWPixel pixelToSend;
+			if (readingDirection) {
+				pixelToSend = LedMatrix[line][column];
+			} else {
+				pixelToSend = LedMatrix[line][LedPanel.MATRIX_WIDTH - column - 1];
+			}
+			charArray[1 + line * LedPanel.MATRIX_WIDTH + column] = (char) pixelToSend.getRed();
+		}
+		readingDirection = !readingDirection;
+	}
+	char finalChar = (char) 0b00000000;
+	charArray[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH + 1] = finalChar;
+	return charArray;
+}
 
 	private char[] convertTo1DCharArray(RGBWPixel[][] LedMatrix) {
 		char[] charArray = new char[LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH * 4 + 1 + 1];
