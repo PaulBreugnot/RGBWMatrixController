@@ -11,7 +11,7 @@ public class MainTest {
 	}
 
 	public static LedPanel getAppConfig() {
-		LedPanel ledPanel = new LedPanel(25);
+		LedPanel ledPanel = new LedPanel(10);
 		LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 
 		return ledPanel;

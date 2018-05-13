@@ -1,11 +1,13 @@
 package main.core.model.panel;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
 import main.output.com.SendArray;
 import main.output.http.HttpPostRequest;
+import main.output.udp.SendUDP;
 
 public class LedPanel {
 
@@ -19,7 +21,7 @@ public class LedPanel {
 	public static final double MAX_INTENSITY = 0.1;
 
 	private SendArray sendArray;
-	private HttpPostRequest httpPostRequest;
+	private SendUDP sendUDP;
 	private Animation currentAnimation;
 	private int fps;
 	private ConMethod conMethod = ConMethod.NONE;
@@ -37,8 +39,8 @@ public class LedPanel {
 		}
 	}
 
-	public void setWiFiConnection(String url) throws IOException {
-		httpPostRequest = new HttpPostRequest(url);
+	public void setWiFiConnection() throws SocketException {
+		sendUDP = new SendUDP();
 		conMethod = ConMethod.WIFI;
 	}
 
@@ -78,7 +80,7 @@ public class LedPanel {
 			break;
 		case WIFI:
 			try {
-				httpPostRequest.sendPost(LedMatrix);
+				sendUDP.sendUDP(LedMatrix);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -64,7 +64,7 @@ public class MainViewController {
 		initTilePane();
 		initComPort();
 		if (!ledPanel.isConnected()) {
-			ledPanel.setWiFiConnection("http://192.168.1.1/");
+			ledPanel.setWiFiConnection();
 		}
 		System.out.println("Connection method : " + ledPanel.getConMethod());
 	}
