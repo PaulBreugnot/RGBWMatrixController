@@ -2,10 +2,10 @@ package main.core.model.panel;
 
 import java.io.IOException;
 
-import main.com.SendArray;
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
-import main.http.HttpPostRequest;
+import main.output.com.SendArray;
+import main.output.http.HttpPostRequest;
 
 public class LedPanel {
 

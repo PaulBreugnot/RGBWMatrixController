@@ -1,4 +1,4 @@
-package main.com;
+package main.output.com;
 
 import java.io.IOException;
 import java.io.OutputStream;

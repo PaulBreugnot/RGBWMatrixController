@@ -1,4 +1,4 @@
-package main.com;
+package main.output.com;
 
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
