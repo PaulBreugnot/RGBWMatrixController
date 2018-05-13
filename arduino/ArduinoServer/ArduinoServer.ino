@@ -1,6 +1,7 @@
 #include "ESP8266WiFi.h"
 
-#include "httpRequest.h"
+//#include "httpRequest.h"
+#include "httpProcess.h"
 
 #define SSID "NodeMCU"
 #define pw "12345678"
@@ -16,6 +17,7 @@ void setup() {
   server.begin();
 
   Serial.begin(115200);
+  Serial1.begin(921600);
 }
 
 void loop() {
@@ -23,7 +25,7 @@ void loop() {
   // wait for a client (web browser) to connect
   if (client)
   {
-    Serial.println("\n[Client connected]");
+    //Serial.println("\n[Client connected]");
     String headData;
     httpRequest request;
     while (client.connected())
@@ -38,12 +40,8 @@ void loop() {
         {
           httpHead httpHead(headData);
           request.setHttpHead(httpHead);
-          Serial.println(request.getRequest());
-          if (request.getMethod().compareTo("GET") == 0) {
-            client.println("HTTP\1.1 200 OK \n");
-            break;
-          }
-          else {
+          //Serial.println(request.getRequest());
+          if (request.getMethod().compareTo("POST") == 0) {
             //read body
             client.read();
             int contentLength = request.getRequestProperty("Content-Length").toInt();
@@ -57,9 +55,13 @@ void loop() {
             }
             httpBody httpBody(bodyData);
             request.setHttpBody(httpBody);
-            Serial.println(request.getBody());
+            /*for(int i = 7; i < request.getBody().length(); i++){
+            Serial.println((int) request.getBody()[i], BIN);
+            }*/
           }
-          client.println("HTTP\1.1 200 OK \n");
+          String response = process(request);
+          //Serial.println(response);
+          client.println(response);
           break;
         }
       }
@@ -68,7 +70,7 @@ void loop() {
 
     // close the connection:
     client.stop();
-    Serial.println("\n[Client disconnected]");
+    //Serial.println("\n[Client disconnected]");
   }
 }
 

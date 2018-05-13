@@ -44,7 +44,7 @@ class httpRequest {
     String getHeaders();
     String getBody();
     String getRequestProperty(String property);
-    
+    String getRequestVariable(String property);
 };
 
 
