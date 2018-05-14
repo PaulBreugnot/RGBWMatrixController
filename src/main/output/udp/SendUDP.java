@@ -36,7 +36,7 @@ public class SendUDP {
 			
 			DatagramPacket packet2 = new DatagramPacket(buffer, 1025, 1024, address, port);
 			
-			System.out.println("Sending UDP packet 1");
+			System.out.println("Sending UDP packet 2");
 			packet2.setData(buffer, 1025, 1024);
 			System.out.println(packet2.getLength());
 			client.send(packet2);

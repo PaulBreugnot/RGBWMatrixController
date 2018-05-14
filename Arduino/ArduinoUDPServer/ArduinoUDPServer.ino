@@ -23,8 +23,7 @@ void setup() {
 
   Udp.begin(localUdpPort);
 
-  Serial.begin(115200);
-  Serial1.begin(115200);
+  Serial1.begin(1000000);
 }
 
 void loop() {
