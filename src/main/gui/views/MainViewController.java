@@ -102,16 +102,26 @@ public class MainViewController {
 	}
 
 	private void initTilePane() {
-		double tileWidth = matrixAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
-		double tileHeight = matrixAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
+		double tileSize;
+		double xOffset;
+		double yOffset;
+		if (LedPanel.MATRIX_WIDTH <= 2 * LedPanel.MATRIX_HEIGHT) {
+			tileSize = matrixAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
+			xOffset = matrixAnchorPane.getPrefWidth() / 2 - tileSize * LedPanel.MATRIX_WIDTH / 2;
+			yOffset = 0;
+		} else {
+			tileSize = matrixAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
+			xOffset = 0;
+			yOffset = matrixAnchorPane.getPrefHeight() / 2 - tileSize * LedPanel.MATRIX_HEIGHT / 2;
+		}
 		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				Rectangle pixel = new Rectangle(tileWidth, tileHeight);
+				Rectangle pixel = new Rectangle(tileSize, tileSize);
 				pixel.setStroke(Color.BLACK);
 				pixel.setFill(Color.WHITE);
 				matrixAnchorPaneContent[i][j] = pixel;
-				AnchorPane.setTopAnchor(pixel, (LedPanel.MATRIX_HEIGHT - 1 - i) * tileHeight);
-				AnchorPane.setLeftAnchor(pixel, j * tileWidth);
+				AnchorPane.setTopAnchor(pixel, yOffset + (LedPanel.MATRIX_HEIGHT - 1 - i) * tileSize);
+				AnchorPane.setLeftAnchor(pixel, xOffset + j * tileSize);
 				matrixAnchorPane.getChildren().add(pixel);
 			}
 		}
@@ -127,7 +137,7 @@ public class MainViewController {
 		ComPortComboBox.setItems(ListComPort);
 		if (ListComPort.size() == 1) {
 			ComPortComboBox.getSelectionModel().selectFirst();
-			//handleConnect();
+			// handleConnect();
 		}
 	}
 

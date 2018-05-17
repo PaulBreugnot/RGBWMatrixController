@@ -205,16 +205,26 @@ public class EditLoopingAnimationsController {
 	}
 
 	private void initPreviewAnchorPane() {
-		double tileWidth = previewAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
-		double tileHeight = previewAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
+		double tileSize;
+		double xOffset;
+		double yOffset;
+		if (LedPanel.MATRIX_WIDTH <= 2 * LedPanel.MATRIX_HEIGHT) {
+			tileSize = previewAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
+			xOffset = previewAnchorPane.getPrefWidth() / 2 - tileSize * LedPanel.MATRIX_WIDTH / 2;
+			yOffset = 0;
+		} else {
+			tileSize = previewAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
+			xOffset = 0;
+			yOffset = previewAnchorPane.getPrefHeight() / 2 - tileSize * LedPanel.MATRIX_HEIGHT / 2;
+		}
 		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				Rectangle pixel = new Rectangle(tileWidth, tileHeight);
+				Rectangle pixel = new Rectangle(tileSize, tileSize);
 				pixel.setStroke(Color.BLACK);
 				pixel.setFill(Color.WHITE);
 				previewAnchorPaneContent[i][j] = pixel;
-				AnchorPane.setTopAnchor(pixel, (LedPanel.MATRIX_HEIGHT - 1 - i) * tileHeight);
-				AnchorPane.setLeftAnchor(pixel, j * tileWidth);
+				AnchorPane.setTopAnchor(pixel, yOffset + (LedPanel.MATRIX_HEIGHT - 1 - i) * tileSize);
+				AnchorPane.setLeftAnchor(pixel, xOffset + j * tileSize);
 				previewAnchorPane.getChildren().add(pixel);
 			}
 		}

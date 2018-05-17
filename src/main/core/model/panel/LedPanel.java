@@ -1,12 +1,10 @@
 package main.core.model.panel;
 
-import java.io.IOException;
 import java.net.SocketException;
 
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
 import main.output.com.SendArray;
-import main.output.http.HttpPostRequest;
 import main.output.udp.SendUDP;
 
 public class LedPanel {
@@ -15,8 +13,8 @@ public class LedPanel {
 		USB, WIFI, NONE
 	};
 
-	public static final int MATRIX_WIDTH = 32;
-	public static final int MATRIX_HEIGHT = 16;
+	public static int MATRIX_WIDTH = 64;
+	public static int MATRIX_HEIGHT = 64;
 
 	public static final double MAX_INTENSITY = 0.1;
 
@@ -67,7 +65,7 @@ public class LedPanel {
 	public RGBWPixel[][] getLedMatrix() {
 		return LedMatrix;
 	}
-	
+
 	public ConMethod getConMethod() {
 		return conMethod;
 	}
