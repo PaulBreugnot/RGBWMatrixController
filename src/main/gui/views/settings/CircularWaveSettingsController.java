@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
-import main.core.model.animations.Animation;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.panel.LedPanel;
 
@@ -70,12 +69,18 @@ public class CircularWaveSettingsController {
 			}
 		});
 
+		xCenterSlider.setMin(0);
+		xCenterSlider.setMax(LedPanel.MATRIX_WIDTH - 1);
+		xCenterSlider.setValue((LedPanel.MATRIX_WIDTH - 1) / 2);
 		xCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				circularWave.setXCenter((int) Math.floor((double) new_val));
 			}
 		});
 
+		yCenterSlider.setMin(0);
+		yCenterSlider.setMax(LedPanel.MATRIX_HEIGHT - 1);
+		yCenterSlider.setValue((LedPanel.MATRIX_HEIGHT - 1) / 2);
 		yCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				circularWave.setYCenter((int) Math.floor((double) new_val));

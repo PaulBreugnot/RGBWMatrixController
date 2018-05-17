@@ -79,13 +79,13 @@
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Slider max="31.0" value="16.0" fx:id="xCenterSlider" />
+                                    <Slider max="0.0" fx:id="xCenterSlider" />
                                     <Label text="yCenter :">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Slider fx:id="yCenterSlider" max="15.0" value="8.0" />
+                                    <Slider fx:id="yCenterSlider" max="0.0" />
                                  </children>
                               </VBox>
                            </children>

@@ -33,8 +33,8 @@ public class DiamondWave implements Animation {
 	private double sinProgress;
 
 	private double ratio = 1;
-	private int xCenter = 16;
-	private int yCenter = 8;
+	private int xCenter = (LedPanel.MATRIX_WIDTH - 1) / 2;
+	private int yCenter = (LedPanel.MATRIX_HEIGHT - 1) / 2;
 
 	private TreeSet<Diamond> diamonds = new TreeSet<>();
 

@@ -20,8 +20,8 @@ public class CircularWave implements Animation {
 	private WaveMode waveMode = WaveMode.SATURATION;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private int xCenter = 16;
-	private int yCenter = 8;
+	private int xCenter = (LedPanel.MATRIX_WIDTH - 1) / 2;
+	private int yCenter = (LedPanel.MATRIX_HEIGHT - 1) / 2;
 	private double intensity = LedPanel.MAX_INTENSITY;
 	private double waveLength = 50;
 	private double contrast = 1;

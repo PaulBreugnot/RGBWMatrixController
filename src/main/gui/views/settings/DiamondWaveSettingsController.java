@@ -69,12 +69,18 @@ public class DiamondWaveSettingsController {
 			}
 		});
 
+		xCenterSlider.setMin(0);
+		xCenterSlider.setMax(LedPanel.MATRIX_WIDTH - 1);
+		xCenterSlider.setValue((LedPanel.MATRIX_WIDTH - 1) / 2);
 		xCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				diamondWave.setXCenter((int) Math.floor((double) new_val));
 			}
 		});
 
+		yCenterSlider.setMin(0);
+		yCenterSlider.setMax(LedPanel.MATRIX_HEIGHT - 1);
+		yCenterSlider.setValue((LedPanel.MATRIX_HEIGHT - 1) / 2);
 		yCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				diamondWave.setYCenter((int) Math.floor((double) new_val));
