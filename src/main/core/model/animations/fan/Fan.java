@@ -20,8 +20,8 @@ public class Fan implements Animation {
 	private WaveMode waveMode = WaveMode.BRIGHTNESS;
 	private double hueColor = 0;
 	private int whiteLevel = 0;
-	private int xCenter = 16;
-	private int yCenter = 8;
+	private int xCenter = (LedPanel.MATRIX_WIDTH - 1) / 2;
+	private int yCenter = (LedPanel.MATRIX_HEIGHT - 1) / 2;
 	private double intensity = LedPanel.MAX_INTENSITY;
 	private double fanNumber = 4;
 	private double contrast = 1;
@@ -159,7 +159,7 @@ public class Fan implements Animation {
 		while (angle > 2 * Math.PI / fanNumber) {
 			angle -= 2 * Math.PI / fanNumber;
 		}
-		return (angle / (2 * Math.PI / fanNumber));
+		return (1 - angle / (2 * Math.PI / fanNumber));
 	}
 
 	@Override
