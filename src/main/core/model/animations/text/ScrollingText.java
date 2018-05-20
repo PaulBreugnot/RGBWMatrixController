@@ -145,8 +145,8 @@ public class ScrollingText implements Animation {
 	}
 
 	private void readTextArray(RGBWPixel[][] ledMatrix) {
-		for (int line = 0; line < 16; line++) {
-			for (int column = 0; column < 32; column++) {
+		for (int line = 0; line < LedPanel.MATRIX_HEIGHT; line++) {
+			for (int column = 0; column < LedPanel.MATRIX_WIDTH; column++) {
 				ledMatrix[line][column] = textArray[line][(column + offset) % textImageLength];
 			}
 		}

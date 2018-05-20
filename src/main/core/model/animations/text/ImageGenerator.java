@@ -7,19 +7,20 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import main.core.model.panel.LedPanel;
 
 public abstract class ImageGenerator {
 
 	public static Image convertText(String textToConvert, Font font, Color color) {
-		Canvas canvas = new Canvas(textToConvert.length() * (int) font.getSize(), 16);
+		Canvas canvas = new Canvas(textToConvert.length() * (int) font.getSize(), LedPanel.MATRIX_HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, textToConvert.length() * (int) font.getSize(), 16);
+		gc.fillRect(0, 0, textToConvert.length() * (int) font.getSize(), LedPanel.MATRIX_HEIGHT);
 		gc.setFill(color);
 		gc.setFont(font);
-		gc.fillText(textToConvert, 2, 14);
+		gc.fillText(textToConvert, 2, LedPanel.MATRIX_HEIGHT - 2);
 
-		WritableImage image = new WritableImage(textToConvert.length() * (int) font.getSize(), 16);
+		WritableImage image = new WritableImage(textToConvert.length() * (int) font.getSize(), LedPanel.MATRIX_HEIGHT);
 		canvas.snapshot(null, image);
 		// Image truncatedImage = TruncateImage(image, backGround);
 

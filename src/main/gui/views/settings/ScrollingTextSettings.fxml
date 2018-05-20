@@ -79,7 +79,7 @@
                                     <Label prefHeight="17.0" prefWidth="212.0" text="Awesome Fonts!" />
                                     <ComboBox fx:id="EmbeddedFontsComboBox" prefHeight="25.0" prefWidth="224.0" />
                                     <Label prefHeight="17.0" prefWidth="217.0" text="Font Size :" />
-                                    <Slider fx:id="SizeSlider" max="20.0" min="4.0" value="19.0" />
+                                    <Slider fx:id="SizeSlider" max="40.0" min="4.0" value="19.0" />
                                  </children>
                               </VBox>
                            </children>
