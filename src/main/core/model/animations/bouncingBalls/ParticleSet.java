@@ -19,9 +19,10 @@ public class ParticleSet {
 		this.edges = edges;
 	}
 
-	public void progress() {
+	public void progress(double deltaT) {
 		for (Particle particle : particles) {
-
+			particle.edgeCollisions(edges, deltaT);
+			particle.progress(deltaT);
 		}
 	}
 
