@@ -8,6 +8,7 @@ public class Edge {
 	private double yFinal;
 	private double a;
 	private double b;
+	private double alpha;
 
 	public Edge(double xOrigin, double yOrigin, double xFinal, double yFinal) {
 		this.xOrigin = xOrigin;
@@ -16,6 +17,8 @@ public class Edge {
 		this.yFinal = yFinal;
 		a = (yFinal - yOrigin) / (xFinal - xOrigin);
 		b = yOrigin - a * xOrigin;
+		//TODO calc alpha
+		alpha = Math.atan(a);
 	}
 
 	public double getxOrigin() {
@@ -44,6 +47,10 @@ public class Edge {
 
 	public double getyFinal() {
 		return yFinal;
+	}
+	
+	public double getAlpha() {
+		return alpha;
 	}
 
 	public void setyFinal(double yFinal) {

@@ -54,8 +54,12 @@ public class Particle {
 
 	}
 
-	public void edgeCollisions(ArrayList<Edge> edges) {
-
+	public void edgeCollisions(ArrayList<Edge> edges, double deltaT) {
+		for(Edge edge : edges) {
+			if((edge.distanceFromPointToEdge(xPos, yPos)) < speed * deltaT) {
+				bounceEdge(edge.getAlpha());
+			}
+		}
 	}
 
 }
