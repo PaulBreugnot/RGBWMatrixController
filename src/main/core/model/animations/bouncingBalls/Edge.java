@@ -15,10 +15,14 @@ public class Edge {
 		this.yOrigin = yOrigin;
 		this.xFinal = xFinal;
 		this.yFinal = yFinal;
-		a = (yFinal - yOrigin) / (xFinal - xOrigin);
-		b = yOrigin - a * xOrigin;
-		//TODO calc alpha
-		alpha = Math.atan(a);
+		if (xFinal != xOrigin) {
+			a = (yFinal - yOrigin) / (xFinal - xOrigin);
+			b = yOrigin - a * xOrigin;
+			alpha = Math.atan(a);
+		} else {
+			alpha = Math.PI / 2;
+		}
+		// TODO calc alpha
 	}
 
 	public double getxOrigin() {
@@ -48,7 +52,7 @@ public class Edge {
 	public double getyFinal() {
 		return yFinal;
 	}
-	
+
 	public double getAlpha() {
 		return alpha;
 	}
@@ -66,7 +70,17 @@ public class Edge {
 	}
 
 	public double distanceFromPointToEdge(double xPoint, double yPoint) {
-		return Math.abs(a * xPoint - yPoint + b) / Math.sqrt(a * a + 1);
+		if (xFinal != xOrigin) {
+			return Math.abs(a * xPoint - yPoint + b) / Math.sqrt(a * a + 1);
+		} else {
+			return Math.abs(xPoint - xOrigin);
+		}
+
+	}
+
+	@Override
+	public String toString() {
+		return "Edge [xOrigin=" + xOrigin + ", yOrigin=" + yOrigin + ", xFinal=" + xFinal + ", yFinal=" + yFinal + "]";
 	}
 
 }
