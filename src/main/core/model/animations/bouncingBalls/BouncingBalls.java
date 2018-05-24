@@ -11,8 +11,11 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
+	private RGBWPixel[][] bufferLedMatrix;
 
-	public BouncingBalls() {
+	public BouncingBalls(RGBWPixel[][] ledMatrix) {
+		LedPanel.setBlackPanel(ledMatrix);
+		bufferLedMatrix = ledMatrix;
 		particleSet = new ParticleSet.RectangularSet(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT);
 		Random rd = new Random();
 		for (int i = 0; i < 40; i++) {
@@ -26,11 +29,9 @@ public class BouncingBalls implements Animation {
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		LedPanel.setBlackPanel(ledMatrix);
 		particleSet.progress(1);
 		System.out.println("Salut!");
 		for (Particle particle : particleSet.getParticles()) {
-
 			System.out.println("xPos = " + particle.getxPos());
 			System.out.println("yPos = " + particle.getyPos());
 			int x = (int) Math.floor(particle.getxPos());
