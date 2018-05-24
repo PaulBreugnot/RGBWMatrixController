@@ -2,18 +2,20 @@ package main.core.model.animations.bouncingBalls;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Particle {
 
 	private double speed;
 	private double alpha;
-	private double xPos;
-	private double yPos;
+	private SimpleDoubleProperty xPos;
+	private SimpleDoubleProperty yPos;
 
 	public Particle(double speed, double alpha, double xPos, double yPos) {
 		this.speed = speed;
 		this.alpha = alpha;
-		this.xPos = xPos;
-		this.yPos = yPos;
+		this.xPos = new SimpleDoubleProperty(xPos);
+		this.yPos = new SimpleDoubleProperty(yPos);
 	}
 
 	public double getSpeed() {
@@ -33,16 +35,24 @@ public class Particle {
 	}
 
 	public double getxPos() {
+		return xPos.get();
+	}
+
+	public SimpleDoubleProperty xPosProperty() {
 		return xPos;
 	}
 
-	public double getyPos() {
+	public SimpleDoubleProperty yPosProperty() {
 		return yPos;
 	}
 
+	public double getyPos() {
+		return yPos.get();
+	}
+
 	public void progress(double deltaT) {
-		xPos += speed * Math.cos(alpha) * deltaT;
-		yPos += speed * Math.sin(alpha) * deltaT;
+		xPos.set(xPos.get() + speed * Math.cos(alpha) * deltaT);
+		yPos.set(yPos.get() + speed * Math.sin(alpha) * deltaT);
 	}
 
 	public void bounceEdge(double alphaLine) {
@@ -59,8 +69,8 @@ public class Particle {
 
 	public void edgeCollisions(ArrayList<Edge> edges, double deltaT) {
 		for (Edge edge : edges) {
-			System.out.println(edge.distanceFromPointToEdge(xPos, yPos));
-			if ((edge.distanceFromPointToEdge(xPos, yPos)) < speed * deltaT) {
+			System.out.println(edge.distanceFromPointToEdge(xPos.get(), yPos.get()));
+			if ((edge.distanceFromPointToEdge(xPos.get(), yPos.get())) < speed * deltaT) {
 				System.out.println("Collision");
 				bounceEdge(edge.getAlpha());
 			}
