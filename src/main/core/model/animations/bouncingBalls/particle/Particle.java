@@ -56,15 +56,16 @@ public class Particle {
 		yPos.set(yPos.get() + speed * Math.sin(alpha) * deltaT);
 	}
 
-	public void bounceEdge(double alphaLine) {
+	public void bounceEdge(Edge edge) {
 		// By convention 0 <= alphaLine < PI
+		double alphaLine = edge.getAlpha();
 		System.out.println("alpha = " + alpha);
 		System.out.println("alphaLine = " + alphaLine);
 		alpha = 2 * alphaLine - alpha;
 		System.out.println("newAlpha = " + alpha);
 	}
 
-	public static void bounceParticles(Particle p1, Particle p2) {
+	public void bounceParticle(Particle p) {
 
 	}
 
@@ -73,7 +74,7 @@ public class Particle {
 			System.out.println(edge.distanceFromPointToEdge(xPos.get(), yPos.get()));
 			if ((edge.distanceFromPointToEdge(xPos.get(), yPos.get())) < speed * deltaT) {
 				System.out.println("Collision");
-				bounceEdge(edge.getAlpha());
+				bounceEdge(edge);
 			}
 		}
 	}

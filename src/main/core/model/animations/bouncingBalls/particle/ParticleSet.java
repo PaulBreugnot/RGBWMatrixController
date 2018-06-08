@@ -1,13 +1,16 @@
 package main.core.model.animations.bouncingBalls.particle;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
+import main.core.model.animations.bouncingBalls.collision.CollisionEvent;
 import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class ParticleSet {
 
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
+	private PriorityQueue<CollisionEvent> collisions;
 	
 
 	public ParticleSet() {
@@ -32,10 +35,16 @@ public class ParticleSet {
 	}
 
 	public void progress(double deltaT) {
-		for (Particle particle : particles) {
-			particle.edgeCollisions(edges, deltaT);
-			particle.progress(deltaT);
+		int stepCounts = (int) Math.floor(collisions.peek().getTime()/deltaT);
+		//TODO : Don't forget to change the time origin of all collision events
+		for(int i = 0; i < stepCounts; i ++) {
+			//We are safe : no collisions
+			for (Particle particle : particles) {
+				particle.progress(deltaT);
+			}
 		}
+		//Trigger next collision
+		collisions.poll().trigger();
 	}
 
 	public static class RectangularSet extends ParticleSet {
