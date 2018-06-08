@@ -9,25 +9,23 @@ import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class ParticleSet {
 
+	private double time = 0;
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
-	private PriorityQueue<CollisionEvent> collisions;
+	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 
-	public ParticleSet() {
-		particles = new ArrayList<>();
+	private ParticleSet(ArrayList<Particle> particles) {
+		this.particles = particles;
 	}
 
-	public ParticleSet(ArrayList<Edge> edges) {
-		particles = new ArrayList<>();
+	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges) {
+		this.particles = particles;
 		this.edges = edges;
+		initCollisions();
 	}
 
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = edges;
-	}
-
-	public void addParticle(Particle particle) {
-		particles.add(particle);
 	}
 
 	public ArrayList<Particle> getParticles() {
@@ -35,19 +33,19 @@ public class ParticleSet {
 	}
 
 	public void progress(double deltaT) {
-		int stepCounts = (int) Math.floor(collisions.peek().getTime() / deltaT);
-		// TODO : Don't forget to change the time origin of all collision events
-		for (int i = 0; i < stepCounts; i++) {
-			// We are safe : no collisions
-			for (Particle particle : particles) {
-				particle.progress(deltaT);
-			}
+		if (time + deltaT >= collisions.peek().getTime()) {
+			// Trigger next collision
+			collisions.poll().trigger();
 		}
-		// Trigger next collision
-		collisions.poll().trigger();
+
+		// Now we are safe
+		for (Particle particle : particles) {
+			particle.progress(deltaT);
+		}
+		time += deltaT;
 	}
 
-	private void initCollisions() {
+	public void initCollisions() {
 		// Generate all collisions from current particles set
 		checkEdgesCollisions();
 		checkParticleCollisions();
@@ -66,7 +64,8 @@ public class ParticleSet {
 	private void checkEdgesCollisions() {
 		for (Particle p : particles) {
 			for (Edge edge : edges) {
-				double t = edge.distanceFromPointToEdge(p.getxPos(), p.getyPos()) / p.getSpeed();
+				double t = Particle.collisionTime(p, edge);
+				System.out.println(t);
 				collisions.add(new EdgeCollisionEvent(p, edge, t));
 			}
 		}
@@ -75,21 +74,22 @@ public class ParticleSet {
 	private void checkParticleCollisions() {
 		for (int i = 0; i < particles.size(); i++) {
 			Particle p1 = particles.get(i);
-			for (int j = i +1; j < particles.size(); j++) {
+			for (int j = i + 1; j < particles.size(); j++) {
 				Particle p2 = particles.get(j);
 			}
 		}
 	}
 
 	public static class RectangularSet extends ParticleSet {
-		public RectangularSet(int width, int height) {
-			super();
+		public RectangularSet(ArrayList<Particle> particles, int width, int height) {
+			super(particles);
 			ArrayList<Edge> edges = new ArrayList<>();
 			edges.add(new Edge(0, 0, width, 0));
 			edges.add(new Edge(0, 0, 0, height));
 			edges.add(new Edge(0, height, width, height));
 			edges.add(new Edge(width, 0, width, height));
 			setEdges(edges);
+			initCollisions();
 		}
 	}
 

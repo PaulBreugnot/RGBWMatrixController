@@ -68,10 +68,30 @@ public class Particle {
 	public void bounceParticle(Particle p) {
 
 	}
-	
+
 	public static double collisionTime(Particle p1, Particle p2) {
-		
+
 		return 0;
+	}
+
+	public static double collisionTime(Particle p, Edge e) {
+		double xCollision;
+		double yCollision;
+		if (e.a() != Math.tan(p.getAlpha())) {
+			if (e.getAlpha() != Math.PI / 2) {
+				xCollision = (p.getyPos() - e.b()) / (e.a() - Math.tan(p.getAlpha()));
+				yCollision = e.a() * xCollision + e.b();
+			}
+			else {
+				xCollision = e.getxOrigin();
+				yCollision = Math.tan(p.getAlpha()) * xCollision + p.getyPos();
+			}
+			double distance = Math
+					.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
+			return distance / p.getSpeed();
+		} else {
+			return Double.MAX_VALUE;
+		}
 	}
 
 	public void edgeCollisions(ArrayList<Edge> edges, double deltaT) {
