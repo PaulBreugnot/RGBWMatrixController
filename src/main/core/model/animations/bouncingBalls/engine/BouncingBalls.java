@@ -1,4 +1,4 @@
-package main.core.model.animations.bouncingBalls;
+package main.core.model.animations.bouncingBalls.engine;
 
 import java.io.IOException;
 import java.util.Random;
@@ -7,6 +7,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
+import main.core.model.animations.bouncingBalls.particle.Particle;
+import main.core.model.animations.bouncingBalls.particle.ParticleSet;
+import main.core.model.animations.bouncingBalls.particle.ParticleSet.RectangularSet;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 

@@ -1,11 +1,14 @@
-package main.core.model.animations.bouncingBalls;
+package main.core.model.animations.bouncingBalls.particle;
 
 import java.util.ArrayList;
+
+import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class ParticleSet {
 
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
+	
 
 	public ParticleSet() {
 		particles = new ArrayList<>();
