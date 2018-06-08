@@ -68,6 +68,11 @@ public class Particle {
 	public void bounceParticle(Particle p) {
 
 	}
+	
+	public static double collisionTime(Particle p1, Particle p2) {
+		
+		return 0;
+	}
 
 	public void edgeCollisions(ArrayList<Edge> edges, double deltaT) {
 		for (Edge edge : edges) {
