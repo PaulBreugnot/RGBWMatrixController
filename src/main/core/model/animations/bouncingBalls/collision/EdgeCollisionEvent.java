@@ -25,6 +25,7 @@ public class EdgeCollisionEvent extends CollisionEvent {
 	@Override
 	public void trigger() {
 		if (isValid()) {
+			System.out.println("Bounce");
 			particle.bounceEdge(edge);
 		}
 	}

@@ -22,7 +22,6 @@ public class Edge {
 		} else {
 			alpha = Math.PI / 2;
 		}
-		// TODO calc alpha
 	}
 
 	public double getxOrigin() {

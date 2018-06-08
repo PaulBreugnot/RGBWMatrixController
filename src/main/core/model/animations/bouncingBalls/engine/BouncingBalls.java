@@ -1,6 +1,7 @@
 package main.core.model.animations.bouncingBalls.engine;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.beans.value.ChangeListener;
@@ -17,13 +18,14 @@ public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
 	private RGBWPixel[][] bufferLedMatrix;
+	public double deltaT = 1;
 
 	public BouncingBalls(RGBWPixel[][] ledMatrix) {
 		LedPanel.setBlackPanel(ledMatrix);
 		bufferLedMatrix = ledMatrix;
-		particleSet = new ParticleSet.RectangularSet(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT);
+		ArrayList<Particle> particles = new ArrayList<>();
 		Random rd = new Random();
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 1; i++) {
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
 			int x = rd.nextInt(LedPanel.MATRIX_WIDTH - 2) + 1;
 			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
@@ -50,13 +52,13 @@ public class BouncingBalls implements Animation {
 					}
 				}
 			});
-			particleSet.addParticle(particle);
+			particles.add(particle);
 		}
+		particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT);
 	}
-
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		particleSet.progress(1);
+		particleSet.progress(deltaT);
 
 		/*
 		 * for (Particle particle : particleSet.getParticles()) {
