@@ -1,8 +1,9 @@
-package main.core.model.animations.bouncingBalls;
+package main.core.model.animations.bouncingBalls.particle;
 
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class Particle {
 

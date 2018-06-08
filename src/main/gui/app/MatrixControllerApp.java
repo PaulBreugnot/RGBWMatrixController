@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import main.core.model.animations.bouncingBalls.BouncingBalls;
+import main.core.model.animations.bouncingBalls.engine.BouncingBalls;
 import main.core.model.panel.LedPanel;
 import main.gui.views.MainViewController;
 import test.MainTest;
