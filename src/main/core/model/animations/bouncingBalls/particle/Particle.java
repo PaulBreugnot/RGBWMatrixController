@@ -77,18 +77,28 @@ public class Particle {
 	public static double collisionTime(Particle p, Edge e) {
 		double xCollision;
 		double yCollision;
-		if (e.a() != Math.tan(p.getAlpha())) {
+		System.out.println(e);
+		// TODO :Take into account alpha particle
+		if (e.getAlpha() != p.getAlpha()) {
 			if (e.getAlpha() != Math.PI / 2) {
-				xCollision = (p.getyPos() - e.b()) / (e.a() - Math.tan(p.getAlpha()));
+				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
+						/ (e.a() - Math.tan(p.getAlpha()));
 				yCollision = e.a() * xCollision + e.b();
-			}
-			else {
+			} else {
 				xCollision = e.getxOrigin();
 				yCollision = Math.tan(p.getAlpha()) * xCollision + p.getyPos();
 			}
-			double distance = Math
-					.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
-			return distance / p.getSpeed();
+			System.out.println("xCollision : " + xCollision);
+			//System.out.println("yCollision : " + yCollision);
+			if (Math.cos(p.getAlpha()) * (xCollision - p.getxPos()) >= 0
+					&& Math.sin(p.getAlpha()) * (yCollision - p.getyPos()) >= 0) {
+				double distance = Math
+						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
+				//System.out.println("distance : " + distance);
+				return distance / p.getSpeed();
+			} else {
+				return Double.MAX_VALUE;
+			}
 		} else {
 			return Double.MAX_VALUE;
 		}
