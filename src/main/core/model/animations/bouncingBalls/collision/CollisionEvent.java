@@ -1,5 +1,7 @@
 package main.core.model.animations.bouncingBalls.collision;
 
+import main.core.model.animations.bouncingBalls.particle.Particle;
+
 public class CollisionEvent implements Comparable<CollisionEvent> {
 	
 	private double t;
@@ -22,18 +24,22 @@ public class CollisionEvent implements Comparable<CollisionEvent> {
 	}
 	
 	//Method that need to be overidden according to collision type
-	public void trigger() {
-		
+	//Return the collided particle
+	public Particle trigger() {
+		return null;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "CollisionEvent [t=" + t + ", valid=" + valid + "]";
+	}
 
 	@Override
 	public int compareTo(CollisionEvent col) {
 		if(t < col.getTime())
-			return 1;
-		if(t > col.getTime())
 			return -1;
+		if(t > col.getTime())
+			return 1;
 		return 0;
 	}
 	
