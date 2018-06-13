@@ -17,6 +17,9 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
+	private int particleNumber = 10;
+	private double vMin = 0.5;
+	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;
 	public double deltaT = 1;
 
@@ -25,23 +28,20 @@ public class BouncingBalls implements Animation {
 		bufferLedMatrix = ledMatrix;
 		ArrayList<Particle> particles = new ArrayList<>();
 		Random rd = new Random();
-		for (int i = 0; i < 1; i++) {
-			//double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
-			//int x = rd.nextInt(LedPanel.MATRIX_WIDTH - 2) + 1;
-			//int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
-			double angle = 0.7;
-			int x = 15;
-			int y = 7;
-			System.out.println("Angle : " + angle);
-			Particle particle = new Particle(0.5, angle, x, y);
+		for (int i = 0; i < particleNumber; i++) {
+			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
+			int x = rd.nextInt(LedPanel.MATRIX_WIDTH - 2) + 1;
+			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
+			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
+			Particle particle = new Particle(speed, angle, x, y);
 			
 			//All the coordinates are forced to fit matrix width and height
 			particle.xPosProperty().addListener(new ChangeListener<Number>() {
 				public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-					int old_x = (int)  Math.min(Math.max(Math.floor((double) old_val), 0), LedPanel.MATRIX_WIDTH - 1);
-					int new_x = (int) Math.min(Math.max(Math.floor((double) new_val), 0), LedPanel.MATRIX_WIDTH - 1);
+					int old_x = (int) Math.floor((double) old_val);
+					int new_x = (int) Math.floor((double) new_val);
 					if (new_x != old_x) {
-						int y = (int) Math.min(Math.max(Math.floor(particle.getyPos()), 0), LedPanel.MATRIX_HEIGHT - 1);
+						int y = (int) Math.floor(particle.getyPos());
 						bufferLedMatrix[y][new_x] = RGBWPixel.rgbPixel(255, 0, 0);
 						bufferLedMatrix[y][old_x] = RGBWPixel.rgbPixel(0, 0, 0);
 					}
@@ -49,10 +49,10 @@ public class BouncingBalls implements Animation {
 			});
 			particle.yPosProperty().addListener(new ChangeListener<Number>() {
 				public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-					int old_y = (int) Math.min(Math.max(Math.floor((double) old_val), 0), LedPanel.MATRIX_HEIGHT - 1);
-					int new_y = (int) Math.min(Math.max(Math.floor((double) new_val), 0), LedPanel.MATRIX_HEIGHT - 1);
+					int old_y = (int) Math.floor((double) old_val);
+					int new_y = (int) Math.floor((double) new_val);
 					if (new_y != old_y) {
-						int x = (int) Math.min(Math.max(Math.floor(particle.getxPos()), 0), LedPanel.MATRIX_WIDTH - 1);
+						int x = (int) Math.floor(particle.getxPos());
 						bufferLedMatrix[old_y][x] = RGBWPixel.rgbPixel(0, 0, 0);
 						bufferLedMatrix[new_y][x] = RGBWPixel.rgbPixel(255, 0, 0);
 					}

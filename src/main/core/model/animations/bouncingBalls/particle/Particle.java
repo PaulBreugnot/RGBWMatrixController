@@ -59,10 +59,7 @@ public class Particle {
 	public void bounceEdge(Edge edge) {
 		// By convention 0 <= alphaLine < PI
 		double alphaLine = edge.getAlpha();
-		System.out.println("alpha = " + alpha);
-		System.out.println("alphaLine = " + alphaLine);
 		alpha = 2 * alphaLine - alpha;
-		System.out.println("newAlpha = " + alpha);
 	}
 
 	public void bounceParticle(Particle p) {
@@ -77,7 +74,6 @@ public class Particle {
 	public static double collisionTime(Particle p, Edge e) {
 		double xCollision;
 		double yCollision;
-		//System.out.println(e);
 		if (e.getAlpha() != p.getAlpha()) {
 			if (e.getAlpha() != Math.PI / 2) {
 				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
@@ -91,9 +87,6 @@ public class Particle {
 					&& Math.sin(p.getAlpha()) * (yCollision - p.getyPos()) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
-				System.out.println("xCollision : " + xCollision);
-				System.out.println("yCollision : " + yCollision);
-				System.out.println("distance : " + distance);
 				return distance / p.getSpeed();
 			} else {
 				return Double.MAX_VALUE;
