@@ -36,14 +36,8 @@ public class ParticleSet {
 	}
 
 	public void progress(double deltaT) {
-		System.out.println("Current time : " + time);
-		System.out.println("xPos : " + particles.get(0).getxPos());
-		//System.out.println(Math.floor(collisions.peek().getTime()*deltaT)/deltaT);
-		//double roundCollisionTime = Math.floor(collisions.peek().getTime()*deltaT)/deltaT;
-		double roundCollisionTime = collisions.peek().getTime();
 		while (time + deltaT >= collisions.peek().getTime()) {
 			// Trigger next collision
-			System.out.println("Trigger");
 			Particle collidedParticle = collisions.poll().trigger();
 			//All other events evolving this particle becomes obsoletes
 			collisions.removeAll(ParticleCollisionsMap.get(collidedParticle));
@@ -71,7 +65,7 @@ public class ParticleSet {
 
 	private void updateCollisions(Particle particle) {
 		// Update collisions after particle has collided an edge
-
+		
 	}
 
 	private void checkEdgesCollisions() {
@@ -92,7 +86,7 @@ public class ParticleSet {
 				}
 			}
 		}
-		System.out.println(collisions);
+		//System.out.println(collisions);
 	}
 
 	private void checkParticleCollisions() {
