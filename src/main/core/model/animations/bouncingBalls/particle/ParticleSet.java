@@ -42,9 +42,8 @@ public class ParticleSet {
 			//All other events evolving this particle becomes obsoletes
 			collisions.removeAll(ParticleCollisionsMap.get(collidedParticle));
 			ParticleCollisionsMap.get(collidedParticle).clear();
-			initCollisions();
+			updateCollisions(collidedParticle);
 		}
-
 		// Now we are safe
 		for (Particle particle : particles) {
 			particle.progress(deltaT);
@@ -65,7 +64,21 @@ public class ParticleSet {
 
 	private void updateCollisions(Particle particle) {
 		// Update collisions after particle has collided an edge
-		
+		for (Edge edge : edges) {
+			double t = Particle.collisionTime(particle, edge);
+			if (t < Double.MAX_VALUE) {
+				CollisionEvent col = new EdgeCollisionEvent(particle, edge, time + t);
+				collisions.add(col);
+				if(ParticleCollisionsMap.containsKey(particle)) {
+					ParticleCollisionsMap.get(particle).add(col);
+				}
+				else {
+					HashSet<CollisionEvent> collisionSet = new HashSet<>();
+					collisionSet.add(col);
+					ParticleCollisionsMap.put(particle,  collisionSet);
+				}
+			}
+		}
 	}
 
 	private void checkEdgesCollisions() {
