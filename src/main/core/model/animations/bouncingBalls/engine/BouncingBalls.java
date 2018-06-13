@@ -33,7 +33,7 @@ public class BouncingBalls implements Animation {
 			int x = rd.nextInt(LedPanel.MATRIX_WIDTH - 2) + 1;
 			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
 			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			Particle particle = new Particle(speed, angle, x, y);
+			Particle particle = new Particle(speed, angle, x, y, 0.5);
 			
 			//All the coordinates are forced to fit matrix width and height
 			particle.xPosProperty().addListener(new ChangeListener<Number>() {
