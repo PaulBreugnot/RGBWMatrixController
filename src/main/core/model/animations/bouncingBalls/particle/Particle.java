@@ -9,14 +9,16 @@ public class Particle {
 
 	private double speed;
 	private double alpha;
+	private double radius;
 	private SimpleDoubleProperty xPos;
 	private SimpleDoubleProperty yPos;
 
-	public Particle(double speed, double alpha, double xPos, double yPos) {
+	public Particle(double speed, double alpha, double xPos, double yPos, double radius) {
 		this.speed = speed;
 		this.alpha = alpha;
 		this.xPos = new SimpleDoubleProperty(xPos);
 		this.yPos = new SimpleDoubleProperty(yPos);
+		this.radius = radius;
 	}
 
 	public double getSpeed() {
@@ -33,6 +35,10 @@ public class Particle {
 
 	public void setAlpha(double alpha) {
 		this.alpha = alpha;
+	}
+
+	public double getRadius() {
+		return radius;
 	}
 
 	public double getxPos() {
@@ -67,8 +73,23 @@ public class Particle {
 	}
 
 	public static double collisionTime(Particle p1, Particle p2) {
-
-		return 0;
+		//Equations from https://introcs.cs.princeton.edu/java/assignments/collisions.html
+		double deltaX = p2.getxPos() - p2.getxPos();
+		double deltaY = p2.getyPos() - p2.getyPos();
+		double deltaVx = Math.cos(p2.getAlpha()) * p2.getSpeed() - Math.cos(p1.getAlpha()) * p1.getSpeed();
+		double deltaVy = Math.sin(p2.getAlpha()) * p2.getSpeed() - Math.sin(p1.getAlpha()) * p1.getSpeed();
+		if (deltaX * deltaVx + deltaY * deltaVy >= 0) {
+			return Double.MAX_VALUE;
+		}
+		double sigma = p1.getRadius() - p2.getRadius();
+		double d = Math.pow(deltaX * deltaVx + deltaY * deltaVy, 2)
+				- (deltaVx * deltaVx + deltaVy * deltaVy) * (deltaX * deltaX + deltaY * deltaY - sigma * sigma);
+		if (d < 0) {
+			return Double.MAX_VALUE;
+		}
+		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
+		System.out.println(collisionTime);
+		return collisionTime;
 	}
 
 	public static double collisionTime(Particle p, Edge e) {
@@ -87,7 +108,7 @@ public class Particle {
 					&& Math.sin(p.getAlpha()) * (yCollision - p.getyPos()) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
-				return distance / p.getSpeed();
+				return (distance - p.getRadius()) / p.getSpeed();
 			} else {
 				return Double.MAX_VALUE;
 			}
