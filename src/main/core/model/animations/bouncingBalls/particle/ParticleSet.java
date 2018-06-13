@@ -38,7 +38,7 @@ public class ParticleSet {
 	public void progress(double deltaT) {
 		System.out.println("Current time : " + time);
 		System.out.println("xPos : " + particles.get(0).getxPos());
-		System.out.println(Math.floor(collisions.peek().getTime()*deltaT)/deltaT);
+		//System.out.println(Math.floor(collisions.peek().getTime()*deltaT)/deltaT);
 		//double roundCollisionTime = Math.floor(collisions.peek().getTime()*deltaT)/deltaT;
 		double roundCollisionTime = collisions.peek().getTime();
 		while (time + deltaT >= collisions.peek().getTime()) {

@@ -23,9 +23,13 @@ public class EdgeCollisionEvent extends CollisionEvent {
 	}
 	
 	@Override
+	public String toString() {
+		return "CollisionEvent [t=" + t + ", valid=" + valid + ", edge=" + edge +"]";
+	}
+	
+	@Override
 	public Particle trigger() {
 		if (isValid()) {
-			System.out.println("Bounce");
 			particle.bounceEdge(edge);
 			return particle;
 		}

@@ -26,10 +26,10 @@ public class BouncingBalls implements Animation {
 		ArrayList<Particle> particles = new ArrayList<>();
 		Random rd = new Random();
 		for (int i = 0; i < 1; i++) {
-			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
+			//double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
 			//int x = rd.nextInt(LedPanel.MATRIX_WIDTH - 2) + 1;
 			//int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
-			//double angle = 0.1;
+			double angle = 0.7;
 			int x = 15;
 			int y = 7;
 			System.out.println("Angle : " + angle);

@@ -4,8 +4,8 @@ import main.core.model.animations.bouncingBalls.particle.Particle;
 
 public class CollisionEvent implements Comparable<CollisionEvent> {
 	
-	private double t;
-	private boolean valid = true;
+	protected double t;
+	protected boolean valid = true;
 	
 	public CollisionEvent(double t) {
 		this.t = t;
