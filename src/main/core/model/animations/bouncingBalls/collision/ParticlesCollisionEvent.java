@@ -1,6 +1,7 @@
 package main.core.model.animations.bouncingBalls.collision;
 
 import main.core.model.animations.bouncingBalls.particle.Particle;
+import main.core.model.animations.bouncingBalls.utils.CollisionResult;
 
 public class ParticlesCollisionEvent extends CollisionEvent {
 	
@@ -19,5 +20,11 @@ public class ParticlesCollisionEvent extends CollisionEvent {
 	
 	public Particle getParticleB() {
 		return b;
+	}
+	
+	@Override
+	public CollisionResult trigger() {
+		a.bounceParticle(b);
+		return new CollisionResult(a, b);
 	}
 }

@@ -1,6 +1,7 @@
 package main.core.model.animations.bouncingBalls.collision;
 
 import main.core.model.animations.bouncingBalls.particle.Particle;
+import main.core.model.animations.bouncingBalls.utils.CollisionResult;
 import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class EdgeCollisionEvent extends CollisionEvent {
@@ -28,10 +29,10 @@ public class EdgeCollisionEvent extends CollisionEvent {
 	}
 	
 	@Override
-	public Particle trigger() {
+	public CollisionResult trigger() {
 		if (isValid()) {
 			particle.bounceEdge(edge);
-			return particle;
+			return new CollisionResult(particle);
 		}
 		return null;
 	}

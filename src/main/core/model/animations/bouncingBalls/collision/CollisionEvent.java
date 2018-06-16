@@ -1,6 +1,6 @@
 package main.core.model.animations.bouncingBalls.collision;
 
-import main.core.model.animations.bouncingBalls.particle.Particle;
+import main.core.model.animations.bouncingBalls.utils.CollisionResult;
 
 public class CollisionEvent implements Comparable<CollisionEvent> {
 	
@@ -25,7 +25,7 @@ public class CollisionEvent implements Comparable<CollisionEvent> {
 	
 	//Method that need to be overidden according to collision type
 	//Return the collided particle
-	public Particle trigger() {
+	public CollisionResult trigger() {
 		return null;
 	}
 
