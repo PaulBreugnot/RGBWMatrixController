@@ -8,7 +8,7 @@ public class Edge {
 	private double yFinal;
 	private double a;
 	private double b;
-	private double alpha;
+	private double alpha; // By convention 0 <= alpha < PI
 
 	public Edge(double xOrigin, double yOrigin, double xFinal, double yFinal) {
 		this.xOrigin = xOrigin;
@@ -22,6 +22,10 @@ public class Edge {
 		} else {
 			alpha = Math.PI / 2;
 		}
+	}
+	
+	public Edge(double alpha) {
+		this.alpha = alpha;
 	}
 
 	public double getxOrigin() {

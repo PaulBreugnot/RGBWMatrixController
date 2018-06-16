@@ -69,22 +69,43 @@ public class Particle {
 	}
 
 	public void bounceParticle(Particle p) {
-
+		//First we calculate the alpha of the line that link the two center at collision time
+		if (p.getxPos() != getxPos()) {
+			double a = (p.getyPos() - getyPos()) / (p.getxPos() - getxPos());
+			alpha = Math.atan(a);
+		} else {
+			alpha = Math.PI / 2;
+		}
+		//The we take the perpendicular
+		if (0 <= alpha && alpha < Math.PI / 2) {
+			alpha += Math.PI / 2;
+		}
+		else {
+			alpha += Math.PI;
+		}
+		if (!(0 <= alpha && alpha < Math.PI)) {
+			System.out.println("ANGLE ERROR!!");
+		}
+		Edge collisionEdge = new Edge(alpha);
+		bounceEdge(collisionEdge);
+		p.bounceEdge(collisionEdge);
 	}
 
 	public static double collisionTime(Particle p1, Particle p2) {
 		//Equations from https://introcs.cs.princeton.edu/java/assignments/collisions.html
-		double deltaX = p2.getxPos() - p2.getxPos();
-		double deltaY = p2.getyPos() - p2.getyPos();
+		double deltaX = p2.getxPos() - p1.getxPos();
+		double deltaY = p2.getyPos() - p1.getyPos();
 		double deltaVx = Math.cos(p2.getAlpha()) * p2.getSpeed() - Math.cos(p1.getAlpha()) * p1.getSpeed();
 		double deltaVy = Math.sin(p2.getAlpha()) * p2.getSpeed() - Math.sin(p1.getAlpha()) * p1.getSpeed();
 		if (deltaX * deltaVx + deltaY * deltaVy >= 0) {
+			System.out.println("Nope 1");
 			return Double.MAX_VALUE;
 		}
-		double sigma = p1.getRadius() - p2.getRadius();
+		double sigma = p1.getRadius() + p2.getRadius();
 		double d = Math.pow(deltaX * deltaVx + deltaY * deltaVy, 2)
 				- (deltaVx * deltaVx + deltaVy * deltaVy) * (deltaX * deltaX + deltaY * deltaY - sigma * sigma);
 		if (d < 0) {
+			System.out.println("Nope 2");
 			return Double.MAX_VALUE;
 		}
 		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
