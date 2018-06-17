@@ -3,6 +3,7 @@ package main.core.model.animations.bouncingBalls.particle;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class Particle {
@@ -12,6 +13,7 @@ public class Particle {
 	private double radius;
 	private SimpleDoubleProperty xPos;
 	private SimpleDoubleProperty yPos;
+	private Color color = Color.RED;
 
 	public Particle(double speed, double alpha, double xPos, double yPos, double radius) {
 		this.speed = speed;
@@ -55,6 +57,11 @@ public class Particle {
 
 	public double getyPos() {
 		return yPos.get();
+	}
+	
+	public Color getColor(int x, int y) {
+		// x and y are given in the particle
+		return color;
 	}
 
 	public void progress(double deltaT) {

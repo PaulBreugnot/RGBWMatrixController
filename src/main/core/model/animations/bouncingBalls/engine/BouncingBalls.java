@@ -47,8 +47,10 @@ public class BouncingBalls implements Animation {
 					int new_x = (int) Math.floor((double) new_val);
 					if (new_x != old_x) {
 						int y = (int) Math.floor(particle.getyPos());
-						bufferLedMatrix[y][new_x] = RGBWPixel.rgbPixel(255, 0, 0);
-						bufferLedMatrix[y][old_x] = RGBWPixel.rgbPixel(0, 0, 0);
+						clear(particle.getRadius(), old_x, y);
+						render(particle);
+						//bufferLedMatrix[y][new_x] = RGBWPixel.rgbPixel(255, 0, 0);
+						//bufferLedMatrix[y][old_x] = RGBWPixel.rgbPixel(0, 0, 0);
 					}
 				}
 			});
@@ -58,14 +60,39 @@ public class BouncingBalls implements Animation {
 					int new_y = (int) Math.floor((double) new_val);
 					if (new_y != old_y) {
 						int x = (int) Math.floor(particle.getxPos());
-						bufferLedMatrix[old_y][x] = RGBWPixel.rgbPixel(0, 0, 0);
-						bufferLedMatrix[new_y][x] = RGBWPixel.rgbPixel(255, 0, 0);
+						clear(particle.getRadius(), x, old_y);
+						render(particle);
+						//bufferLedMatrix[old_y][x] = RGBWPixel.rgbPixel(0, 0, 0);
+						//bufferLedMatrix[new_y][x] = RGBWPixel.rgbPixel(255, 0, 0);
 					}
 				}
 			});
 			particles.add(particle);
 		}
 		particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT);
+	}
+	
+	private void clear(double radius, int old_x, int old_y) {
+		for(int x = (int) Math.floor(-radius) ; x <= radius; x++) {
+			for(int y = (int) Math.floor(-radius) ; y <= radius; y++) {
+				if(Math.sqrt(x * x + y * y) <= radius) {
+					bufferLedMatrix[old_y + y][old_x + x] = RGBWPixel.rgbPixel(0, 0, 0);
+				}
+			}
+		}
+	}
+	
+	private void render(Particle p) {
+		for(int x = (int) Math.floor(- p.getRadius()) ; x <= p.getRadius(); x++) {
+			for(int y = (int) Math.floor(- p.getRadius()) ; y <= p.getRadius(); y++) {
+				if(Math.sqrt(x * x + y * y) <= p.getRadius()) {
+					System.out.println("Render " + (x + y));
+					int xParticle = (int) Math.floor(p.getxPos());
+					int yParticle = (int) Math.floor(p.getyPos());
+					bufferLedMatrix[yParticle + y][xParticle + x] = new RGBWPixel(p.getColor(x, y));
+				}
+			}
+		}
 	}
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {

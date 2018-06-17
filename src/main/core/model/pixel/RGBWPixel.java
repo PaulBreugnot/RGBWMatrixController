@@ -15,6 +15,10 @@ public class RGBWPixel {
 	private int green;
 	private int blue;
 	private int white;
+	
+	public RGBWPixel(Color color) {
+		this(color, 0);
+	}
 
 	public RGBWPixel(Color color, int white) {
 		this.color = color;
