@@ -33,13 +33,13 @@ public class LedPanel {
 	public void setUSBConnection(String portCom) {
 		sendArray = new SendArray(portCom);
 		if (sendArray.isConnectionSet()) {
-			conMethod = ConMethod.USB;
+			//conMethod = ConMethod.USB;
 		}
 	}
 
 	public void setWiFiConnection() throws SocketException {
 		sendUDP = new SendUDP();
-		conMethod = ConMethod.WIFI;
+		//conMethod = ConMethod.WIFI;
 	}
 
 	public boolean isConnected() {
