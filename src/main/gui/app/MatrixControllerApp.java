@@ -38,7 +38,7 @@ public class MatrixControllerApp extends Application {
 		mainViewController.setLedPanel(ledPanel);
 
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("Min'Bot 2018 - RGBWMatrixController");
+		primaryStage.setTitle("Min'Bot 2018 - PixLed Controller");
 		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/LogoMinBot.jpg")));
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
