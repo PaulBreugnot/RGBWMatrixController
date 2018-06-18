@@ -78,7 +78,7 @@ public class MainViewController {
 		System.out.println("initTilePane OK");
 		initComPort();
 		if (!ledPanel.isConnected()) {
-			ledPanel.setWiFiConnection();
+			//ledPanel.setWiFiConnection();
 		}
 		System.out.println("Connection method : " + ledPanel.getConMethod());
 	}

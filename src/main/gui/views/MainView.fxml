@@ -34,13 +34,13 @@
                         <HBox alignment="CENTER">
                            <children>
                               <Label text="Width : " />
-                              <Spinner fx:id="WidthSpinner" />
+                              <Spinner fx:id="WidthSpinner" editable="true" />
                               <Label text="Height : ">
                                  <HBox.margin>
                                     <Insets left="30.0" />
                                  </HBox.margin>
                               </Label>
-                              <Spinner fx:id="HeightSpinner" />
+                              <Spinner fx:id="HeightSpinner" editable="true" />
                            </children>
                         </HBox>
                      </children>
