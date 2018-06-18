@@ -174,7 +174,7 @@ public class MainViewController {
 			}
 		});
 
-		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, 16));
+		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, LedPanel.MATRIX_HEIGHT));
 		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
