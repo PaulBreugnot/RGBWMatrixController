@@ -24,10 +24,18 @@ public class LedPanel {
 	private int fps;
 	private ConMethod conMethod = ConMethod.NONE;
 
-	private RGBWPixel[][] LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
+	private RGBWPixel[][] LedMatrix;
 
 	public LedPanel(int fps) {
 		this.fps = fps;
+		LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
+	}
+	
+	public LedPanel(int fps, int width, int height) {
+		this.fps = fps;
+		MATRIX_WIDTH = width;
+		MATRIX_HEIGHT = height;
+		LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 	}
 
 	public void setUSBConnection(String portCom) {

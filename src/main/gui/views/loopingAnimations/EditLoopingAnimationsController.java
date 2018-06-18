@@ -57,7 +57,7 @@ public class EditLoopingAnimationsController {
 	private HashMap<AnchorPane, Animation> SettingsControllersMap = new HashMap<>();
 
 	private LedPanel ledPanel;
-	private Rectangle[][] previewAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
+	private Rectangle[][] previewAnchorPaneContent;
 	private boolean run;
 
 	private MainViewController mainViewController;
@@ -205,6 +205,7 @@ public class EditLoopingAnimationsController {
 	}
 
 	private void initPreviewAnchorPane() {
+		previewAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		double tileSize;
 		double xOffset;
 		double yOffset;

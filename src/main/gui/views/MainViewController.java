@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +49,12 @@ public class MainViewController {
 	@FXML
 	private Tab AnimationsTab;
 
+	@FXML
+	private Spinner<Integer> WidthSpinner;
+
+	@FXML
+	private Spinner<Integer> HeightSpinner;
+
 	private EditLoopingAnimationsController editLoopingAnimationController;
 
 	private LoopingAnimations loopingAnimations;
@@ -54,14 +62,20 @@ public class MainViewController {
 	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
 
 	private LedPanel ledPanel;
-	private Rectangle[][] matrixAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
+	private Rectangle[][] matrixAnchorPaneContent;
 	private boolean run;
-	private GUIupdater updater = new GUIupdater(this);
+	private GUIupdater updater;
+
+	@FXML
+	private void initialize() {
+		initSizeSpinners();
+	}
 
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
 		initAnimationsTab();
 		initTilePane();
+		System.out.println("initTilePane OK");
 		initComPort();
 		if (!ledPanel.isConnected()) {
 			ledPanel.setWiFiConnection();
@@ -102,6 +116,9 @@ public class MainViewController {
 	}
 
 	private void initTilePane() {
+		updater = new GUIupdater(this);
+		matrixAnchorPane.getChildren().clear();
+		matrixAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		double tileSize;
 		double xOffset;
 		double yOffset;
@@ -139,6 +156,38 @@ public class MainViewController {
 			ComPortComboBox.getSelectionModel().selectFirst();
 			// handleConnect();
 		}
+	}
+
+	public void initSizeSpinners() {
+		WidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, LedPanel.MATRIX_WIDTH));
+		WidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
+				run = false;
+				Platform.runLater(() -> {
+					try {
+						setLedPanel(new LedPanel(ledPanel.getFps(), (int) newVal, LedPanel.MATRIX_HEIGHT));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+			}
+		});
+
+		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, 16));
+		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
+				run = false;
+				Platform.runLater(() -> {
+					try {
+						setLedPanel(new LedPanel(ledPanel.getFps(), LedPanel.MATRIX_WIDTH, (int) newVal));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+			}
+		});
 	}
 
 	private void displayMatrix() {
