@@ -22,7 +22,7 @@ import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 import main.core.util.AnimationTime;
-import main.gui.views.MainViewController;
+import main.gui.views.mainView.MainViewController;
 
 public class EditLoopingAnimationsController {
 

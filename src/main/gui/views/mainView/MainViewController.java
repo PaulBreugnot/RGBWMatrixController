@@ -1,4 +1,4 @@
-package main.gui.views;
+package main.gui.views.mainView;
 
 import java.io.IOException;
 import java.util.Enumeration;

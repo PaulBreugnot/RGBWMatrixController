@@ -7,7 +7,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import main.core.model.panel.LedPanel;
-import main.gui.views.MainViewController;
+import main.gui.views.mainView.MainViewController;
 import test.MainTest;
 
 public class MatrixControllerApp extends Application {
@@ -31,7 +31,7 @@ public class MatrixControllerApp extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		TabPane root;
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MatrixControllerApp.class.getResource("/main/gui/views/MainView.fxml"));
+		loader.setLocation(MatrixControllerApp.class.getResource("/main/gui/views/mainView/MainView.fxml"));
 		root = (TabPane) loader.load();
 		mainViewController = loader.getController();
 		ledPanel = MainTest.getAppConfig();
