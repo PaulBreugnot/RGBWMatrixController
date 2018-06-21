@@ -1,36 +1,27 @@
 package main.gui.views.mainView;
 
 import java.io.IOException;
-import java.util.Enumeration;
-
-import gnu.io.CommPortIdentifier;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.panel.LedPanel;
 import main.gui.views.connectionInterface.ConnectionModule;
+import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
 
 public class MainViewController {
 
 	@FXML
-	private AnchorPane matrixAnchorPane;
+	private LedMatrix ledMatrix;
 
 	@FXML
 	private Button PlayButton;
@@ -58,9 +49,6 @@ public class MainViewController {
 	private LoopingAnimations loopingAnimations;
 
 	private LedPanel ledPanel;
-	private Rectangle[][] matrixAnchorPaneContent;
-	private boolean run;
-	private GUIupdater updater;
 
 	@FXML
 	private void initialize() {
@@ -84,7 +72,6 @@ public class MainViewController {
 	}
 	
 	private void initConnectionModule() {
-		System.out.println(connectionModule.getController() == null);
 		connectionModule.getController().setLedPanel(ledPanel);
 		connectionModule.getController().initComPort();
 	}
@@ -118,33 +105,8 @@ public class MainViewController {
 	}
 
 	private void initTilePane() {
-		updater = new GUIupdater(this);
-		matrixAnchorPane.getChildren().clear();
-		matrixAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
-		double tileSize;
-		double xOffset;
-		double yOffset;
-		if (LedPanel.MATRIX_WIDTH <= 2 * LedPanel.MATRIX_HEIGHT) {
-			tileSize = matrixAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
-			xOffset = matrixAnchorPane.getPrefWidth() / 2 - tileSize * LedPanel.MATRIX_WIDTH / 2;
-			yOffset = 0;
-		} else {
-			tileSize = matrixAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
-			xOffset = 0;
-			yOffset = matrixAnchorPane.getPrefHeight() / 2 - tileSize * LedPanel.MATRIX_HEIGHT / 2;
-		}
-		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
-			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				Rectangle pixel = new Rectangle(tileSize, tileSize);
-				pixel.setStroke(Color.BLACK);
-				pixel.setFill(Color.WHITE);
-				matrixAnchorPaneContent[i][j] = pixel;
-				AnchorPane.setTopAnchor(pixel, yOffset + (LedPanel.MATRIX_HEIGHT - 1 - i) * tileSize);
-				AnchorPane.setLeftAnchor(pixel, xOffset + j * tileSize);
-				matrixAnchorPane.getChildren().add(pixel);
-			}
-		}
-		updater.start();
+		ledMatrix.getController().setLedPanel(ledPanel);
+		ledMatrix.getController().initMatrix();
 	}
 
 	public void initSizeSpinners() {
@@ -152,7 +114,7 @@ public class MainViewController {
 		WidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
-				run = false;
+				ledMatrix.getController().stopUpdater();
 				Platform.runLater(() -> {
 					try {
 						setLedPanel(new LedPanel(ledPanel.getFps(), (int) newVal, LedPanel.MATRIX_HEIGHT));
@@ -167,7 +129,7 @@ public class MainViewController {
 		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
-				run = false;
+				ledMatrix.getController().stopUpdater();
 				Platform.runLater(() -> {
 					try {
 						setLedPanel(new LedPanel(ledPanel.getFps(), LedPanel.MATRIX_WIDTH, (int) newVal));
@@ -179,25 +141,17 @@ public class MainViewController {
 		});
 	}
 
-	private void displayMatrix() {
-		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
-			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				matrixAnchorPaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getDisplayColor());
-			}
-		}
-	}
 
 	@FXML
 	private void handlePlay() {
 		FrameByFrameButton.setDisable(true);
-		run = true;
-		updater.run();
+		ledMatrix.getController().runUpdater();
 	}
 
 	@FXML
 	private void handleFrameByFrame() {
 		ledPanel.updateDisplay();
-		Platform.runLater(() -> displayMatrix());
+		Platform.runLater(() -> ledMatrix.getController().displayMatrix());
 		try {
 			Thread.sleep(1000 / ledPanel.getFps());
 		} catch (InterruptedException e) {
@@ -208,32 +162,7 @@ public class MainViewController {
 	@FXML
 	private void handleStop() {
 		FrameByFrameButton.setDisable(false);
-		run = false;
-	}
-
-	private class GUIupdater extends Thread {
-		private MainViewController mainViewController;
-
-		public GUIupdater(MainViewController mainViewController) {
-			this.mainViewController = mainViewController;
-		}
-
-		@Override
-		public void run() {
-			ledPanel.updateDisplay();
-			try {
-				Thread.sleep(1000 / ledPanel.getFps());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			Platform.runLater(() -> {
-				displayMatrix();
-				if (mainViewController.run) {
-					run();
-				}
-			});
-
-		}
+		ledMatrix.getController().stopUpdater();
 	}
 
 }

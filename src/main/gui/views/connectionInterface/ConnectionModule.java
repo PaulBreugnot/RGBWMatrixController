@@ -16,7 +16,6 @@ public class ConnectionModule extends VBox {
 			fxmlLoader.setRoot(this);
 			fxmlLoader.setController(new ConnectionModuleController());
 			connectionModuleController = fxmlLoader.getController();
-			//connectionModuleController = fxmlLoader.getController();
 			fxmlLoader.load();
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
