@@ -3,9 +3,9 @@ package main.gui.views.connectionInterface;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
-public class ConnectionModule extends AnchorPane {
+public class ConnectionModule extends VBox {
 	
 	private FXMLLoader fxmlLoader;
 	private ConnectionModuleController connectionModuleController;
@@ -14,7 +14,6 @@ public class ConnectionModule extends AnchorPane {
 		try {
 			fxmlLoader = new FXMLLoader(getClass().getResource("/main/gui/views/connectionInterface/ConnectionModule.fxml"));
 			fxmlLoader.setRoot(this);
-			fxmlLoader.setClassLoader(getClass().getClassLoader());
 			fxmlLoader.setController(new ConnectionModuleController());
 			connectionModuleController = fxmlLoader.getController();
 			//connectionModuleController = fxmlLoader.getController();
