@@ -22,6 +22,7 @@ import main.core.model.animations.pixelRain.PixelRain;
 import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 import main.core.util.AnimationTime;
+import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.mainView.MainViewController;
 
 public class EditLoopingAnimationsController {
@@ -42,7 +43,7 @@ public class EditLoopingAnimationsController {
 	private TextField durationTextField;
 
 	@FXML
-	private AnchorPane previewAnchorPane;
+	private LedMatrix previewLedMatrix;
 
 	@FXML
 	private ListView<AnchorPane> LoopItems;
@@ -57,15 +58,12 @@ public class EditLoopingAnimationsController {
 	private HashMap<AnchorPane, Animation> SettingsControllersMap = new HashMap<>();
 
 	private LedPanel ledPanel;
-	private Rectangle[][] previewAnchorPaneContent;
-	private boolean run;
 
 	private MainViewController mainViewController;
 	private LoopingAnimations loopingAnimations;
 
 	private Animation selectedAnimation;
 	private int lastIndex = 1;
-	private GUIupdater updater = new GUIupdater(this);
 
 	public void setLoopingAnimations(LoopingAnimations loopingAnimations) {
 		this.loopingAnimations = loopingAnimations;
@@ -82,21 +80,27 @@ public class EditLoopingAnimationsController {
 		this.mainViewController = mainViewController;
 		handleLaunch();
 	}
-
+	
 	public void setRunPreview(boolean run) {
-		if (!this.run && run) {
-			updater.run();
+		if (run && !LoopItems.getSelectionModel().isEmpty()) {
+			previewLedMatrix.getController().runUpdater();
 		}
-		this.run = run;
+		else {
+			previewLedMatrix.getController().stopUpdater();
+		}
 	}
 
 	public void displayConfigPanes() {
+		previewLedMatrix.getController().stopUpdater();
 		lastIndex = 0;
 		LoopItemsList.clear();
 		for (AnimationTime animationTime : loopingAnimations.getAnimations().keySet()) {
 			setConfigPane(loopingAnimations.getAnimations().get(animationTime), animationTime);
 			lastIndex++;
 		}
+		/*if(!LoopItems.getSelectionModel().isEmpty()) {
+			previewLedMatrix.getController().runUpdater();
+		}*/
 	}
 
 	private void configureLoopItemsListView() {
@@ -104,7 +108,9 @@ public class EditLoopingAnimationsController {
 		LoopItems.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				ledPanel.setCurrentAnimation(SettingsControllersMap.get(newSelection));
+				previewLedMatrix.getController().runUpdater();
 			} else {
+				previewLedMatrix.getController().stopUpdater();
 				ledPanel.setCurrentAnimation(null);
 				LedPanel.setBlackPanel(ledPanel.getLedMatrix());
 			}
@@ -205,31 +211,8 @@ public class EditLoopingAnimationsController {
 	}
 
 	private void initPreviewAnchorPane() {
-		previewAnchorPaneContent = new Rectangle[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
-		double tileSize;
-		double xOffset;
-		double yOffset;
-		if (LedPanel.MATRIX_WIDTH <= 2 * LedPanel.MATRIX_HEIGHT) {
-			tileSize = previewAnchorPane.getPrefHeight() / LedPanel.MATRIX_HEIGHT;
-			xOffset = previewAnchorPane.getPrefWidth() / 2 - tileSize * LedPanel.MATRIX_WIDTH / 2;
-			yOffset = 0;
-		} else {
-			tileSize = previewAnchorPane.getPrefWidth() / LedPanel.MATRIX_WIDTH;
-			xOffset = 0;
-			yOffset = previewAnchorPane.getPrefHeight() / 2 - tileSize * LedPanel.MATRIX_HEIGHT / 2;
-		}
-		for (int i = LedPanel.MATRIX_HEIGHT - 1; i >= 0; i--) {
-			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				Rectangle pixel = new Rectangle(tileSize, tileSize);
-				pixel.setStroke(Color.BLACK);
-				pixel.setFill(Color.WHITE);
-				previewAnchorPaneContent[i][j] = pixel;
-				AnchorPane.setTopAnchor(pixel, yOffset + (LedPanel.MATRIX_HEIGHT - 1 - i) * tileSize);
-				AnchorPane.setLeftAnchor(pixel, xOffset + j * tileSize);
-				previewAnchorPane.getChildren().add(pixel);
-			}
-		}
-		updater.start();
+		previewLedMatrix.getController().setLedPanel(ledPanel);
+		previewLedMatrix.getController().initMatrix();
 	}
 
 	@FXML
@@ -238,40 +221,5 @@ public class EditLoopingAnimationsController {
 		LoopingAnimations displayedAnimations = loopingAnimations;
 		mainViewController.getLedPanel().setCurrentAnimation(displayedAnimations);
 
-	}
-
-	private class GUIupdater extends Thread {
-		private EditLoopingAnimationsController editLoopingAnimationsController;
-
-		public GUIupdater(EditLoopingAnimationsController editLoopingAnimationsController) {
-			this.editLoopingAnimationsController = editLoopingAnimationsController;
-		}
-
-		private void displayMatrix() {
-			for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
-				for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-					previewAnchorPaneContent[i][j].setFill(ledPanel.getLedMatrix()[i][j].getDisplayColor());
-				}
-			}
-		}
-
-		@Override
-		public void run() {
-			if (ledPanel.getCurrentAnimation() != null) {
-				ledPanel.updateDisplay();
-			}
-			try {
-				Thread.sleep(1000 / ledPanel.getFps());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			Platform.runLater(() -> {
-				displayMatrix();
-				if (editLoopingAnimationsController.run) {
-					run();
-				}
-			});
-
-		}
 	}
 }

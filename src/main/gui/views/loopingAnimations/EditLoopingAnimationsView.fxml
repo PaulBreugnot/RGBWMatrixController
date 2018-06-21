@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import main.gui.views.ledMatrix.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -91,11 +92,11 @@
                   <Insets bottom="5.0" left="10.0" right="10.0" />
                </VBox.margin>
             </Label>
-            <AnchorPane fx:id="previewAnchorPane" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" prefHeight="100.0" prefWidth="200.0">
+            <LedMatrix fx:id="previewLedMatrix" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="2.0" right="2.0" />
                </VBox.margin>
-            </AnchorPane>
+            </LedMatrix>
          </children>
       </VBox>
    </left>

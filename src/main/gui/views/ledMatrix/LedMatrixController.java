@@ -47,7 +47,7 @@ public class LedMatrixController {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				Rectangle pixel = new Rectangle(tileSize, tileSize);
 				pixel.setStroke(Color.BLACK);
-				pixel.setFill(Color.WHITE);
+				pixel.setFill(Color.BLACK);
 				matrixAnchorPaneContent[i][j] = pixel;
 				AnchorPane.setTopAnchor(pixel, yOffset + (LedPanel.MATRIX_HEIGHT - 1 - i) * tileSize);
 				AnchorPane.setLeftAnchor(pixel, xOffset + j * tileSize);
@@ -66,11 +66,15 @@ public class LedMatrixController {
 	}
 	
 	public void runUpdater() {
-		run = true;
-		updater.run();
+		if(!run) {
+			System.out.println("RUN");
+			run = true;
+			updater.run();
+		}
 	}
 	
 	public void stopUpdater() {
+		System.out.println("STOP");
 		run = false;
 	}
 

@@ -87,6 +87,9 @@
                </bottom>
                <center>
                   <LedMatrix fx:id="ledMatrix" maxHeight="450.0" maxWidth="900.0" minHeight="450.0" minWidth="900.0" prefHeight="450.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" top="10.0" left="10.0" right="10.0" />
+                     </BorderPane.margin>
                   </LedMatrix>
                </center>
             </BorderPane>
