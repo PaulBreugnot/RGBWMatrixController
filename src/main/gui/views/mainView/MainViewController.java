@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.panel.LedPanel;
+import main.gui.views.connectionInterface.ConnectionModule;
 import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
 
 public class MainViewController {
@@ -38,12 +39,6 @@ public class MainViewController {
 	private Button FrameByFrameButton;
 
 	@FXML
-	private ComboBox<String> ComPortComboBox;
-
-	@FXML
-	private Label ErrorLabel;
-
-	@FXML
 	private TabPane mainTabPane;
 
 	@FXML
@@ -54,12 +49,13 @@ public class MainViewController {
 
 	@FXML
 	private Spinner<Integer> HeightSpinner;
+	
+	@FXML
+	private ConnectionModule connectionModule;
 
 	private EditLoopingAnimationsController editLoopingAnimationController;
 
 	private LoopingAnimations loopingAnimations;
-
-	private ObservableList<String> ListComPort = FXCollections.observableArrayList();
 
 	private LedPanel ledPanel;
 	private Rectangle[][] matrixAnchorPaneContent;
@@ -76,7 +72,7 @@ public class MainViewController {
 		initAnimationsTab();
 		initTilePane();
 		System.out.println("initTilePane OK");
-		initComPort();
+		initConnectionModule();
 		if (!ledPanel.isConnected()) {
 			//ledPanel.setWiFiConnection();
 		}
@@ -85,6 +81,12 @@ public class MainViewController {
 
 	public LedPanel getLedPanel() {
 		return ledPanel;
+	}
+	
+	private void initConnectionModule() {
+		System.out.println(connectionModule.getController() == null);
+		connectionModule.getController().setLedPanel(ledPanel);
+		connectionModule.getController().initComPort();
 	}
 
 	private void initAnimationsTab() {
@@ -143,19 +145,6 @@ public class MainViewController {
 			}
 		}
 		updater.start();
-	}
-
-	public void initComPort() {
-		ListComPort.clear();
-		Enumeration portList = CommPortIdentifier.getPortIdentifiers();
-		while (portList.hasMoreElements()) {
-			ListComPort.add(((CommPortIdentifier) portList.nextElement()).getName());
-		}
-		ComPortComboBox.setItems(ListComPort);
-		if (ListComPort.size() == 1) {
-			ComPortComboBox.getSelectionModel().selectFirst();
-			// handleConnect();
-		}
 	}
 
 	public void initSizeSpinners() {
@@ -220,21 +209,6 @@ public class MainViewController {
 	private void handleStop() {
 		FrameByFrameButton.setDisable(false);
 		run = false;
-	}
-
-	@FXML
-	private void handleConnect() {
-		String comName = ComPortComboBox.getSelectionModel().getSelectedItem();
-		if (comName != null) {
-			ledPanel.setUSBConnection(comName);
-			if (ledPanel.isConnected()) {
-				ErrorLabel.setText("Connected to " + comName);
-			} else {
-				ErrorLabel.setText("Fail to connect " + comName);
-			}
-		} else {
-			ErrorLabel.setText("No port selected");
-		}
 	}
 
 	private class GUIupdater extends Thread {
