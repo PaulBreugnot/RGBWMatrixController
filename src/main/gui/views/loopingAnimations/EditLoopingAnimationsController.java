@@ -119,13 +119,16 @@ public class EditLoopingAnimationsController {
 
 	private void setListViews() {
 
+		ListGeometricEffects.clear();
 		ListGeometricEffects.add(new PixelRain());
 		ListGeometricEffects.add(new CircularWave());
 		ListGeometricEffects.add(new DiamondWave());
 		ListGeometricEffects.add(new Fan());
 
+		ListTextEffects.clear();
 		ListTextEffects.add(new ScrollingText());
 
+		ListSpecialEffects.clear();
 		ListSpecialEffects.add(new LoopingAnimations());
 
 		RandomListView.setItems(ListRandomEffects);
