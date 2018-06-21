@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root alignment="CENTER" type="HBox" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Width : " />
+      <Spinner fx:id="WidthSpinner" editable="true" />
+      <Label text="Height : ">
+         <HBox.margin>
+            <Insets left="30.0" />
+         </HBox.margin>
+      </Label>
+      <Spinner fx:id="HeightSpinner" editable="true" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+   </padding>
+</fx:root>

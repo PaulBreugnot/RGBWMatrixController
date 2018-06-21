@@ -17,23 +17,21 @@ import main.gui.views.connectionInterface.ConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
 import main.gui.views.playBar.PlayBar;
+import main.gui.views.sizeSpinners.SizeSpinners;
 
 public class MainViewController {
 
 	@FXML
 	private LedMatrix ledMatrix;
+	
+	@FXML
+	private SizeSpinners sizeSpinners;
 
 	@FXML
 	private TabPane mainTabPane;
 
 	@FXML
 	private Tab AnimationsTab;
-
-	@FXML
-	private Spinner<Integer> WidthSpinner;
-
-	@FXML
-	private Spinner<Integer> HeightSpinner;
 	
 	@FXML
 	private ConnectionModule connectionModule;
@@ -113,35 +111,9 @@ public class MainViewController {
 	}
 
 	public void initSizeSpinners() {
-		WidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, LedPanel.MATRIX_WIDTH));
-		WidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
-				ledMatrix.getController().stopUpdater();
-				Platform.runLater(() -> {
-					try {
-						setLedPanel(new LedPanel(ledPanel.getFps(), (int) newVal, LedPanel.MATRIX_HEIGHT));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
-			}
-		});
-
-		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(4, 128, LedPanel.MATRIX_HEIGHT));
-		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
-				ledMatrix.getController().stopUpdater();
-				Platform.runLater(() -> {
-					try {
-						setLedPanel(new LedPanel(ledPanel.getFps(), LedPanel.MATRIX_WIDTH, (int) newVal));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
-			}
-		});
+		sizeSpinners.getController().setMainViewController(this);
+		sizeSpinners.getController().setLedMatrix(ledMatrix);
+		sizeSpinners.getController().initSizeSpinners();
 	}
 
 }
