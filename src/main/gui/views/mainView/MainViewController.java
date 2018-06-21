@@ -6,7 +6,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
@@ -17,17 +16,12 @@ import main.core.model.panel.LedPanel;
 import main.gui.views.connectionInterface.ConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
+import main.gui.views.playBar.PlayBar;
 
 public class MainViewController {
 
 	@FXML
 	private LedMatrix ledMatrix;
-
-	@FXML
-	private Button PlayButton;
-
-	@FXML
-	private Button FrameByFrameButton;
 
 	@FXML
 	private TabPane mainTabPane;
@@ -43,6 +37,9 @@ public class MainViewController {
 	
 	@FXML
 	private ConnectionModule connectionModule;
+	
+	@FXML
+	private PlayBar playBar;
 
 	private EditLoopingAnimationsController editLoopingAnimationController;
 
@@ -61,6 +58,7 @@ public class MainViewController {
 		initTilePane();
 		System.out.println("initTilePane OK");
 		initConnectionModule();
+		initPlayBar();
 		if (!ledPanel.isConnected()) {
 			//ledPanel.setWiFiConnection();
 		}
@@ -74,6 +72,11 @@ public class MainViewController {
 	private void initConnectionModule() {
 		connectionModule.getController().setLedPanel(ledPanel);
 		connectionModule.getController().initComPort();
+	}
+	
+	private void initPlayBar() {
+		playBar.getController().setLedPanel(ledPanel);
+		playBar.getController().setLedMatrix(ledMatrix);
 	}
 
 	private void initAnimationsTab() {
@@ -139,30 +142,6 @@ public class MainViewController {
 				});
 			}
 		});
-	}
-
-
-	@FXML
-	private void handlePlay() {
-		FrameByFrameButton.setDisable(true);
-		ledMatrix.getController().runUpdater();
-	}
-
-	@FXML
-	private void handleFrameByFrame() {
-		ledPanel.updateDisplay();
-		Platform.runLater(() -> ledMatrix.getController().displayMatrix());
-		try {
-			Thread.sleep(1000 / ledPanel.getFps());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@FXML
-	private void handleStop() {
-		FrameByFrameButton.setDisable(false);
-		ledMatrix.getController().stopUpdater();
 	}
 
 }

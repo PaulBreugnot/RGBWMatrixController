@@ -67,14 +67,12 @@ public class LedMatrixController {
 	
 	public void runUpdater() {
 		if(!run) {
-			System.out.println("RUN");
 			run = true;
 			updater.run();
 		}
 	}
 	
 	public void stopUpdater() {
-		System.out.println("STOP");
 		run = false;
 	}
 
