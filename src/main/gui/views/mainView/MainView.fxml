@@ -53,7 +53,7 @@
                         <Separator prefHeight="1.0" prefWidth="411.0" />
                         <HBox alignment="CENTER" prefHeight="37.0" prefWidth="810.0">
                            <children>
-                              <ConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS" />
+                              <ConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS"/>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
