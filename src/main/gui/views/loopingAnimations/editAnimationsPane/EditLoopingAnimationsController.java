@@ -1,18 +1,13 @@
-package main.gui.views.loopingAnimations;
+package main.gui.views.loopingAnimations.editAnimationsPane;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import main.core.model.animations.Animation;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.animations.diamondWave.DiamondWave;
@@ -23,6 +18,7 @@ import main.core.model.animations.text.ScrollingText;
 import main.core.model.panel.LedPanel;
 import main.core.util.AnimationTime;
 import main.gui.views.ledMatrix.LedMatrix;
+import main.gui.views.loopingAnimations.loopItem.LoopItem;
 import main.gui.views.mainView.MainViewController;
 
 public class EditLoopingAnimationsController {
@@ -46,16 +42,16 @@ public class EditLoopingAnimationsController {
 	private LedMatrix previewLedMatrix;
 
 	@FXML
-	private ListView<AnchorPane> LoopItems;
+	private ListView<LoopItem> LoopItems;
 
-	public static ObservableList<AnchorPane> LoopItemsList = FXCollections.observableArrayList();
+	public static ObservableList<LoopItem> LoopItemsList = FXCollections.observableArrayList();
 
 	public static ObservableList<Animation> ListRandomEffects = FXCollections.observableArrayList();
 	public static ObservableList<Animation> ListGeometricEffects = FXCollections.observableArrayList();
 	public static ObservableList<Animation> ListTextEffects = FXCollections.observableArrayList();
 	public static ObservableList<Animation> ListSpecialEffects = FXCollections.observableArrayList();
 
-	private HashMap<AnchorPane, Animation> SettingsControllersMap = new HashMap<>();
+	private HashMap<LoopItem, Animation> SettingsControllersMap = new HashMap<>();
 
 	private LedPanel ledPanel;
 
@@ -193,21 +189,15 @@ public class EditLoopingAnimationsController {
 	}
 
 	private void setConfigPane(Animation animation, AnimationTime animationTime) {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/loopingAnimations/LoopItem.fxml"));
+
+		LoopItem loopItem = new LoopItem();
+		LoopItemsList.add(loopItem);
+		SettingsControllersMap.put(loopItem, animation);
+		LoopItems.scrollTo(loopItem);
+		loopItem.getController().setLoopingAnimations(loopingAnimations);
+		loopItem.getController().setEditLoopingAnimationsController(this);
 		try {
-			AnchorPane animationSettingsAnchorPane = loader.load();
-			LoopItemsList.add(animationSettingsAnchorPane);
-			SettingsControllersMap.put(animationSettingsAnchorPane, animation);
-			LoopItems.scrollTo(animationSettingsAnchorPane);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		LoopItemController loopItemController = loader.getController();
-		loopItemController.setLoopingAnimations(loopingAnimations);
-		loopItemController.setEditLoopingAnimationsController(this);
-		try {
-			loopItemController.setAnimation(animation, lastIndex, animationTime);
+			loopItem.getController().setAnimation(animation, lastIndex, animationTime);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

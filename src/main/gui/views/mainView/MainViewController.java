@@ -15,7 +15,7 @@ import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.panel.LedPanel;
 import main.gui.views.connectionInterface.ConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
-import main.gui.views.loopingAnimations.EditLoopingAnimationsController;
+import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
 import main.gui.views.playBar.PlayBar;
 import main.gui.views.sizeSpinners.SizeSpinners;
 
@@ -81,7 +81,7 @@ public class MainViewController {
 		BorderPane root;
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(
-				this.getClass().getResource("/main/gui/views/loopingAnimations/EditLoopingAnimationsView.fxml"));
+				this.getClass().getResource("/main/gui/views/loopingAnimations/editAnimationsPane/EditLoopingAnimationsView.fxml"));
 		try {
 			root = (BorderPane) loader.load();
 			AnimationsTab.setContent(root);

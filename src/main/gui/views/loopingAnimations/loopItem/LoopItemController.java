@@ -1,4 +1,4 @@
-package main.gui.views.loopingAnimations;
+package main.gui.views.loopingAnimations.loopItem;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.util.AnimationTime;
+import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
 
 public class LoopItemController {
 
