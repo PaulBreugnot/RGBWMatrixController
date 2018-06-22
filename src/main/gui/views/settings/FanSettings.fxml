@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
@@ -10,9 +14,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="445.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.FanSettingsController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.FanSettingsController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="123.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="123.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label prefHeight="37.0" prefWidth="200.0" text="This fan will cool you down... Or maybe not." textAlignment="CENTER" wrapText="true">
                <VBox.margin>
@@ -24,9 +28,9 @@
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <AnchorPane prefHeight="52.0" prefWidth="200.0">
+            <AnchorPane>
                <children>
-                  <RadioButton fx:id="rainbowButton" mnemonicParsing="false" onAction="#handleRainbowButton" text="RAINBOW!!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" />
+                  <RadioButton fx:id="rainbowButton" mnemonicParsing="false" onAction="#handleRainbowButton" text="RAINBOW!!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="30.0" />
                   <RadioButton fx:id="saturationButton" mnemonicParsing="false" onAction="#handleSaturationButton" selected="true" text="Saturation" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                   <RadioButton fx:id="brightnessButton" mnemonicParsing="false" onAction="#handleBrightnessButton" text="Brightness" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>

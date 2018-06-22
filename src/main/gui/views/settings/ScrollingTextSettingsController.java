@@ -26,8 +26,6 @@ public class ScrollingTextSettingsController {
 	@FXML
 	private Slider TextBrightnessSlider;
 	@FXML
-	private Slider whiteSlider;
-	@FXML
 	private Slider BackgroundHueSlider;
 	@FXML
 	private Slider BackgroundSaturationSlider;
@@ -88,13 +86,6 @@ public class ScrollingTextSettingsController {
 				double hue = scrollingText.getTextColor().getHue();
 				double saturation = scrollingText.getTextColor().getSaturation();
 				scrollingText.setTextColor(Color.hsb(hue, saturation, (double) new_val));
-				scrollingText.setTextArray();
-			}
-		});
-
-		whiteSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				scrollingText.setWhiteLevel((int) Math.floor((double) new_val));
 				scrollingText.setTextArray();
 			}
 		});

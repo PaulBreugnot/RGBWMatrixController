@@ -23,6 +23,6 @@ public class CustomTabPaneController {
 	public Tab getAnimationsTab() {
 		return LoopingAnimationsTab;
 	}
-	
+
 
 }

@@ -12,50 +12,54 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root minHeight="576.0" minWidth="220.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="indexLabel" text="IndexLabel" />
-            <HBox alignment="CENTER" prefHeight="17.0" prefWidth="105.0">
+            <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                <children>
-                  <Label text="Time :" />
-                  <Label fx:id="timeLabel" text="TimeLabel">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
+                  <Label fx:id="indexLabel" text="IndexLabel" />
+                  <HBox alignment="CENTER" prefHeight="17.0" prefWidth="105.0">
+                     <children>
+                        <Label text="Time :" />
+                        <Label fx:id="timeLabel" text="TimeLabel">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <AnchorPane fx:id="ConfigPane" />
                </children>
-            </HBox>
-            <AnchorPane fx:id="ConfigPane" minHeight="445.0" minWidth="200.0" prefHeight="445.0" prefWidth="200.0" />
-            <HBox>
+            </VBox>
+            <VBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
                <children>
-                  <Label text="Duration :">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
+                  <HBox>
+                     <children>
+                        <Label text="Duration :">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <TextField fx:id="durationTextField">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#handleDelete" text="Delete">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin></Button>
                </children>
-            </HBox>
-            <HBox>
-               <children>
-                  <TextField fx:id="durationTextField">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
-               </children>
-            </HBox>
-            <Button mnemonicParsing="false" onAction="#handleDelete" text="Delete">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Button>
+            </VBox>
          </children>
       </VBox>
    </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
 </fx:root>
