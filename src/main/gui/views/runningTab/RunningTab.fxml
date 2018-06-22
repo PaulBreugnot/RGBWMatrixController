@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import main.gui.views.connectionInterface.*?>
+<?import main.gui.views.ledMatrix.*?>
+<?import main.gui.views.sizeSpinners.*?>
+<?import main.gui.views.playBar.*?>
+
+<fx:root prefHeight="445.0" prefWidth="810.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox alignment="TOP_CENTER">
+         <children>
+            <Label text="AWESOME PIXLED SIMULATOR" textFill="#2b14c3" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+            <SizeSpinners fx:id="sizeSpinners" />
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <VBox alignment="BOTTOM_CENTER" minWidth="400.0" prefHeight="64.0" prefWidth="810.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator prefHeight="1.0" prefWidth="411.0" />
+            <HBox alignment="CENTER" prefHeight="37.0" prefWidth="810.0">
+               <children>
+                  <ConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS" />
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <PlayBar fx:id="playBar" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets right="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </bottom>
+   <center>
+      <LedMatrix fx:id="ledMatrix" maxHeight="450.0" maxWidth="900.0" minHeight="450.0" minWidth="900.0" prefHeight="450.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+      </LedMatrix>
+   </center>
+</fx:root>

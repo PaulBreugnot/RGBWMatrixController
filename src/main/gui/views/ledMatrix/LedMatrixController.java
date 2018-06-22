@@ -8,25 +8,24 @@ import javafx.scene.shape.Rectangle;
 import main.core.model.panel.LedPanel;
 
 public class LedMatrixController {
-	
+
 	@FXML
 	private LedMatrix ledMatrix;
-	
+
 	private LedPanel ledPanel;
 	private Rectangle[][] matrixAnchorPaneContent;
-	
+
 	private GUIupdater updater;
-	private boolean run;
-	
-	
+	private boolean run = false;
+
 	public void setLedPanel(LedPanel ledPanel) {
 		this.ledPanel = ledPanel;
 	}
-	
+
 	public void setComponent(LedMatrix ledMatrix) {
 		this.ledMatrix = ledMatrix;
 	}
-	
+
 	public void initMatrix() {
 		updater = new GUIupdater(this);
 		ledMatrix.getChildren().clear();
@@ -64,14 +63,14 @@ public class LedMatrixController {
 			}
 		}
 	}
-	
+
 	public void runUpdater() {
-		if(!run) {
+		if (!run) {
 			run = true;
 			updater.run();
 		}
 	}
-	
+
 	public void stopUpdater() {
 		run = false;
 	}
@@ -85,19 +84,18 @@ public class LedMatrixController {
 
 		@Override
 		public void run() {
-			ledPanel.updateDisplay();
-			try {
-				Thread.sleep(1000 / ledPanel.getFps());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			Platform.runLater(() -> {
-				displayMatrix();
-				if (ledMatrixController.run) {
-					run();
+			if (ledMatrixController.run) {
+				ledPanel.updateDisplay();
+				try {
+					Thread.sleep(1000 / ledPanel.getFps());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			});
-
+				Platform.runLater(() -> {
+					displayMatrix();
+					run();
+				});
+			}
 		}
 	}
 }

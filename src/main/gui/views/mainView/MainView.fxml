@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import main.gui.views.runningTab.*?>
 <?import main.gui.views.connectionInterface.*?>
 <?import main.gui.views.ledMatrix.*?>
 <?import main.gui.views.playBar.*?>
@@ -26,47 +27,7 @@
    <tabs>
       <Tab text="Running">
          <content>
-            <BorderPane prefHeight="445.0" prefWidth="810.0">
-               <top>
-                  <VBox alignment="TOP_CENTER">
-                     <children>
-                        <Label text="AWESOME PIXLED SIMULATOR" textFill="#2b14c3" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="21.0" />
-                           </font>
-                        </Label>
-                        <SizeSpinners fx:id="sizeSpinners"/>
-                     </children>
-                  </VBox>
-               </top>
-               <bottom>
-                  <VBox alignment="BOTTOM_CENTER" minWidth="400.0" prefHeight="64.0" prefWidth="810.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Separator prefHeight="1.0" prefWidth="411.0" />
-                        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="810.0">
-                           <children>
-                              <ConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS"/>
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <PlayBar fx:id="playBar" HBox.hgrow="ALWAYS"/>
-                           </children>
-                           <VBox.margin>
-                              <Insets right="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                  </VBox>
-               </bottom>
-               <center>
-                  <LedMatrix fx:id="ledMatrix" maxHeight="450.0" maxWidth="900.0" minHeight="450.0" minWidth="900.0" prefHeight="450.0" prefWidth="900.0" BorderPane.alignment="CENTER">
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" top="10.0" left="10.0" right="10.0" />
-                     </BorderPane.margin>
-                  </LedMatrix>
-               </center>
-            </BorderPane>
+            <RunningTab fx:id="runningTab" prefHeight="445.0" prefWidth="810.0" />
          </content>
       </Tab>
       <Tab fx:id="AnimationsTab" text="Animations">

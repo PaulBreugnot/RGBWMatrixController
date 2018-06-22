@@ -17,27 +17,19 @@ import main.gui.views.connectionInterface.ConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
 import main.gui.views.playBar.PlayBar;
+import main.gui.views.runningTab.RunningTab;
 import main.gui.views.sizeSpinners.SizeSpinners;
 
 public class MainViewController {
 
 	@FXML
-	private LedMatrix ledMatrix;
+	private TabPane mainTabPane;
 	
 	@FXML
-	private SizeSpinners sizeSpinners;
-
-	@FXML
-	private TabPane mainTabPane;
+	private RunningTab runningTab;
 
 	@FXML
 	private Tab AnimationsTab;
-	
-	@FXML
-	private ConnectionModule connectionModule;
-	
-	@FXML
-	private PlayBar playBar;
 
 	private EditLoopingAnimationsController editLoopingAnimationController;
 
@@ -45,18 +37,11 @@ public class MainViewController {
 
 	private LedPanel ledPanel;
 
-	@FXML
-	private void initialize() {
-		initSizeSpinners();
-	}
 
 	public void setLedPanel(LedPanel ledPanel) throws IOException {
 		this.ledPanel = ledPanel;
+		initRunningTab();
 		initAnimationsTab();
-		initTilePane();
-		System.out.println("initTilePane OK");
-		initConnectionModule();
-		initPlayBar();
 		if (!ledPanel.isConnected()) {
 			//ledPanel.setWiFiConnection();
 		}
@@ -67,14 +52,10 @@ public class MainViewController {
 		return ledPanel;
 	}
 	
-	private void initConnectionModule() {
-		connectionModule.getController().setLedPanel(ledPanel);
-		connectionModule.getController().initComPort();
-	}
-	
-	private void initPlayBar() {
-		playBar.getController().setLedPanel(ledPanel);
-		playBar.getController().setLedMatrix(ledMatrix);
+	private void initRunningTab() {
+		runningTab.getController().setLedPanel(ledPanel);
+		runningTab.getController().setMainViewController(this);
+		runningTab.getController().initRunningTab();
 	}
 
 	private void initAnimationsTab() {
@@ -103,17 +84,6 @@ public class MainViewController {
 				}
 			}
 		});
-	}
-
-	private void initTilePane() {
-		ledMatrix.getController().setLedPanel(ledPanel);
-		ledMatrix.getController().initMatrix();
-	}
-
-	public void initSizeSpinners() {
-		sizeSpinners.getController().setMainViewController(this);
-		sizeSpinners.getController().setLedMatrix(ledMatrix);
-		sizeSpinners.getController().initSizeSpinners();
 	}
 
 }
