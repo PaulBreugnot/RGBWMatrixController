@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.util.AnimationTime;
-import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
+import main.gui.views.loopingAnimations.loopingAnimationsTab.LoopingAnimationsTabController;
 
 public class LoopItemController {
 
@@ -29,7 +29,7 @@ public class LoopItemController {
 	private AnimationTime animationTime;
 
 	private LoopingAnimations loopingAnimations;
-	private EditLoopingAnimationsController editLoopingAnimationsController;
+	private LoopingAnimationsTabController editLoopingAnimationsController;
 
 	public void setAnimation(Animation animation, int index, AnimationTime animationTime) throws IOException {
 		ConfigPane.getChildren().clear();
@@ -49,7 +49,7 @@ public class LoopItemController {
 		this.loopingAnimations = loopingAnimations;
 	}
 
-	public void setEditLoopingAnimationsController(EditLoopingAnimationsController editLoopingAnimationsController) {
+	public void setEditLoopingAnimationsController(LoopingAnimationsTabController editLoopingAnimationsController) {
 		this.editLoopingAnimationsController = editLoopingAnimationsController;
 	}
 

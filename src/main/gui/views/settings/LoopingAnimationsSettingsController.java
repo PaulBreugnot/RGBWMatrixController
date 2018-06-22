@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
-import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
+import main.gui.views.loopingAnimations.loopingAnimationsTab.LoopingAnimationsTabController;
 
 public class LoopingAnimationsSettingsController {
 
@@ -34,7 +34,7 @@ public class LoopingAnimationsSettingsController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		EditLoopingAnimationsController editLoopingAnimationController = loader.getController();
+		LoopingAnimationsTabController editLoopingAnimationController = loader.getController();
 		editLoopingAnimationController.setLoopingAnimations(loopingAnimations);
 
 		editStage.showAndWait();

@@ -1,4 +1,4 @@
-package main.gui.views.loopingAnimations.editAnimationsPane;
+package main.gui.views.loopingAnimations.loopingAnimationsTab;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.loopingAnimations.loopItem.LoopItem;
 import main.gui.views.mainView.MainViewController;
 
-public class EditLoopingAnimationsController {
+public class LoopingAnimationsTabController {
 
 	@FXML
 	private ListView<Animation> RandomListView;

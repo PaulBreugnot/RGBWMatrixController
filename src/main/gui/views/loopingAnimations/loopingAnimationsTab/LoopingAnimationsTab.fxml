@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController">
+<fx:root type="BorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="455.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -103,4 +103,4 @@
    <center>
       <ListView fx:id="LoopItems" minHeight="600.0" orientation="HORIZONTAL" prefHeight="600.0" BorderPane.alignment="CENTER" />
    </center>
-</BorderPane>
+</fx:root>

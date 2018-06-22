@@ -5,6 +5,7 @@
 <?import main.gui.views.ledMatrix.*?>
 <?import main.gui.views.playBar.*?>
 <?import main.gui.views.sizeSpinners.*?>
+<?import main.gui.customTabPane.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -23,16 +24,4 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane fx:id="mainTabPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.mainView.MainViewController">
-   <tabs>
-      <Tab text="Running">
-         <content>
-            <RunningTab fx:id="runningTab" prefHeight="445.0" prefWidth="810.0" />
-         </content>
-      </Tab>
-      <Tab fx:id="AnimationsTab" text="Animations">
-         <content>
-            <AnchorPane minHeight="600.0" prefHeight="600.0" prefWidth="200.0" />
-         </content></Tab>
-   </tabs>
-</TabPane>
+<CustomTabPane fx:id="mainTabPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.mainView.MainViewController"/>

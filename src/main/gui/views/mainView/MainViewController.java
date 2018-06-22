@@ -1,37 +1,24 @@
 package main.gui.views.mainView;
 
 import java.io.IOException;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
 import main.core.model.animations.loopingAnimations.LoopingAnimations;
 import main.core.model.panel.LedPanel;
-import main.gui.views.connectionInterface.ConnectionModule;
-import main.gui.views.ledMatrix.LedMatrix;
-import main.gui.views.loopingAnimations.editAnimationsPane.EditLoopingAnimationsController;
-import main.gui.views.playBar.PlayBar;
+import main.gui.customTabPane.CustomTabPane;
+import main.gui.views.loopingAnimations.loopingAnimationsTab.LoopingAnimationsTab;
 import main.gui.views.runningTab.RunningTab;
-import main.gui.views.sizeSpinners.SizeSpinners;
 
 public class MainViewController {
 
 	@FXML
-	private TabPane mainTabPane;
-	
-	@FXML
-	private RunningTab runningTab;
+	private CustomTabPane mainTabPane;
 
-	@FXML
-	private Tab AnimationsTab;
+	private RunningTab runningTabContent;
 
-	private EditLoopingAnimationsController editLoopingAnimationController;
+	private LoopingAnimationsTab animationsTabContent;
 
 	private LoopingAnimations loopingAnimations;
 
@@ -42,6 +29,7 @@ public class MainViewController {
 		this.ledPanel = ledPanel;
 		initRunningTab();
 		initAnimationsTab();
+		initMainTabPane();
 		if (!ledPanel.isConnected()) {
 			//ledPanel.setWiFiConnection();
 		}
@@ -52,35 +40,31 @@ public class MainViewController {
 		return ledPanel;
 	}
 	
+	private void initMainTabPane() {
+		mainTabPane.getController().getRunningTab().setContent(runningTabContent);
+		mainTabPane.getController().getAnimationsTab().setContent(animationsTabContent);
+	}
+	
 	private void initRunningTab() {
-		runningTab.getController().setLedPanel(ledPanel);
-		runningTab.getController().setMainViewController(this);
-		runningTab.getController().initRunningTab();
+		runningTabContent = new RunningTab();
+		runningTabContent.getController().setLedPanel(ledPanel);
+		runningTabContent.getController().setMainViewController(this);
+		runningTabContent.getController().initRunningTab();
 	}
 
 	private void initAnimationsTab() {
-		BorderPane root;
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(
-				this.getClass().getResource("/main/gui/views/loopingAnimations/editAnimationsPane/EditLoopingAnimationsView.fxml"));
-		try {
-			root = (BorderPane) loader.load();
-			AnimationsTab.setContent(root);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		animationsTabContent = new LoopingAnimationsTab();
 		loopingAnimations = new LoopingAnimations();
-		editLoopingAnimationController = loader.getController();
-		editLoopingAnimationController.setLoopingAnimations(loopingAnimations);
-		editLoopingAnimationController.setMainViewController(this);
+		animationsTabContent.getController().setLoopingAnimations(loopingAnimations);
+		animationsTabContent.getController().setMainViewController(this);
 
 		mainTabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
 			public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-				if (t1 == AnimationsTab) {
-					editLoopingAnimationController.setRunPreview(true);
+				if (t1.getContent() == animationsTabContent) {
+					animationsTabContent.getController().setRunPreview(true);
 				} else {
-					editLoopingAnimationController.setRunPreview(false);
+					animationsTabContent.getController().setRunPreview(false);
 				}
 			}
 		});
