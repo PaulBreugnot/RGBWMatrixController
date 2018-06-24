@@ -4,9 +4,12 @@ import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import main.gui.views.ledMatrix.LedMatrix;
 
 public class CustomTabPane extends TabPane {
 
@@ -35,16 +38,33 @@ public class CustomTabPane extends TabPane {
         widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> value, Number oldWidth, Number newWidth) {
-            	((BorderPane) customTabPaneController.getRunningTab().getContent()).setPrefWidth((Double) newWidth);
-            	((BorderPane) customTabPaneController.getAnimationsTab().getContent()).setPrefWidth((Double) newWidth);
+            	setContentSize((double) newWidth, getHeight() - 40);
+            	ForceLedMatrixResize((double) newWidth, getHeight() - 40);
             }
         });
 
         heightProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> value, Number oldHeight, Number newHeight) {
-            	((BorderPane) customTabPaneController.getRunningTab().getContent()).setPrefHeight(((Double) newHeight) - 40);
-            	((BorderPane) customTabPaneController.getAnimationsTab().getContent()).setPrefHeight(((Double) newHeight) - 40);
+            	setContentSize(getWidth(), ((double) newHeight) - 40);
+            	ForceLedMatrixResize(getWidth(), ((double) newHeight) - 40);
            }
         });
+	}
+	
+	public void setContentSize(double tabPaneWidth, double tabPaneHeight) {
+		((BorderPane) customTabPaneController.getRunningTab().getContent()).setPrefSize(tabPaneWidth, tabPaneHeight);
+    	((BorderPane) customTabPaneController.getAnimationsTab().getContent()).setPrefSize(tabPaneWidth, tabPaneHeight);
+	}
+	
+	public void ForceLedMatrixResize(double tabPaneWidth, double tabPaneHeight) {
+		double height = tabPaneHeight
+				- ((Region)((BorderPane) customTabPaneController.getRunningTab().getContent()).getTop()).getHeight()
+				- ((Region)((BorderPane) customTabPaneController.getRunningTab().getContent()).getBottom()).getHeight()
+				- 50;
+		double width = tabPaneWidth - 20; //insets
+		LedMatrix ledMatrix = (LedMatrix)((BorderPane) customTabPaneController.getRunningTab().getContent()).getCenter();
+		ledMatrix.setPrefSize(width, height);
+		ledMatrix.getController().renderMatrix(width, height);
+		((BorderPane) customTabPaneController.getRunningTab().getContent()).setCenter(ledMatrix);
 	}
 }

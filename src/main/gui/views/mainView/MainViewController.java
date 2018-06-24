@@ -35,6 +35,15 @@ public class MainViewController {
 		}
 		System.out.println("Connection method : " + ledPanel.getConMethod());
 	}
+	
+	public void updateLedPanel(LedPanel ledPanel) {
+		this.ledPanel = ledPanel;
+		runningTabContent.getController().setLedPanel(ledPanel);
+		initAnimationsTab();
+		initMainTabPane();
+		mainTabPane.setContentSize(mainTabPane.getWidth(), mainTabPane.getHeight() - 40);
+		mainTabPane.ForceLedMatrixResize(mainTabPane.getWidth(), mainTabPane.getHeight() - 40);
+	}
 
 	public LedPanel getLedPanel() {
 		return ledPanel;

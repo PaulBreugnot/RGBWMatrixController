@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" type="TabPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.162-ea">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" type="TabPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <tabs>
-      <Tab fx:id="RunningTab" text="Running"/>
-      <Tab fx:id="LoopingAnimationsTab" text="Animations"/>
+      <Tab fx:id="RunningTab" text="Running" />
+      <Tab fx:id="LoopingAnimationsTab" text="Animations" />
    </tabs>
 </fx:root>

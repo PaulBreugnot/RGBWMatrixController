@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="920.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="920.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="BOTTOM_CENTER">
          <children>
@@ -88,13 +88,19 @@
                            </children>
                         </VBox>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
                   </HBox>
                   <Separator prefWidth="200.0" />
                   <Label prefHeight="15.0" prefWidth="214.0" text="Preview :" />
-                  <LedMatrix fx:id="previewLedMatrix" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" prefHeight="100.0" prefWidth="200.0" />
+                  <LedMatrix fx:id="previewLedMatrix" maxHeight="100.0" maxWidth="200.0" minHeight="100.0" minWidth="200.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
       </VBox>
    </left>
    <center>

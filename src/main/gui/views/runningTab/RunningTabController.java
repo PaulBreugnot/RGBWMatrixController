@@ -27,6 +27,7 @@ public class RunningTabController {
 	
 	public void setLedPanel(LedPanel ledPanel) {
 		this.ledPanel = ledPanel;
+		initTilePane();
 	}
 	
 	public void setMainViewController(MainViewController mainViewController) {
@@ -34,8 +35,11 @@ public class RunningTabController {
 		initSizeSpinners();
 	}
 	
+	public void setSizeSpinners(SizeSpinners sizeSpinners) {
+		this.sizeSpinners = sizeSpinners;
+	}
+	
 	public void initRunningTab() {
-		initTilePane();
 		initConnectionModule();
 		initPlayBar();
 	}

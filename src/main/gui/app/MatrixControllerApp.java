@@ -7,6 +7,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import main.core.model.panel.LedPanel;
+import main.gui.customTabPane.CustomTabPane;
 import main.gui.views.mainView.MainViewController;
 import test.MainTest;
 
@@ -29,10 +30,10 @@ public class MatrixControllerApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		TabPane root;
+		CustomTabPane root;
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MatrixControllerApp.class.getResource("/main/gui/views/mainView/MainView.fxml"));
-		root = (TabPane) loader.load();
+		root = (CustomTabPane) loader.load();
 		mainViewController = loader.getController();
 		ledPanel = MainTest.getAppConfig();
 		mainViewController.setLedPanel(ledPanel);
@@ -40,9 +41,12 @@ public class MatrixControllerApp extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Min'Bot 2018 - PixLed Controller");
 		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/LogoMinBot.jpg")));
-		primaryStage.setResizable(false);
+		primaryStage.setMinWidth(1200);
+		primaryStage.setMinHeight(800);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setWidth(primaryStage.getMinWidth());
+		primaryStage.setHeight(primaryStage.getMinHeight());
 	}
 
 }

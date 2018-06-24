@@ -1,7 +1,5 @@
 package main.gui.views.sizeSpinners;
 
-import java.io.IOException;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,11 +36,9 @@ public class SizeSpinnersController {
 			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
 				ledMatrix.getController().stopUpdater();
 				Platform.runLater(() -> {
-					try {
-						mainViewController.setLedPanel(new LedPanel(mainViewController.getLedPanel().getFps(), (int) newVal, LedPanel.MATRIX_HEIGHT));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				mainViewController.updateLedPanel(
+						new LedPanel(mainViewController.getLedPanel().getFps(), (int) newVal, LedPanel.MATRIX_HEIGHT));
+
 				});
 			}
 		});
@@ -53,11 +49,9 @@ public class SizeSpinnersController {
 			public void changed(ObservableValue<? extends Number> v, Number oldVal, Number newVal) {
 				ledMatrix.getController().stopUpdater();
 				Platform.runLater(() -> {
-					try {
-						mainViewController.setLedPanel(new LedPanel(mainViewController.getLedPanel().getFps(), LedPanel.MATRIX_WIDTH, (int) newVal));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				mainViewController.updateLedPanel(
+						new LedPanel(mainViewController.getLedPanel().getFps(), LedPanel.MATRIX_WIDTH, (int) newVal));
+
 				});
 			}
 		});
