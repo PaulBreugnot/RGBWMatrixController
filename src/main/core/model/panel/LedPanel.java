@@ -4,12 +4,12 @@ import java.net.SocketException;
 
 import main.core.model.animations.Animation;
 import main.core.model.pixel.RGBWPixel;
-import main.output.com.SendArray;
+import main.output.com.UsbConnector;
 import main.output.udp.SendUDP;
 
 public class LedPanel {
 
-	private enum ConMethod {
+	public enum ConMethod {
 		USB, WIFI, NONE
 	};
 
@@ -17,8 +17,8 @@ public class LedPanel {
 	public static int MATRIX_HEIGHT = 6;
 
 	public static final double MAX_INTENSITY = 0.1;
-
-	private SendArray sendArray;
+	
+	private UsbConnector usbConnector;
 	private SendUDP sendUDP;
 	private Animation currentAnimation;
 	private int fps;
@@ -38,11 +38,19 @@ public class LedPanel {
 		LedMatrix = new RGBWPixel[MATRIX_HEIGHT][MATRIX_WIDTH];
 	}
 
-	public void setUSBConnection(String portCom) {
-		sendArray = new SendArray(portCom);
-		if (sendArray.isConnectionSet()) {
+	public void initUsbConnector() {
+		usbConnector = new UsbConnector(this);
+		if (usbConnector.isConnectionSet()) {
 			conMethod = ConMethod.USB;
 		}
+	}
+	
+	public void setConnectionMode(ConMethod conMethod) {
+		this.conMethod = conMethod;
+	}
+	
+	public UsbConnector getUsbConnector() {
+		return usbConnector;
 	}
 
 	public void setWiFiConnection() throws SocketException {
@@ -82,7 +90,7 @@ public class LedPanel {
 		currentAnimation.setNextPicture(LedMatrix, MATRIX_WIDTH, MATRIX_HEIGHT);
 		switch (conMethod) {
 		case USB:
-			sendArray.send(LedMatrix);
+			usbConnector.send();
 			break;
 		case WIFI:
 			try {

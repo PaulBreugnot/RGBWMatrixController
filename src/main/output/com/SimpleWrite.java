@@ -2,7 +2,7 @@ package main.output.com;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Enumeration;
+import java.util.ArrayList;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
@@ -10,42 +10,51 @@ import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
 
 public class SimpleWrite {
-	private Enumeration<CommPortIdentifier> portList;
-	private CommPortIdentifier portId;
+	private CommPortIdentifier connectedPort;
 	private SerialPort serialPort;
 	private OutputStream outputStream;
 	private String COM;
 
-	public SimpleWrite(String COM) {
+	public SimpleWrite(String COM, ArrayList<CommPortIdentifier> portList) {
 		this.COM = COM;
-		initCOMPort();
+		initCOMPort(portList);
+	}
+	
+	public CommPortIdentifier getConnectedPort() {
+		return connectedPort;
 	}
 
-	public void initCOMPort() {
-		portList = CommPortIdentifier.getPortIdentifiers();
-		while (portList.hasMoreElements()) {
-			portId = (CommPortIdentifier) portList.nextElement();
-			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-				if (portId.getName().equals(COM)) {
+	public void initCOMPort(ArrayList<CommPortIdentifier> portList) {
+		boolean connected = false;
+		int index = 0;
+		while(!connected && index < portList.size()) {
+			connectedPort = portList.get(index);
+			if (connectedPort.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+				if (connectedPort.getName().equals(COM)) {
 					// if (portId.getName().equals("/dev/term/a")) {
 					try {
-						serialPort = (SerialPort) portId.open("SimpleWriteApp", 2000);
+						serialPort = (SerialPort) connectedPort.open("SimpleWriteApp", 2000);
 					} catch (PortInUseException e) {
+						connectedPort = null;
 					}
 					try {
 						outputStream = serialPort.getOutputStream();
 						if(outputStream != null) {
+							connected = true;
 							System.out.println("USB connected : " + COM);
 						}
 					} catch (IOException e) {
+						connectedPort = null;
 					}
 					try {
 						serialPort.setSerialPortParams(1000000, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 								SerialPort.PARITY_NONE);
 					} catch (UnsupportedCommOperationException e) {
+						connectedPort = null;
 					}
 				}
 			}
+			index ++;
 		}
 	}
 	
