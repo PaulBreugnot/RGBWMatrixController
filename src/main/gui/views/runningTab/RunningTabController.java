@@ -2,7 +2,7 @@ package main.gui.views.runningTab;
 
 import javafx.fxml.FXML;
 import main.core.model.panel.LedPanel;
-import main.gui.views.connectionInterface.ConnectionModule;
+import main.gui.views.connectionInterface.usb.UsbConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.mainView.MainViewController;
 import main.gui.views.playBar.PlayBar;
@@ -16,7 +16,7 @@ public class RunningTabController {
 	private SizeSpinners sizeSpinners;
 	
 	@FXML
-	private ConnectionModule connectionModule;
+	private UsbConnectionModule connectionModule;
 	
 	@FXML
 	private PlayBar playBar;

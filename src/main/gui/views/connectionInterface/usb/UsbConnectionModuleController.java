@@ -1,4 +1,4 @@
-package main.gui.views.connectionInterface;
+package main.gui.views.connectionInterface.usb;
 
 import java.util.Enumeration;
 
@@ -10,7 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import main.core.model.panel.LedPanel;
 
-public class ConnectionModuleController {
+public class UsbConnectionModuleController {
 
 	@FXML
 	private ComboBox<String> ComPortComboBox;
