@@ -2,7 +2,7 @@ package main.gui.views.runningTab;
 
 import javafx.fxml.FXML;
 import main.core.model.panel.LedPanel;
-import main.gui.views.connectionInterface.usb.UsbConnectionModule;
+import main.gui.views.connectionInterface.connectionModule.ConnectionModule;
 import main.gui.views.ledMatrix.LedMatrix;
 import main.gui.views.mainView.MainViewController;
 import main.gui.views.playBar.PlayBar;
@@ -16,7 +16,7 @@ public class RunningTabController {
 	private SizeSpinners sizeSpinners;
 	
 	@FXML
-	private UsbConnectionModule connectionModule;
+	private ConnectionModule connectionModule;
 	
 	@FXML
 	private PlayBar playBar;
@@ -45,8 +45,8 @@ public class RunningTabController {
 	}
 	
 	private void initConnectionModule() {
-		connectionModule.getController().setLedPanel(ledPanel);
-		connectionModule.getController().initComPort();
+		connectionModule.getController().getUsbConnectionTab().getController().setLedPanel(ledPanel);
+		connectionModule.getController().getUsbConnectionTab().getController().initComPort();
 	}
 	
 	private void initPlayBar() {

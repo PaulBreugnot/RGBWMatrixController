@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.core.model.panel.LedPanel;
 
-public class UsbConnectionModuleController {
+public class UsbConnectionTabController {
 
 	@FXML
 	private ComboBox<String> ComPortComboBox;
@@ -35,6 +35,7 @@ public class UsbConnectionModuleController {
 		icon.setFitWidth(20);
 		RefreshButton.setGraphic(icon);
 	}
+	
 	public void setLedPanel(LedPanel ledPanel) {
 		this.ledPanel = ledPanel;
 	}

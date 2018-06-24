@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import main.gui.views.connectionInterface.usb.*?>
+<?import main.gui.views.connectionInterface.connectionModule.*?>
 <?import main.gui.views.ledMatrix.*?>
 <?import main.gui.views.sizeSpinners.*?>
 <?import main.gui.views.playBar.*?>
@@ -29,7 +29,7 @@
             <Separator VBox.vgrow="NEVER" />
             <HBox alignment="CENTER" VBox.vgrow="NEVER">
                <children>
-                  <UsbConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS" />
+                  <ConnectionModule fx:id="connectionModule" HBox.hgrow="ALWAYS" />
                   <Separator orientation="VERTICAL" />
                   <PlayBar fx:id="playBar" HBox.hgrow="ALWAYS" />
                </children>
