@@ -17,7 +17,7 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
-	private int particleNumber = 1;
+	private int particleNumber = 15;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;
@@ -30,15 +30,15 @@ public class BouncingBalls implements Animation {
 		Random rd = new Random();
 		double currentXpos = 1;
 		for (int i = 0; i < particleNumber; i++) {
-			double radius = 4;
+			double radius = 2;
 			currentXpos += radius;
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
-			//double angle = 0;
+			//double angle = 3.1;
 			int x = (int) Math.floor(currentXpos);
 			currentXpos += radius;
 			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
 			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			double speed = 1;
+			double speed = 2;
 			Particle particle = new Particle(speed, angle, x, y, radius);
 			
 			//All the coordinates are forced to fit matrix width and height

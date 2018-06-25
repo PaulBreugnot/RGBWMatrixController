@@ -72,7 +72,7 @@ public class ParticleSet {
 	public void initCollisions() {
 		// Generate all collisions from current particles set
 		checkEdgesCollisions();
-		checkParticleCollisions();
+		//checkParticleCollisions();
 		System.out.println(collisions);
 	}
 
@@ -81,7 +81,7 @@ public class ParticleSet {
 		// For edges :
 		updateEdgeCollisions(particle1);
 		// For particles :
-		for (Particle p : particles) {
+		/*for (Particle p : particles) {
 			if (particle1 != p) {
 				double t = Particle.collisionTime(particle1, p);
 				if (t < Double.MAX_VALUE) {
@@ -109,7 +109,7 @@ public class ParticleSet {
 		if (particle2 != null) {
 			updateEdgeCollisions(particle2);
 			for (Particle p : particles) {
-				if (particle2 != p && particle2 != particle1) {
+				if (particle2 != p && p != particle1) {
 					double t = Particle.collisionTime(particle2, p);
 					if (t < Double.MAX_VALUE) {
 						System.out.println("New particle collision");
@@ -132,7 +132,7 @@ public class ParticleSet {
 					}
 				}
 			}
-		}
+		}*/
 
 	}
 

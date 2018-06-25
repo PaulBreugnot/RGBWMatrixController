@@ -114,7 +114,7 @@ public class Particle {
 			return Double.MAX_VALUE;
 		}
 		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
-		System.out.println(collisionTime);
+		System.out.println("Particle collision time : " + collisionTime);
 		return collisionTime;
 	}
 
@@ -123,7 +123,6 @@ public class Particle {
 		double yCollision;
 		if (e.getAlpha() != p.getAlpha()) {
 			double d = Math.abs(p.getRadius() / Math.sin(p.getAlpha() - e.getAlpha()));
-			System.out.println(d);
 			if (e.getAlpha() != Math.PI / 2) {
 				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
 						/ (e.a() - Math.tan(p.getAlpha())) - d * Math.cos(p.getAlpha());
@@ -132,8 +131,8 @@ public class Particle {
 				xCollision = e.getxOrigin() - d * Math.cos(p.getAlpha());
 				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos() - d * Math.sin(p.getAlpha());
 			}
-			if (Math.cos(p.getAlpha()) * (xCollision - p.getxPos()) >= 0
-					&& Math.sin(p.getAlpha()) * (yCollision - p.getyPos()) >= 0) {
+			if (Math.cos(p.getAlpha()) * ((xCollision + d *  Math.cos(p.getAlpha()) - p.getxPos())) >= 0
+					&& Math.sin(p.getAlpha()) * ((yCollision + d *  Math.sin(p.getAlpha())- p.getyPos())) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
 				return distance / p.getSpeed();
@@ -147,9 +146,9 @@ public class Particle {
 
 	public void edgeCollisions(ArrayList<Edge> edges, double deltaT) {
 		for (Edge edge : edges) {
-			System.out.println(edge.distanceFromPointToEdge(xPos.get(), yPos.get()));
+			//System.out.println(edge.distanceFromPointToEdge(xPos.get(), yPos.get()));
 			if ((edge.distanceFromPointToEdge(xPos.get(), yPos.get())) < speed * deltaT) {
-				System.out.println("Collision");
+				//System.out.println("Collision");
 				bounceEdge(edge);
 			}
 		}
