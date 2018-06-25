@@ -17,7 +17,7 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
-	private int particleNumber = 4;
+	private int particleNumber = 1;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;
@@ -30,12 +30,13 @@ public class BouncingBalls implements Animation {
 		Random rd = new Random();
 		double currentXpos = 1;
 		for (int i = 0; i < particleNumber; i++) {
-			double radius = 3;
+			double radius = 4;
 			currentXpos += radius;
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
+			//double angle = 0;
 			int x = (int) Math.floor(currentXpos);
 			currentXpos += radius;
-			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2) + 1;
+			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
 			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
 			double speed = 1;
 			Particle particle = new Particle(speed, angle, x, y, radius);
@@ -76,7 +77,9 @@ public class BouncingBalls implements Animation {
 		for(int x = (int) Math.floor(-radius) ; x <= radius; x++) {
 			for(int y = (int) Math.floor(-radius) ; y <= radius; y++) {
 				if(Math.sqrt(x * x + y * y) <= radius) {
+					if(old_y + y >= 0 && old_y + y < LedPanel.MATRIX_HEIGHT && old_x + x >= 0 && old_x + x < LedPanel.MATRIX_WIDTH) {
 					bufferLedMatrix[old_y + y][old_x + x] = RGBWPixel.rgbPixel(0, 0, 0);
+					}
 				}
 			}
 		}
@@ -86,10 +89,11 @@ public class BouncingBalls implements Animation {
 		for(int x = (int) Math.floor(- p.getRadius()) ; x <= p.getRadius(); x++) {
 			for(int y = (int) Math.floor(- p.getRadius()) ; y <= p.getRadius(); y++) {
 				if(Math.sqrt(x * x + y * y) <= p.getRadius()) {
-					System.out.println("Render " + (x + y));
 					int xParticle = (int) Math.floor(p.getxPos());
 					int yParticle = (int) Math.floor(p.getyPos());
+					if(yParticle + y >= 0 && yParticle + y < LedPanel.MATRIX_HEIGHT && xParticle + x >= 0 && xParticle + x < LedPanel.MATRIX_WIDTH) {
 					bufferLedMatrix[yParticle + y][xParticle + x] = new RGBWPixel(p.getColor(x, y));
+					}
 				}
 			}
 		}

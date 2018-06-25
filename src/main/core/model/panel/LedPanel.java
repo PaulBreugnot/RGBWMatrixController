@@ -13,8 +13,8 @@ public class LedPanel {
 		USB, WIFI, NONE
 	};
 
-	public static int MATRIX_WIDTH = 32;
-	public static int MATRIX_HEIGHT = 16;
+	public static int MATRIX_WIDTH = 64;
+	public static int MATRIX_HEIGHT = 64;
 
 	public static final double MAX_INTENSITY = 0.1;
 

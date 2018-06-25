@@ -105,14 +105,12 @@ public class Particle {
 		double deltaVx = Math.cos(p2.getAlpha()) * p2.getSpeed() - Math.cos(p1.getAlpha()) * p1.getSpeed();
 		double deltaVy = Math.sin(p2.getAlpha()) * p2.getSpeed() - Math.sin(p1.getAlpha()) * p1.getSpeed();
 		if (deltaX * deltaVx + deltaY * deltaVy >= 0) {
-			System.out.println("Nope 1");
 			return Double.MAX_VALUE;
 		}
 		double sigma = p1.getRadius() + p2.getRadius();
 		double d = Math.pow(deltaX * deltaVx + deltaY * deltaVy, 2)
 				- (deltaVx * deltaVx + deltaVy * deltaVy) * (deltaX * deltaX + deltaY * deltaY - sigma * sigma);
 		if (d < 0) {
-			System.out.println("Nope 2");
 			return Double.MAX_VALUE;
 		}
 		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
@@ -124,19 +122,21 @@ public class Particle {
 		double xCollision;
 		double yCollision;
 		if (e.getAlpha() != p.getAlpha()) {
+			double d = Math.abs(p.getRadius() / Math.sin(p.getAlpha() - e.getAlpha()));
+			System.out.println(d);
 			if (e.getAlpha() != Math.PI / 2) {
 				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
-						/ (e.a() - Math.tan(p.getAlpha()));
-				yCollision = e.a() * (xCollision - p.getxPos()) + e.b();
+						/ (e.a() - Math.tan(p.getAlpha())) - d * Math.cos(p.getAlpha());
+				yCollision = e.a() * (xCollision - p.getxPos()) + e.b() - d * Math.sin(p.getAlpha());
 			} else {
-				xCollision = e.getxOrigin();
-				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos();
+				xCollision = e.getxOrigin() - d * Math.cos(p.getAlpha());
+				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos() - d * Math.sin(p.getAlpha());
 			}
 			if (Math.cos(p.getAlpha()) * (xCollision - p.getxPos()) >= 0
 					&& Math.sin(p.getAlpha()) * (yCollision - p.getyPos()) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
-				return (distance - p.getRadius()) / p.getSpeed();
+				return distance / p.getSpeed();
 			} else {
 				return Double.MAX_VALUE;
 			}
