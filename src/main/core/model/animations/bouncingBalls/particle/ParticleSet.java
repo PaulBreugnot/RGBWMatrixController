@@ -13,6 +13,7 @@ import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class ParticleSet {
 
+	private double deltaTsimulation = 0.01;
 	private double time = 0;
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
@@ -38,41 +39,45 @@ public class ParticleSet {
 	}
 
 	public void progress(double deltaT) {
-		while (time + deltaT >= collisions.peek().getTime()) {
-			// Trigger next collision
-			CollisionResult collidedParticles = collisions.poll().trigger();
-			if (collidedParticles.getCollidedParticle2() == null) {
-				Particle collidedParticle = collidedParticles.getCollidedParticle1();
-				// Edge collision
-				// All other events evolving this particle becomes obsoletes
-				collisions.removeAll(ParticleCollisionsMap.get(collidedParticle));
-				ParticleCollisionsMap.get(collidedParticle).clear();
-				updateCollisions(collidedParticle, null);
-			} else {
-				Particle collidedParticle1 = collidedParticles.getCollidedParticle1();
-				// Edge collision
-				// All other events evolving this particle becomes obsoletes
-				collisions.removeAll(ParticleCollisionsMap.get(collidedParticle1));
-				ParticleCollisionsMap.get(collidedParticle1).clear();
-				Particle collidedParticle2 = collidedParticles.getCollidedParticle2();
-				// Edge collision
-				// All other events evolving this particle becomes obsoletes
-				collisions.removeAll(ParticleCollisionsMap.get(collidedParticle2));
-				ParticleCollisionsMap.get(collidedParticle2).clear();
-				updateCollisions(collidedParticle1, collidedParticle2);
+		double beginTime = time;
+		while (time - beginTime < deltaT) {
+			deltaT += deltaTsimulation;
+			while (time + deltaTsimulation >= collisions.peek().getTime()) {
+				// Trigger next collision
+				CollisionResult collidedParticles = collisions.poll().trigger();
+				if (collidedParticles.getCollidedParticle2() == null) {
+					Particle collidedParticle = collidedParticles.getCollidedParticle1();
+					// Edge collision
+					// All other events evolving this particle becomes obsoletes
+					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle));
+					ParticleCollisionsMap.get(collidedParticle).clear();
+					updateCollisions(collidedParticle, null);
+				} else {
+					Particle collidedParticle1 = collidedParticles.getCollidedParticle1();
+					// Edge collision
+					// All other events evolving this particle becomes obsoletes
+					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle1));
+					ParticleCollisionsMap.get(collidedParticle1).clear();
+					Particle collidedParticle2 = collidedParticles.getCollidedParticle2();
+					// Edge collision
+					// All other events evolving this particle becomes obsoletes
+					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle2));
+					ParticleCollisionsMap.get(collidedParticle2).clear();
+					updateCollisions(collidedParticle1, collidedParticle2);
+				}
 			}
+			// Now we are safe
+			for (Particle particle : particles) {
+				particle.progress(deltaTsimulation);
+			}
+			time += deltaTsimulation;
 		}
-		// Now we are safe
-		for (Particle particle : particles) {
-			particle.progress(deltaT);
-		}
-		time += deltaT;
 	}
 
 	public void initCollisions() {
 		// Generate all collisions from current particles set
 		checkEdgesCollisions();
-		//checkParticleCollisions();
+		checkParticleCollisions();
 		System.out.println(collisions);
 	}
 
@@ -81,7 +86,7 @@ public class ParticleSet {
 		// For edges :
 		updateEdgeCollisions(particle1);
 		// For particles :
-		/*for (Particle p : particles) {
+		for (Particle p : particles) {
 			if (particle1 != p) {
 				double t = Particle.collisionTime(particle1, p);
 				if (t < Double.MAX_VALUE) {
@@ -132,7 +137,7 @@ public class ParticleSet {
 					}
 				}
 			}
-		}*/
+		}
 
 	}
 
