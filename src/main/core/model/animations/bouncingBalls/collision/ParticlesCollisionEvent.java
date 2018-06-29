@@ -24,7 +24,7 @@ public class ParticlesCollisionEvent extends CollisionEvent {
 	
 	@Override
 	public CollisionResult trigger() {
-		a.bounceParticle(b);
+		Particle.bounceParticle(a, b);
 		return new CollisionResult(a, b);
 	}
 }

@@ -75,27 +75,28 @@ public class Particle {
 		alpha = 2 * alphaLine - alpha;
 	}
 
-	public void bounceParticle(Particle p) {
+	public static void bounceParticle(Particle p1, Particle p2) {
 		//First we calculate the alpha of the line that link the two center at collision time
-		if (p.getxPos() != getxPos()) {
-			double a = (p.getyPos() - getyPos()) / (p.getxPos() - getxPos());
-			alpha = Math.atan(a);
+		double alphaEdge;
+		if (p1.getxPos() != p2.getxPos()) {
+			double a = (p1.getyPos() - p2.getyPos()) / (p1.getxPos() - p2.getxPos());
+			alphaEdge = Math.atan(a);
 		} else {
-			alpha = Math.PI / 2;
+			alphaEdge = Math.PI / 2;
 		}
 		//The we take the perpendicular
-		if (0 <= alpha && alpha < Math.PI / 2) {
-			alpha += Math.PI / 2;
+		if (0 <= alphaEdge && alphaEdge < Math.PI / 2) {
+			alphaEdge += Math.PI / 2;
 		}
 		else {
-			alpha += Math.PI;
+			alphaEdge += Math.PI;
 		}
-		if (!(0 <= alpha && alpha < Math.PI)) {
+		if (!(0 <= alphaEdge && alphaEdge < Math.PI)) {
 			System.out.println("ANGLE ERROR!!");
 		}
-		Edge collisionEdge = new Edge(alpha);
-		bounceEdge(collisionEdge);
-		p.bounceEdge(collisionEdge);
+		Edge collisionEdge = new Edge(alphaEdge);
+		p1.bounceEdge(collisionEdge);
+		p2.bounceEdge(collisionEdge);
 	}
 
 	public static double collisionTime(Particle p1, Particle p2) {
