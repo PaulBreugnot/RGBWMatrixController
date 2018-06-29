@@ -73,6 +73,12 @@ public class Particle {
 		// By convention 0 <= alphaLine < PI
 		double alphaLine = edge.getAlpha();
 		alpha = 2 * alphaLine - alpha;
+		while(alpha <= -Math.PI) {
+			alpha += 2 * Math.PI;
+		}
+		while(alpha > Math.PI) {
+			alpha -= 2 * Math.PI;
+		}
 	}
 
 	public static void bounceParticle(Particle p1, Particle p2) {
