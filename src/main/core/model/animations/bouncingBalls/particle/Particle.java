@@ -132,14 +132,18 @@ public class Particle {
 			double d = Math.abs(p.getRadius() / Math.sin(p.getAlpha() - e.getAlpha()));
 			if (e.getAlpha() != Math.PI / 2) {
 				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
-						/ (e.a() - Math.tan(p.getAlpha())) - d * Math.cos(p.getAlpha());
-				yCollision = e.a() * (xCollision - p.getxPos()) + e.b() - d * Math.sin(p.getAlpha());
+						/ (e.a() - Math.tan(p.getAlpha()));
+				yCollision = e.a() * (xCollision - p.getxPos()) + e.b();
 			} else {
-				xCollision = e.getxOrigin() - d * Math.cos(p.getAlpha());
-				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos() - d * Math.sin(p.getAlpha());
+				xCollision = e.getxOrigin();
+				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos();
 			}
-			if (Math.cos(p.getAlpha()) * ((xCollision + d *  Math.cos(p.getAlpha()) - p.getxPos())) >= 0
-					&& Math.sin(p.getAlpha()) * ((yCollision + d *  Math.sin(p.getAlpha())- p.getyPos())) >= 0) {
+			double uncorrectedX = xCollision;
+			double uncorrectedY = yCollision;
+			xCollision += - d * Math.cos(p.getAlpha());
+			yCollision += - d * Math.sin(p.getAlpha());
+			if (Math.cos(p.getAlpha()) * (uncorrectedX - p.getxPos()) >= 0
+					&& Math.sin(p.getAlpha()) * (uncorrectedY - p.getyPos()) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
 				return distance / p.getSpeed();
