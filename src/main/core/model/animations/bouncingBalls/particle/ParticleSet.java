@@ -41,7 +41,6 @@ public class ParticleSet {
 	public void progress(double deltaT) {
 		double beginTime = time;
 		while (time - beginTime < deltaT) {
-			deltaT += deltaTsimulation;
 			while (time + deltaTsimulation >= collisions.peek().getTime()) {
 				// Trigger next collision
 				CollisionResult collidedParticles = collisions.poll().trigger();
