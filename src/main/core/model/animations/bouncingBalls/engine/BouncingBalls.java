@@ -7,6 +7,7 @@ import java.util.Random;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
 import main.core.model.animations.bouncingBalls.particle.Particle;
 import main.core.model.animations.bouncingBalls.particle.ParticleSet;
@@ -17,7 +18,7 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
-	private int particleNumber = 1;
+	private int particleNumber = 2;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;
@@ -39,7 +40,8 @@ public class BouncingBalls implements Animation {
 			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
 			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
 			double speed = 1;
-			Particle particle = new Particle(speed, angle, x, y, radius);
+			Color color = Color.hsb(rd.nextInt(360), 1, 1);
+			Particle particle = new Particle(speed, angle, x, y, radius, color);
 			
 			//All the coordinates are forced to fit matrix width and height
 			particle.xPosProperty().addListener(new ChangeListener<Number>() {

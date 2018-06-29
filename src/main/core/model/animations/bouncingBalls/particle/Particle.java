@@ -13,9 +13,9 @@ public class Particle {
 	private double radius;
 	private SimpleDoubleProperty xPos;
 	private SimpleDoubleProperty yPos;
-	private Color color = Color.RED;
+	private Color color;
 
-	public Particle(double speed, double alpha, double xPos, double yPos, double radius) {
+	public Particle(double speed, double alpha, double xPos, double yPos, double radius, Color color) {
 		this.speed = speed;
 		this.alpha = alpha;
 		this.xPos = new SimpleDoubleProperty(xPos);

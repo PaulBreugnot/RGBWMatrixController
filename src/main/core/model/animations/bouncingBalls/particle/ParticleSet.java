@@ -86,7 +86,7 @@ public class ParticleSet {
 		updateEdgeCollisions(particle1);
 		// For particles :
 		for (Particle p : particles) {
-			if (particle1 != p) {
+			if (particle1 != p && p != particle2) {
 				double t = Particle.collisionTime(particle1, p);
 				if (t < Double.MAX_VALUE) {
 					System.out.println("New particle collision");
