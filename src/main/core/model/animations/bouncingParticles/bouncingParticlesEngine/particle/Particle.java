@@ -1,11 +1,11 @@
-package main.core.model.animations.bouncingBalls.particle;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
-import main.core.model.animations.bouncingBalls.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
 
 public class Particle {
 

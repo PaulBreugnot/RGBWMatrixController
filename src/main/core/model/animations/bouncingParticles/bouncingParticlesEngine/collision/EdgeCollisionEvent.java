@@ -1,8 +1,8 @@
-package main.core.model.animations.bouncingBalls.collision;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision;
 
-import main.core.model.animations.bouncingBalls.particle.Particle;
-import main.core.model.animations.bouncingBalls.utils.CollisionResult;
-import main.core.model.animations.bouncingBalls.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.CollisionResult;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
 
 public class EdgeCollisionEvent extends CollisionEvent {
 	

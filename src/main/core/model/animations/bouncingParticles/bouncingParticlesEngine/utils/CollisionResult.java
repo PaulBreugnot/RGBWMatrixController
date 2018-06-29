@@ -1,6 +1,6 @@
-package main.core.model.animations.bouncingBalls.utils;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils;
 
-import main.core.model.animations.bouncingBalls.particle.Particle;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public class CollisionResult {
 	Particle collidedParticle1 = null;

@@ -1,6 +1,6 @@
-package main.core.model.animations.bouncingBalls.collision;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision;
 
-import main.core.model.animations.bouncingBalls.utils.CollisionResult;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.CollisionResult;
 
 public class CollisionEvent implements Comparable<CollisionEvent> {
 	

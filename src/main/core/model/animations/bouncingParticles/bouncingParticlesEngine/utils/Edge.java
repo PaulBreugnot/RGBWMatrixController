@@ -1,4 +1,4 @@
-package main.core.model.animations.bouncingBalls.utils;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils;
 
 public class Edge {
 

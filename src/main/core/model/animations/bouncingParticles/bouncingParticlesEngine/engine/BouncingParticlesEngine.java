@@ -1,4 +1,4 @@
-package main.core.model.animations.bouncingBalls.engine;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,29 +9,29 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
-import main.core.model.animations.bouncingBalls.particle.Particle;
-import main.core.model.animations.bouncingBalls.particle.ParticleSet;
-import main.core.model.animations.bouncingBalls.particle.ParticleSet.RectangularSet;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet.RectangularSet;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
-public class BouncingBalls implements Animation {
+public class BouncingParticlesEngine {
 
 	private ParticleSet particleSet;
-	private int particleNumber = 5;
+	private int particleNumber = 13;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;
 	public double deltaT = 1;
 
-	public BouncingBalls(RGBWPixel[][] ledMatrix) {
+	public BouncingParticlesEngine(RGBWPixel[][] ledMatrix) {
 		LedPanel.setBlackPanel(ledMatrix);
 		bufferLedMatrix = ledMatrix;
 		ArrayList<Particle> particles = new ArrayList<>();
 		Random rd = new Random();
 		double currentXpos = 1;
 		for (int i = 0; i < particleNumber; i++) {
-			double radius = 2;
+			double radius = 0.5;
 			currentXpos += radius + 1;
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
 			//double angle = 3.1;
@@ -75,6 +75,12 @@ public class BouncingBalls implements Animation {
 		particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT);
 	}
 	
+	public BouncingParticlesEngine(RGBWPixel[][] ledMatrix, ParticleSet particleSet) {
+		LedPanel.setBlackPanel(ledMatrix);
+		bufferLedMatrix = ledMatrix;
+		this.particleSet = particleSet;
+	}
+	
 	private void clear(double radius, int old_x, int old_y) {
 		for(int x = (int) Math.floor(-radius) ; x <= radius; x++) {
 			for(int y = (int) Math.floor(-radius) ; y <= radius; y++) {
@@ -99,31 +105,6 @@ public class BouncingBalls implements Animation {
 				}
 			}
 		}
-	}
-	@Override
-	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		particleSet.progress(deltaT);
-
-		/*
-		 * for (Particle particle : particleSet.getParticles()) {
-		 * System.out.println("xPos = " + particle.getxPos());
-		 * System.out.println("yPos = " + particle.getyPos()); int x = (int)
-		 * Math.floor(particle.getxPos()); int y = (int) Math.floor(particle.getyPos());
-		 * ledMatrix[y][x] = RGBWPixel.rgbPixel(255, 0, 0); }
-		 */
-
-	}
-
-	@Override
-	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Animation newAnimationInstance() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

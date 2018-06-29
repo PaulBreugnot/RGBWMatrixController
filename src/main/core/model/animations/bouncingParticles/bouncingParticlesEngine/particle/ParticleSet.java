@@ -1,15 +1,15 @@
-package main.core.model.animations.bouncingBalls.particle;
+package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-import main.core.model.animations.bouncingBalls.collision.CollisionEvent;
-import main.core.model.animations.bouncingBalls.collision.EdgeCollisionEvent;
-import main.core.model.animations.bouncingBalls.collision.ParticlesCollisionEvent;
-import main.core.model.animations.bouncingBalls.utils.CollisionResult;
-import main.core.model.animations.bouncingBalls.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.CollisionEvent;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.EdgeCollisionEvent;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.ParticlesCollisionEvent;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.CollisionResult;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
 
 public class ParticleSet {
 
