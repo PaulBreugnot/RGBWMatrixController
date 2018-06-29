@@ -18,7 +18,7 @@ import main.core.model.pixel.RGBWPixel;
 public class BouncingBalls implements Animation {
 
 	private ParticleSet particleSet;
-	private int particleNumber = 2;
+	private int particleNumber = 5;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
 	private RGBWPixel[][] bufferLedMatrix;

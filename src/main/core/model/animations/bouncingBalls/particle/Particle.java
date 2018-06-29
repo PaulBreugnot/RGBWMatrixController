@@ -1,6 +1,7 @@
 package main.core.model.animations.bouncingBalls.particle;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
@@ -21,6 +22,7 @@ public class Particle {
 		this.xPos = new SimpleDoubleProperty(xPos);
 		this.yPos = new SimpleDoubleProperty(yPos);
 		this.radius = radius;
+		this.color = color;
 	}
 
 	public double getSpeed() {
@@ -59,6 +61,10 @@ public class Particle {
 		return yPos.get();
 	}
 	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	public Color getColor(int x, int y) {
 		// x and y are given in the particle
 		return color;
@@ -91,18 +97,17 @@ public class Particle {
 			alphaEdge = Math.PI / 2;
 		}
 		//The we take the perpendicular
-		if (0 <= alphaEdge && alphaEdge < Math.PI / 2) {
-			alphaEdge += Math.PI / 2;
-		}
-		else {
-			alphaEdge += Math.PI;
-		}
+		alphaEdge += Math.PI / 2;
 		if (!(0 <= alphaEdge && alphaEdge < Math.PI)) {
 			System.out.println("ANGLE ERROR!!");
 		}
 		Edge collisionEdge = new Edge(alphaEdge);
 		p1.bounceEdge(collisionEdge);
 		p2.bounceEdge(collisionEdge);
+		
+		Random rd = new Random();
+		p1.setColor(Color.hsb(rd.nextInt(360), 1, 1));
+		p2.setColor(Color.hsb(rd.nextInt(360), 1, 1));
 	}
 
 	public static double collisionTime(Particle p1, Particle p2) {
@@ -121,7 +126,6 @@ public class Particle {
 			return Double.MAX_VALUE;
 		}
 		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
-		System.out.println("Particle collision time : " + collisionTime);
 		return collisionTime;
 	}
 

@@ -13,7 +13,7 @@ import main.core.model.animations.bouncingBalls.utils.Edge;
 
 public class ParticleSet {
 
-	private double deltaTsimulation = 0.01;
+	private double deltaTsimulation = 0.1;
 	private double time = 0;
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
@@ -89,7 +89,6 @@ public class ParticleSet {
 			if (particle1 != p && p != particle2) {
 				double t = Particle.collisionTime(particle1, p);
 				if (t < Double.MAX_VALUE) {
-					System.out.println("New particle collision");
 					CollisionEvent col = new ParticlesCollisionEvent(particle1, p, time + t);
 					collisions.add(col);
 					if (ParticleCollisionsMap.containsKey(particle1)) {
@@ -116,7 +115,6 @@ public class ParticleSet {
 				if (particle2 != p && p != particle1) {
 					double t = Particle.collisionTime(particle2, p);
 					if (t < Double.MAX_VALUE) {
-						System.out.println("New particle collision");
 						CollisionEvent col = new ParticlesCollisionEvent(particle2, p, time + t);
 						collisions.add(col);
 						if (ParticleCollisionsMap.containsKey(particle2)) {
