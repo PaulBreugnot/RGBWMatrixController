@@ -14,19 +14,22 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.util
 public class ParticleSet {
 
 	private double deltaTsimulation = 0.1;
+	private boolean bounceParticles;
 	private double time = 0;
 	private ArrayList<Particle> particles;
 	private ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 	private HashMap<Particle, HashSet<CollisionEvent>> ParticleCollisionsMap = new HashMap<>();
 
-	private ParticleSet(ArrayList<Particle> particles) {
+	private ParticleSet(ArrayList<Particle> particles, boolean bounceParticles) {
 		this.particles = particles;
+		this.bounceParticles = bounceParticles;
 	}
 
-	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges) {
+	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges, boolean bounceParticles) {
 		this.particles = particles;
 		this.edges = edges;
+		this.bounceParticles = bounceParticles;
 		initCollisions();
 	}
 
@@ -76,7 +79,9 @@ public class ParticleSet {
 	public void initCollisions() {
 		// Generate all collisions from current particles set
 		checkEdgesCollisions();
-		checkParticleCollisions();
+		if (bounceParticles) {
+			checkParticleCollisions();
+		}
 		System.out.println(collisions);
 	}
 
@@ -85,44 +90,19 @@ public class ParticleSet {
 		// For edges :
 		updateEdgeCollisions(particle1);
 		// For particles :
-		for (Particle p : particles) {
-			if (particle1 != p && p != particle2) {
-				double t = Particle.collisionTime(particle1, p);
-				if (t < Double.MAX_VALUE) {
-					CollisionEvent col = new ParticlesCollisionEvent(particle1, p, time + t);
-					collisions.add(col);
-					if (ParticleCollisionsMap.containsKey(particle1)) {
-						ParticleCollisionsMap.get(particle1).add(col);
-					} else {
-						HashSet<CollisionEvent> collisionSet = new HashSet<>();
-						collisionSet.add(col);
-						ParticleCollisionsMap.put(particle1, collisionSet);
-					}
-					if (ParticleCollisionsMap.containsKey(p)) {
-						ParticleCollisionsMap.get(p).add(col);
-					} else {
-						HashSet<CollisionEvent> collisionSet = new HashSet<>();
-						collisionSet.add(col);
-						ParticleCollisionsMap.put(p, collisionSet);
-					}
-				}
-			}
-		}
-
-		if (particle2 != null) {
-			updateEdgeCollisions(particle2);
+		if (bounceParticles) {
 			for (Particle p : particles) {
-				if (particle2 != p && p != particle1) {
-					double t = Particle.collisionTime(particle2, p);
+				if (particle1 != p && p != particle2) {
+					double t = Particle.collisionTime(particle1, p);
 					if (t < Double.MAX_VALUE) {
-						CollisionEvent col = new ParticlesCollisionEvent(particle2, p, time + t);
+						CollisionEvent col = new ParticlesCollisionEvent(particle1, p, time + t);
 						collisions.add(col);
-						if (ParticleCollisionsMap.containsKey(particle2)) {
-							ParticleCollisionsMap.get(particle2).add(col);
+						if (ParticleCollisionsMap.containsKey(particle1)) {
+							ParticleCollisionsMap.get(particle1).add(col);
 						} else {
 							HashSet<CollisionEvent> collisionSet = new HashSet<>();
 							collisionSet.add(col);
-							ParticleCollisionsMap.put(particle2, collisionSet);
+							ParticleCollisionsMap.put(particle1, collisionSet);
 						}
 						if (ParticleCollisionsMap.containsKey(p)) {
 							ParticleCollisionsMap.get(p).add(col);
@@ -130,6 +110,33 @@ public class ParticleSet {
 							HashSet<CollisionEvent> collisionSet = new HashSet<>();
 							collisionSet.add(col);
 							ParticleCollisionsMap.put(p, collisionSet);
+						}
+					}
+				}
+			}
+
+			if (particle2 != null) {
+				updateEdgeCollisions(particle2);
+				for (Particle p : particles) {
+					if (particle2 != p && p != particle1) {
+						double t = Particle.collisionTime(particle2, p);
+						if (t < Double.MAX_VALUE) {
+							CollisionEvent col = new ParticlesCollisionEvent(particle2, p, time + t);
+							collisions.add(col);
+							if (ParticleCollisionsMap.containsKey(particle2)) {
+								ParticleCollisionsMap.get(particle2).add(col);
+							} else {
+								HashSet<CollisionEvent> collisionSet = new HashSet<>();
+								collisionSet.add(col);
+								ParticleCollisionsMap.put(particle2, collisionSet);
+							}
+							if (ParticleCollisionsMap.containsKey(p)) {
+								ParticleCollisionsMap.get(p).add(col);
+							} else {
+								HashSet<CollisionEvent> collisionSet = new HashSet<>();
+								collisionSet.add(col);
+								ParticleCollisionsMap.put(p, collisionSet);
+							}
 						}
 					}
 				}
@@ -206,8 +213,8 @@ public class ParticleSet {
 	}
 
 	public static class RectangularSet extends ParticleSet {
-		public RectangularSet(ArrayList<Particle> particles, int width, int height) {
-			super(particles);
+		public RectangularSet(ArrayList<Particle> particles, int width, int height, boolean bounceParticles) {
+			super(particles, bounceParticles);
 			ArrayList<Edge> edges = new ArrayList<>();
 			edges.add(new Edge(0, 0, width, 0));
 			edges.add(new Edge(0, 0, 0, height));
