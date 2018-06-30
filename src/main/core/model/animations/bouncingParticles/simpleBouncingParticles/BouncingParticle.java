@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
-public class BouncingParticle extends Particle implements Comparable<BouncingParticle> {
+public class BouncingParticle implements Comparable<BouncingParticle> {
 	
 	private ArrayList<BouncingParticle> AboveOf = new ArrayList<>();
-
-	public BouncingParticle(double speed, double alpha, double xPos, double yPos, double radius, Color color) {
-		super(speed, alpha, xPos, yPos, radius, color);
-	}
 	
 	public void addAboveOf(BouncingParticle particle) {
 		AboveOf.add(particle);

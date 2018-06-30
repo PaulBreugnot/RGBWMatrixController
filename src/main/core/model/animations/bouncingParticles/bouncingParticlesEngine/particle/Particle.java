@@ -6,9 +6,12 @@ import java.util.Random;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
+import main.core.model.animations.bouncingParticles.simpleBouncingParticles.BouncingParticle;
 
-public class Particle {
+public class Particle implements Comparable<Particle> {
 
+	private ArrayList<Particle> AboveOf = new ArrayList<>();
+	
 	private double speed;
 	private double alpha;
 	private double radius;
@@ -68,6 +71,22 @@ public class Particle {
 	public Color getColor(int x, int y) {
 		// x and y are given in the particle
 		return color;
+	}
+	
+	public void addAboveOf(Particle particle) {
+		AboveOf.add(particle);
+	}
+	
+	public void removeAboveOf(Particle particle) {
+		AboveOf.remove(particle);
+	}
+	
+	public boolean isAboveOf(Particle particle) {
+		return AboveOf.contains(particle);
+	}
+	
+	public ArrayList<Particle> getAboveOf(){
+		return AboveOf;
 	}
 
 	public void progress(double deltaT) {
@@ -167,6 +186,14 @@ public class Particle {
 				bounceEdge(edge);
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Particle arg0) {
+		if(AboveOf.contains(arg0)) {
+			return -1;
+		}
+		return 0;
 	}
 
 }

@@ -1,12 +1,15 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet.RectangularSet;
+import main.core.model.animations.bouncingParticles.simpleBouncingParticles.BouncingParticle;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
@@ -14,7 +17,7 @@ public class BouncingParticlesEngine {
 
 	private ParticleSet particleSet;
 
-	private ArrayDeque<RGBWPixel>[][] pixelsToRender;
+	private PriorityQueue<Particle>[][] pixelsToRender;
 	private RGBWPixel[][] bufferLedMatrix;
 	public double deltaT = 1;
 
@@ -23,10 +26,10 @@ public class BouncingParticlesEngine {
 		LedPanel.setBlackPanel(ledMatrix);
 		bufferLedMatrix = ledMatrix;
 		this.particleSet = particleSet;
-		pixelsToRender = (ArrayDeque<RGBWPixel>[][]) new ArrayDeque[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
+		pixelsToRender = (PriorityQueue<Particle>[][]) new PriorityQueue[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				pixelsToRender[i][j] = new ArrayDeque<>();
+				pixelsToRender[i][j] = new PriorityQueue<>();
 			}
 		}
 		setUpParticleListeners();
@@ -72,6 +75,7 @@ public class BouncingParticlesEngine {
 		int max_x = Math.max(old_x, new_x) + (int) Math.ceil(radius);
 		int min_y = Math.min(old_y, new_y) + (int) Math.floor(-radius);
 		int max_y = Math.max(old_y, new_y) + (int) Math.ceil(radius);
+		ArrayList<Particle> particlesStillUnder = new ArrayList<>();
 		for (int x = min_x; x <= max_x + radius; x++) {
 			// Reduce x to check
 			for (int y = min_y; y <= max_y; y++) {
@@ -82,16 +86,33 @@ public class BouncingParticlesEngine {
 						// We are in the old position
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) > radius) {
 							// We are NOT in the new position
-							//pixelsToRender[y][x].pollFirst();
+							// pixelsToRender[y][x].pollFirst();
 							// TODO : what we need to remove exactly?
-							pixelsToRender[y][x].pollFirst();
+							pixelsToRender[y][x].remove(p);
 							// bufferLedMatrix[y][x] = RGBWPixel.rgbPixel(0, 0, 0);
+						}
+						else {
+							// We are in new and old position intersection
+							for (Particle particle : pixelsToRender[y][x]) {
+								if(!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
+									particlesStillUnder.add(particle);
+								}
+							}
 						}
 					} else {
 						// We are not in the old position
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) <= radius) {
 							// We are in the new position
-							pixelsToRender[y][x].addLast(new RGBWPixel(p.getColor(x, y)));
+							// pixelsToRender[y][x].addLast(new RGBWPixel(p.getColor(x, y)));
+							for (Particle particle : pixelsToRender[y][x]) {
+								if(!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
+									particlesStillUnder.add(particle);
+								}
+								if (!p.isAboveOf(particle) && !particle.isAboveOf(p)) {
+									p.addAboveOf(particle);
+								}
+							}
+							pixelsToRender[y][x].add(p);
 							// bufferLedMatrix[y][x] = new RGBWPixel(p.getColor(x - new_x, y - new_y));
 						}
 					}
@@ -99,6 +120,16 @@ public class BouncingParticlesEngine {
 			}
 
 		}
+		ArrayList<Particle> particlesNoMoreUnder = new ArrayList<>();
+		for(Particle particleUnder : p.getAboveOf()) {
+			if(!particlesStillUnder.contains(particleUnder)) {
+				particlesNoMoreUnder.add(particleUnder);
+			}
+		}
+		for(Particle particleNoMoreUnder : particlesNoMoreUnder) {
+			p.removeAboveOf(particleNoMoreUnder);
+		}
+		System.out.println(p.getAboveOf().size());
 	}
 
 	private void addParticleToShow(Particle p) {
@@ -109,8 +140,7 @@ public class BouncingParticlesEngine {
 					int yParticle = (int) Math.floor(p.getyPos());
 					if (yParticle + y >= 0 && yParticle + y < LedPanel.MATRIX_HEIGHT && xParticle + x >= 0
 							&& xParticle + x < LedPanel.MATRIX_WIDTH) {
-
-						pixelsToRender[yParticle + y][xParticle + x].addLast(new RGBWPixel(p.getColor(x, y)));
+						pixelsToRender[yParticle + y][xParticle + x].add(p);
 					}
 				}
 			}
@@ -120,8 +150,10 @@ public class BouncingParticlesEngine {
 	private void render() {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				RGBWPixel pixelToRender = pixelsToRender[i][j].peekFirst();
-				if (pixelToRender != null) {
+				Particle p = pixelsToRender[i][j].peek();
+				if (p != null) {
+					RGBWPixel pixelToRender = new RGBWPixel(pixelsToRender[i][j].peek()
+							.getColor(j - (int) Math.floor(p.getxPos()), i - (int) Math.floor(p.getyPos())));
 					bufferLedMatrix[i][j] = pixelToRender;
 				} else {
 					bufferLedMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 0);
