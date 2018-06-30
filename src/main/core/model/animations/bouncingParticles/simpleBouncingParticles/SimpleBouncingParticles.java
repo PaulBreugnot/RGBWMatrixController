@@ -17,9 +17,11 @@ import main.core.model.pixel.RGBWPixel;
 
 public class SimpleBouncingParticles implements Animation {
 	
-	private int particleNumber = 3;
+	private int particleNumber = 5;
 	private double vMin = 0.5;
 	private double vMax = 2.5;
+	private double minRadius = 0.5;
+	private double maxRadius = 3;
 	
 	private BouncingParticlesEngine bouncingParticlesEngine;
 	
@@ -28,22 +30,22 @@ public class SimpleBouncingParticles implements Animation {
 		Random rd = new Random();
 		double currentXpos = 1;
 		for (int i = 0; i < particleNumber; i++) {
-			double radius = 2;
+			//double radius = 2;
+			double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
 			currentXpos += radius + 1;
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
 			//double angle = 3.1;
 			int x = (int) Math.floor(currentXpos);
 			currentXpos += radius + 1;
 			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
-			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			double speed = 1;
+			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
 			Color color = Color.hsb(rd.nextInt(360), 1, 1);
 			Particle particle = new Particle(speed, angle, x, y, radius, color);
 			
 			
 			particles.add(particle);
 		}
-		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, false);
+		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, true);
 		bouncingParticlesEngine = new BouncingParticlesEngine(ledMatrix, particleSet);
 	}
 

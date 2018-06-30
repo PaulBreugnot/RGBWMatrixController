@@ -86,10 +86,7 @@ public class BouncingParticlesEngine {
 						// We are in the old position
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) > radius) {
 							// We are NOT in the new position
-							// pixelsToRender[y][x].pollFirst();
-							// TODO : what we need to remove exactly?
 							pixelsToRender[y][x].remove(p);
-							// bufferLedMatrix[y][x] = RGBWPixel.rgbPixel(0, 0, 0);
 						}
 						else {
 							// We are in new and old position intersection
@@ -103,7 +100,6 @@ public class BouncingParticlesEngine {
 						// We are not in the old position
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) <= radius) {
 							// We are in the new position
-							// pixelsToRender[y][x].addLast(new RGBWPixel(p.getColor(x, y)));
 							for (Particle particle : pixelsToRender[y][x]) {
 								if(!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
 									particlesStillUnder.add(particle);
@@ -113,7 +109,6 @@ public class BouncingParticlesEngine {
 								}
 							}
 							pixelsToRender[y][x].add(p);
-							// bufferLedMatrix[y][x] = new RGBWPixel(p.getColor(x - new_x, y - new_y));
 						}
 					}
 				}
@@ -129,7 +124,6 @@ public class BouncingParticlesEngine {
 		for(Particle particleNoMoreUnder : particlesNoMoreUnder) {
 			p.removeAboveOf(particleNoMoreUnder);
 		}
-		System.out.println(p.getAboveOf().size());
 	}
 
 	private void addParticleToShow(Particle p) {
