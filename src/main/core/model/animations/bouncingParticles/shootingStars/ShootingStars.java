@@ -1,17 +1,56 @@
 package main.core.model.animations.bouncingParticles.shootingStars;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
+import main.core.model.animations.bouncingParticles.shootingStars.particles.LeaderParticle;
+import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
 public class ShootingStars implements Animation {
+	
+	private int particleNumber = 1;
+	private double vMin = 1;
+	private double vMax = 1;
+	private double minRadius = 0.5;
+	private double maxRadius = 0.5;
+	
+	private BouncingParticlesEngine bouncingParticlesEngine;
+	
+	public ShootingStars(RGBWPixel[][] ledMatrix) {
+		ArrayList<Particle> particles = new ArrayList<>();
+		Random rd = new Random();
+		double currentXpos = 1;
+		for (int i = 0; i < particleNumber; i++) {
+			//double radius = 2;
+			double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
+			currentXpos += radius + 1;
+			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
+			//double angle = 3.1;
+			int x = (int) Math.floor(currentXpos);
+			currentXpos += radius + 1;
+			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
+			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
+			Color color = Color.hsb(rd.nextInt(360), 1, 1);
+			LeaderParticle particle = new LeaderParticle(speed, angle, x, y, radius, color);
+			
+			particles.add(particle);
+			particles.addAll(particle.getFollowers());
+		}
+		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, false);
+		bouncingParticlesEngine = new BouncingParticlesEngine(ledMatrix, particleSet);
+	}
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		// TODO Auto-generated method stub
-		
+		bouncingParticlesEngine.progress();
 	}
 
 	@Override

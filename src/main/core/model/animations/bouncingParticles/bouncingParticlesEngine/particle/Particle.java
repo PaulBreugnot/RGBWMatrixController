@@ -12,12 +12,12 @@ public class Particle implements Comparable<Particle> {
 
 	private ArrayList<Particle> AboveOf = new ArrayList<>();
 	
-	private double speed;
-	private double alpha;
-	private double radius;
-	private SimpleDoubleProperty xPos;
-	private SimpleDoubleProperty yPos;
-	private Color color;
+	protected double speed;
+	protected double alpha;
+	protected double radius;
+	protected SimpleDoubleProperty xPos;
+	protected SimpleDoubleProperty yPos;
+	protected Color color;
 
 	public Particle(double speed, double alpha, double xPos, double yPos, double radius, Color color) {
 		this.speed = speed;

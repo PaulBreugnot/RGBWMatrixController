@@ -40,6 +40,10 @@ public class ParticleSet {
 	public ArrayList<Particle> getParticles() {
 		return particles;
 	}
+	
+	public double getTime() {
+		return time;
+	}
 
 	public void progress(double deltaT) {
 		double beginTime = time;
