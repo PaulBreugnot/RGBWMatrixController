@@ -16,11 +16,21 @@ import main.core.model.pixel.RGBWPixel;
 
 public class ShootingStars implements Animation {
 	
-	private int particleNumber = 6;
+	private int particleNumber = 10;
 	private double vMin = 1;
 	private double vMax = 1;
 	private double minRadius = 1;
 	private double maxRadius = 1;
+	
+	// Collision area parameters
+	
+	// Size extension relative to matrix size
+	private double xExtension = 20;
+	private double yExtension = 20;
+	
+	// Collision area position
+	private double xOffset = -10;
+	private double yOffset = -10;
 	
 	private BouncingParticlesEngine bouncingParticlesEngine;
 	
@@ -44,7 +54,7 @@ public class ShootingStars implements Animation {
 			particles.add(particle);
 			particles.addAll(particle.getFollowers());
 		}
-		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, false);
+		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH + 20, LedPanel.MATRIX_HEIGHT + 20, -10, -10, false);
 		bouncingParticlesEngine = new BouncingParticlesEngine(ledMatrix, particleSet);
 	}
 

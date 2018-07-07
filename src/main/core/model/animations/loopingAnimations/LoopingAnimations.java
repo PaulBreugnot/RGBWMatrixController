@@ -10,7 +10,7 @@ import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.AnimationTime;
-import main.gui.views.settings.LoopingAnimationsSettingsController;
+import main.gui.views.settings.loopingAnimations.LoopingAnimationsSettingsController;
 
 public class LoopingAnimations implements Animation {
 
@@ -85,7 +85,7 @@ public class LoopingAnimations implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/LoopingAnimationsSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/loopingAnimations/LoopingAnimationsSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		LoopingAnimationsSettingsController loopingAnimationsSettingsController = loader.getController();
 		loopingAnimationsSettingsController.setLoopingAnimations(this);

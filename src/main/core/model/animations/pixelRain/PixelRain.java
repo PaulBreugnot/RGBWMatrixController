@@ -16,7 +16,7 @@ import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.Coordinates;
-import main.gui.views.settings.RainPixelSettingsController;
+import main.gui.views.settings.pixelRain.RainPixelSettingsController;
 
 public class PixelRain implements Animation {
 
@@ -207,7 +207,7 @@ public class PixelRain implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane ConfigAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/RainPixelSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/pixelRain/RainPixelSettings.fxml"));
 		ConfigAnchorPane.getChildren().add(loader.load());
 		RainPixelSettingsController rainPixelSettingsController = loader.getController();
 		rainPixelSettingsController.setPixelRain(this);

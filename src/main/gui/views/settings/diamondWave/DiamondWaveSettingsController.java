@@ -1,22 +1,22 @@
-package main.gui.views.settings;
+package main.gui.views.settings.diamondWave;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
-import main.core.model.animations.fan.Fan;
+import main.core.model.animations.diamondWave.DiamondWave;
 import main.core.model.panel.LedPanel;
 
-public class FanSettingsController {
+public class DiamondWaveSettingsController {
 	@FXML
 	private Slider colorSlider;
 
 	@FXML
-	private Slider fanNumberSlider;
+	private Slider whiteLevelSlider;
 
 	@FXML
-	private Slider whiteLevelSlider;
+	private Slider waveLengthSlider;
 
 	@FXML
 	private Slider xCenterSlider;
@@ -42,7 +42,7 @@ public class FanSettingsController {
 	@FXML
 	private RadioButton rainbowButton;
 
-	private Fan fan;
+	private DiamondWave diamondWave;
 
 	@FXML
 	private void initialize() {
@@ -53,75 +53,76 @@ public class FanSettingsController {
 	private void setSliders() {
 		colorSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setHueColor((double) new_val);
-			}
-		});
-
-		fanNumberSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setFanNumber((int) Math.floor((double) new_val));
+				diamondWave.setHueColor((double) new_val);
 			}
 		});
 
 		whiteLevelSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setWhiteLevel((int) Math.floor((double) new_val));
+				diamondWave.setWhiteLevel((int) Math.floor((double) new_val));
 			}
 		});
 
-		xCenterSlider.setMin(-1);
-		xCenterSlider.setMax(LedPanel.MATRIX_WIDTH + 1);
-		xCenterSlider.setValue(LedPanel.MATRIX_WIDTH / 2);
+		waveLengthSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				diamondWave.setWaveLength((double) new_val);
+			}
+		});
+
+		xCenterSlider.setMin(0);
+		xCenterSlider.setMax(LedPanel.MATRIX_WIDTH - 1);
+		xCenterSlider.setValue((LedPanel.MATRIX_WIDTH - 1) / 2);
 		xCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setXCenter((int) Math.floor((double) new_val));
+				diamondWave.setXCenter((int) Math.floor((double) new_val));
 			}
 		});
 
-		yCenterSlider.setMin(-1);
-		yCenterSlider.setMax(LedPanel.MATRIX_HEIGHT + 1);
-		yCenterSlider.setValue(LedPanel.MATRIX_HEIGHT / 2);
+		yCenterSlider.setMin(0);
+		yCenterSlider.setMax(LedPanel.MATRIX_HEIGHT - 1);
+		yCenterSlider.setValue((LedPanel.MATRIX_HEIGHT - 1) / 2);
 		yCenterSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setYCenter((int) Math.floor((double) new_val));
+				diamondWave.setYCenter((int) Math.floor((double) new_val));
 			}
 		});
 
 		contrastSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setContrast((double) new_val);
+				diamondWave.setContrast((double) new_val);
 			}
 		});
 
 		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setSpeed(Math.floor(((double) new_val) * 10) / 10);
+				diamondWave.setSpeed(Math.floor(((double) new_val) * 10) / 10);
 			}
 		});
+
 		intensitySlider.setMax(LedPanel.MAX_INTENSITY);
 		intensitySlider.setValue(LedPanel.MAX_INTENSITY);
 		intensitySlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				fan.setIntensity((double) new_val);
+				diamondWave.setIntensity((double) new_val);
 			}
 		});
 	}
 
-	public void setFan(Fan fan) {
-		this.fan = fan;
+	public void setDiamondWave(DiamondWave diamondWave) {
+		this.diamondWave = diamondWave;
 		setDisplayedParameters();
 	}
 
 	private void setDisplayedParameters() {
-		colorSlider.setValue(fan.getHueColor());
-		fanNumberSlider.setValue(fan.getFanNumber());
-		whiteLevelSlider.setValue(fan.getWhiteLevel());
-		xCenterSlider.setValue(fan.getXCenter());
-		yCenterSlider.setValue(fan.getYCenter());
-		contrastSlider.setValue(fan.getContrast());
-		speedSlider.setValue(fan.getSpeed());
-		intensitySlider.setValue(fan.getIntensity());
-		switch (fan.getWaveMode()) {
+		colorSlider.setValue(diamondWave.getHueColor());
+		waveLengthSlider.setValue(diamondWave.getWaveLength());
+		whiteLevelSlider.setValue(diamondWave.getWhiteLevel());
+		xCenterSlider.setValue(diamondWave.getXCenter());
+		yCenterSlider.setValue(diamondWave.getYCenter());
+		contrastSlider.setValue(diamondWave.getContrast());
+		speedSlider.setValue(diamondWave.getSpeed());
+		intensitySlider.setValue(diamondWave.getIntensity());
+		switch (diamondWave.getWaveMode()) {
 		case SATURATION:
 			saturationButton.setSelected(true);
 			brightnessButton.setSelected(false);
@@ -144,20 +145,20 @@ public class FanSettingsController {
 	private void handleSaturationButton() {
 		brightnessButton.setSelected(false);
 		rainbowButton.setSelected(false);
-		fan.setWaveMode(Fan.WaveMode.SATURATION);
+		diamondWave.setWaveMode(DiamondWave.WaveMode.SATURATION);
 	}
 
 	@FXML
 	private void handleBrightnessButton() {
 		saturationButton.setSelected(false);
 		rainbowButton.setSelected(false);
-		fan.setWaveMode(Fan.WaveMode.BRIGHTNESS);
+		diamondWave.setWaveMode(DiamondWave.WaveMode.BRIGHTNESS);
 	}
 
 	@FXML
 	private void handleRainbowButton() {
 		brightnessButton.setSelected(false);
 		saturationButton.setSelected(false);
-		fan.setWaveMode(Fan.WaveMode.RAINBOW);
+		diamondWave.setWaveMode(DiamondWave.WaveMode.RAINBOW);
 	}
 }

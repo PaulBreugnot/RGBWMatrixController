@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
-import main.gui.views.settings.CircularWaveSettingsController;
+import main.gui.views.settings.circularWave.CircularWaveSettingsController;
 
 public class CircularWave implements Animation {
 
@@ -142,7 +142,7 @@ public class CircularWave implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/CircularWaveSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/circularWave/CircularWaveSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		CircularWaveSettingsController circularWaveSettingsController = loader.getController();
 		circularWaveSettingsController.setCircularWave(this);

@@ -1,4 +1,4 @@
-package main.gui.views.settings;
+package main.gui.views.settings.circularWave;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

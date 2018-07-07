@@ -11,7 +11,7 @@ import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 import main.core.util.Coordinates;
-import main.gui.views.settings.DiamondWaveSettingsController;
+import main.gui.views.settings.diamondWave.DiamondWaveSettingsController;
 
 public class DiamondWave implements Animation {
 
@@ -210,7 +210,7 @@ public class DiamondWave implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/DiamondWaveSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/diamondWave/DiamondWaveSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		DiamondWaveSettingsController diamondWaveSettingsController = loader.getController();
 		diamondWaveSettingsController.setDiamondWave(this);

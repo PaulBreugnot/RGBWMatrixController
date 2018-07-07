@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
-import main.gui.views.settings.FanSettingsController;
+import main.gui.views.settings.fan.FanSettingsController;
 
 public class Fan implements Animation {
 
@@ -165,7 +165,7 @@ public class Fan implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/FanSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/fan/FanSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		FanSettingsController fanSettingsController = loader.getController();
 		fanSettingsController.setFan(this);

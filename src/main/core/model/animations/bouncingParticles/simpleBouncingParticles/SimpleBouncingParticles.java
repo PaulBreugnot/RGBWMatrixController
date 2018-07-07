@@ -45,7 +45,7 @@ public class SimpleBouncingParticles implements Animation {
 			
 			particles.add(particle);
 		}
-		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, true);
+		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT, 0, 0, true);
 		bouncingParticlesEngine = new BouncingParticlesEngine(ledMatrix, particleSet);
 	}
 

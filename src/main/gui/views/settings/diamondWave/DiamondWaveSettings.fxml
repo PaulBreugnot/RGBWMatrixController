@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.CircularWaveSettingsController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.diamondWave.DiamondWaveSettingsController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="123.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="~~Psycho Wave~~">
+            <Label text="Diamonds">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -28,9 +28,9 @@
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <AnchorPane prefHeight="52.0" prefWidth="200.0">
+            <AnchorPane>
                <children>
-                  <RadioButton fx:id="rainbowButton" mnemonicParsing="false" onAction="#handleRainbowButton" text="RAINBOW!!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" />
+                  <RadioButton fx:id="rainbowButton" mnemonicParsing="false" onAction="#handleRainbowButton" text="RAINBOW!!" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="30.0" />
                   <RadioButton fx:id="saturationButton" mnemonicParsing="false" onAction="#handleSaturationButton" selected="true" text="Saturation" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                   <RadioButton fx:id="brightnessButton" mnemonicParsing="false" onAction="#handleBrightnessButton" text="Brightness" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>
@@ -46,7 +46,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox layoutX="-3.0" layoutY="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutX="-3.0" layoutY="-1.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
                                     <Label prefWidth="200.0" text="Color :">
                                        <VBox.margin>
@@ -70,26 +70,32 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox layoutY="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutY="-1.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="223.0" text="WaveLength :">
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <Slider fx:id="waveLengthSlider" max="150.0" min="2.0" value="50.0" />
-                                    <Label text="xCenter :">
+                                    <Slider fx:id="waveLengthSlider" max="150.0" min="2.0" value="20.0" />
+                                    <Label text="X Center :">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
                                     <Slider max="0.0" fx:id="xCenterSlider" />
-                                    <Label text="yCenter :">
+                                    <Label text="Y Center :">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Label>
                                     <Slider fx:id="yCenterSlider" max="0.0" />
+                                    <Label text="Ratio :">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Slider disable="true" />
                                  </children>
                               </VBox>
                            </children>
@@ -100,7 +106,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox layoutY="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutX="-3.0" layoutY="-1.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="215.0" text="Contrast :">
                                        <VBox.margin>
@@ -114,7 +120,7 @@
                                        </VBox.margin>
                                     </Label>
                                     <Slider fx:id="speedSlider" max="10.0" min="0.1" value="1.0" />
-                                    <Label prefHeight="17.0" prefWidth="229.0" text="Intensity :">
+                                    <Label prefHeight="17.0" prefWidth="229.0" text="Intensity">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="10.0" />
                                        </VBox.margin>

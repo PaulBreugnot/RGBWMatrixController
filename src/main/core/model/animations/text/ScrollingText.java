@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 import main.core.model.animations.Animation;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
-import main.gui.views.settings.ScrollingTextSettingsController;
+import main.gui.views.settings.scrollingText.ScrollingTextSettingsController;
 
 public class ScrollingText implements Animation {
 
@@ -156,7 +156,7 @@ public class ScrollingText implements Animation {
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/ScrollingTextSettings.fxml"));
+		loader.setLocation(this.getClass().getResource("/main/gui/views/settings/scrollingText/ScrollingTextSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		ScrollingTextSettingsController scrollingTextSettingsController = loader.getController();
 		scrollingTextSettingsController.setScrollingText(this);

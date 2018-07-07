@@ -1,4 +1,4 @@
-package main.gui.views.settings;
+package main.gui.views.settings.loopingAnimations;
 
 import java.io.IOException;
 

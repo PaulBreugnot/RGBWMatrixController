@@ -217,13 +217,13 @@ public class ParticleSet {
 	}
 
 	public static class RectangularSet extends ParticleSet {
-		public RectangularSet(ArrayList<Particle> particles, int width, int height, boolean bounceParticles) {
+		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset, boolean bounceParticles) {
 			super(particles, bounceParticles);
 			ArrayList<Edge> edges = new ArrayList<>();
-			edges.add(new Edge(0, 0, width, 0));
-			edges.add(new Edge(0, 0, 0, height));
-			edges.add(new Edge(0, height, width, height));
-			edges.add(new Edge(width, 0, width, height));
+			edges.add(new Edge(widthOffset, heightOffset, widthOffset + width, heightOffset));
+			edges.add(new Edge(widthOffset, heightOffset, widthOffset, heightOffset + height));
+			edges.add(new Edge(widthOffset, heightOffset + height, widthOffset + width, heightOffset + height));
+			edges.add(new Edge(widthOffset + width, heightOffset, widthOffset + width, heightOffset + height));
 			setEdges(edges);
 			initCollisions();
 		}
