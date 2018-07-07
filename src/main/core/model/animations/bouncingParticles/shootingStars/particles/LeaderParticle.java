@@ -25,7 +25,10 @@ public class LeaderParticle extends Particle {
 	
 	private void initFollowers() {
 		for(int i = 0; i < followersCount; i++) {
-			followers.add(new FollowerParticle(radius, color, this, i));
+			Color color = Color.hsb(this.color.getHue(), 1, 0.005 + 0.095/followersCount * (followersCount - i));
+			FollowerParticle follower = new FollowerParticle(radius/2, color, this, i);
+			follower.setAboveOf(AboveOf);
+			followers.add(follower);
 		}
 	}
 	
@@ -34,8 +37,6 @@ public class LeaderParticle extends Particle {
 	}
 	
 	public Pair<Double, Double> getHistoryCoordinates(int offset){
-		System.out.println("Size : " + history.size());
-		System.out.println("step - offset : " + (step-offset));
 		return history.get(step - offset);
 	}
 	
@@ -45,7 +46,6 @@ public class LeaderParticle extends Particle {
 	
 	@Override
 	public void progress(double deltaT) {
-		System.out.println("Progress");
 		if(history.size() > historyLength) {
 			history.remove(history.firstKey());
 		}
@@ -56,6 +56,17 @@ public class LeaderParticle extends Particle {
 			follower.progress();
 		}
 		step++;
+	}
+	
+	@Override
+	public int compareTo(Particle arg0) {
+		if(arg0.getColor().getBrightness() > getColor().getBrightness()) {
+			return 1;
+		}
+		else if (arg0.getColor().getBrightness() < getColor().getBrightness()) {
+			return -1;
+		}
+		return 0;
 	}
 
 }

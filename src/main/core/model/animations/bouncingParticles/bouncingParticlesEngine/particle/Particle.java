@@ -10,7 +10,7 @@ import main.core.model.animations.bouncingParticles.simpleBouncingParticles.Boun
 
 public class Particle implements Comparable<Particle> {
 
-	private ArrayList<Particle> AboveOf = new ArrayList<>();
+	protected ArrayList<Particle> AboveOf = new ArrayList<>();
 	
 	protected double speed;
 	protected double alpha;
@@ -66,6 +66,11 @@ public class Particle implements Comparable<Particle> {
 	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public Color getColor() {
+		//Main color
+		return color;
 	}
 	
 	public Color getColor(int x, int y) {

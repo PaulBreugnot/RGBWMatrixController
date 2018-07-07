@@ -16,11 +16,11 @@ import main.core.model.pixel.RGBWPixel;
 
 public class ShootingStars implements Animation {
 	
-	private int particleNumber = 1;
+	private int particleNumber = 6;
 	private double vMin = 1;
 	private double vMax = 1;
-	private double minRadius = 0.5;
-	private double maxRadius = 0.5;
+	private double minRadius = 1;
+	private double maxRadius = 1;
 	
 	private BouncingParticlesEngine bouncingParticlesEngine;
 	
