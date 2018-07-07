@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.162-ea">
+   <children>
+      <VBox alignment="TOP_CENTER">
+         <children>
+            <Label text="Seems like chemistry.">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <Accordion>
+              <panes>
+                <TitledPane animated="false" text="Particles">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Color type :" />
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <RadioButton mnemonicParsing="false" text="Random" VBox.vgrow="NEVER" />
+                                    <HBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                                       <children>
+                                          <RadioButton mnemonicParsing="false" text="Raw" />
+                                          <RadioButton mnemonicParsing="false" text="Shaded" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Label text="Hue :" />
+                              <Slider />
+                              <Label text="Brightness :" />
+                              <Slider />
+                              <Label text="Saturation :" />
+                              <Slider />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Radius :" />
+                              <CheckBox mnemonicParsing="false" text="Fixed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Minimum Radius :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                              <Label text="Maximum Radius :" />
+                              <Spinner />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Particle Number :" />
+                              <Spinner />
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Collision Area">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Collisions Type :" />
+                              <RadioButton mnemonicParsing="false" text="Edges">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <RadioButton mnemonicParsing="false" text="Edges + Particles">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Size :" />
+                              <Label text="Width :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                              <Label text="Height :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Position :" />
+                              <CheckBox mnemonicParsing="false" text="Centered">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Horizontal Offset :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                              <Label text="Vertical Offset :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                           </children>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                  <TitledPane animated="false" text="Patterns">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Coming Soon..." />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
