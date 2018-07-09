@@ -86,7 +86,6 @@ public class ParticleSet {
 		if (bounceParticles) {
 			checkParticleCollisions();
 		}
-		System.out.println(collisions);
 	}
 
 	private void updateCollisions(Particle particle1, Particle particle2) {
@@ -185,7 +184,6 @@ public class ParticleSet {
 				}
 			}
 		}
-		// System.out.println(collisions);
 	}
 
 	private void checkParticleCollisions() {

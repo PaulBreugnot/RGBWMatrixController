@@ -55,12 +55,12 @@ public class ShootingStars implements Animation {
 			particles.addAll(particle.getFollowers());
 		}
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH + 20, LedPanel.MATRIX_HEIGHT + 20, -10, -10, false);
-		bouncingParticlesEngine = new BouncingParticlesEngine(ledMatrix, particleSet);
+		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
 	}
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
-		bouncingParticlesEngine.progress();
+		bouncingParticlesEngine.progress(ledMatrix);
 	}
 
 	@Override

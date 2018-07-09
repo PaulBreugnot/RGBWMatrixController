@@ -18,13 +18,11 @@ public class BouncingParticlesEngine {
 	private ParticleSet particleSet;
 
 	private PriorityQueue<Particle>[][] pixelsToRender;
-	private RGBWPixel[][] bufferLedMatrix;
+	//private RGBWPixel[][] bufferLedMatrix;
 	public double deltaT = 1;
 
 	@SuppressWarnings("unchecked")
-	public BouncingParticlesEngine(RGBWPixel[][] ledMatrix, ParticleSet particleSet) {
-		LedPanel.setBlackPanel(ledMatrix);
-		bufferLedMatrix = ledMatrix;
+	public BouncingParticlesEngine(ParticleSet particleSet) {
 		this.particleSet = particleSet;
 		pixelsToRender = (PriorityQueue<Particle>[][]) new PriorityQueue[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
@@ -64,9 +62,9 @@ public class BouncingParticlesEngine {
 		}
 	}
 
-	public void progress() {
+	public void progress(RGBWPixel[][] ledMatrix) {
 		particleSet.progress(deltaT);
-		render();
+		render(ledMatrix);
 	}
 
 	private void updateParticlesToShow(Particle p, int old_x, int old_y, int new_x, int new_y) {
@@ -141,16 +139,16 @@ public class BouncingParticlesEngine {
 		}
 	}
 
-	private void render() {
+	private void render(RGBWPixel[][] ledMatrix) {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				Particle p = pixelsToRender[i][j].peek();
 				if (p != null) {
 					RGBWPixel pixelToRender = new RGBWPixel(pixelsToRender[i][j].peek()
 							.getColor(j - (int) Math.floor(p.getxPos()), i - (int) Math.floor(p.getyPos())));
-					bufferLedMatrix[i][j] = pixelToRender;
+					ledMatrix[i][j] = pixelToRender;
 				} else {
-					bufferLedMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 0);
+					ledMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 0);
 				}
 			}
 		}

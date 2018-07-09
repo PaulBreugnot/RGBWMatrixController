@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.162-ea">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.bouncingParticles.BouncingParticlesSettingsController">
    <children>
       <VBox alignment="TOP_CENTER">
          <children>
@@ -25,28 +24,28 @@
                               <Label text="Color type :" />
                               <VBox alignment="TOP_CENTER">
                                  <children>
-                                    <RadioButton mnemonicParsing="false" text="Random" VBox.vgrow="NEVER" />
+                                    <RadioButton fx:id="RandomColorType" mnemonicParsing="false" onAction="#handleRandomButton" selected="true" text="Random" VBox.vgrow="NEVER" />
                                     <HBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
                                        <children>
-                                          <RadioButton mnemonicParsing="false" text="Raw" />
-                                          <RadioButton mnemonicParsing="false" text="Shaded" />
+                                          <RadioButton fx:id="RawColorType" mnemonicParsing="false" onAction="#handleRawButton" text="Raw" />
+                                          <RadioButton fx:id="ShadedColorType" mnemonicParsing="false" onAction="#handleShadedButton" text="Shaded" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <Label text="Hue :" />
-                              <Slider />
+                              <Slider fx:id="HueSlider" max="360.0" />
                               <Label text="Brightness :" />
-                              <Slider />
+                              <Slider fx:id="BrightnessSlider" max="1.0" />
                               <Label text="Saturation :" />
-                              <Slider />
+                              <Slider fx:id="SaturationSlider" max="1.0" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
                                  </VBox.margin>
                               </Separator>
                               <Label text="Radius :" />
-                              <CheckBox mnemonicParsing="false" text="Fixed">
+                              <CheckBox fx:id="FixedRadiusBox" mnemonicParsing="false" onAction="#handleFixedRadius" text="Fixed">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -56,16 +55,16 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Spinner fx:id="MinRadiusSpinner" />
                               <Label text="Maximum Radius :" />
-                              <Spinner />
+                              <Spinner fx:id="MaxRadiusSpinner" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
                                  </VBox.margin>
                               </Separator>
                               <Label text="Particle Number :" />
-                              <Spinner />
+                              <Spinner fx:id="ParticleNumberSpinner" />
                            </children>
                         </VBox>
                      </content>
