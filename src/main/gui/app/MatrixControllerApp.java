@@ -40,7 +40,7 @@ public class MatrixControllerApp extends Application {
 		ledPanel = MainTest.getAppConfig();
 		mainViewController.setLedPanel(ledPanel);
 
-		//ledPanel.setCurrentAnimation(new SimpleBouncingParticles(ledPanel.getLedMatrix()));
+		//ledPanel.setCurrentAnimation(new SimpleBouncingParticles());
 		//ledPanel.setCurrentAnimation(new ShootingStars(ledPanel.getLedMatrix()));
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Min'Bot 2018 - PixLed Controller");

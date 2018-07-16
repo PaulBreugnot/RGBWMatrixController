@@ -47,6 +47,10 @@ public class Particle implements Comparable<Particle> {
 	public double getRadius() {
 		return radius;
 	}
+	
+	public void setxPos(double x) {
+		xPos.set(x);
+	}
 
 	public double getxPos() {
 		return xPos.get();
@@ -56,12 +60,15 @@ public class Particle implements Comparable<Particle> {
 		return xPos;
 	}
 
-	public SimpleDoubleProperty yPosProperty() {
-		return yPos;
+	public void setyPos(double y) {
+		yPos.set(y);
 	}
-
 	public double getyPos() {
 		return yPos.get();
+	}
+	
+	public SimpleDoubleProperty yPosProperty() {
+		return yPos;
 	}
 	
 	public void setColor(Color color) {
@@ -132,6 +139,7 @@ public class Particle implements Comparable<Particle> {
 		Random rd = new Random();
 		p1.setColor(Color.hsb(rd.nextInt(360), 1, 1));
 		p2.setColor(Color.hsb(rd.nextInt(360), 1, 1));
+		
 	}
 
 	public static double collisionTime(Particle p1, Particle p2) {

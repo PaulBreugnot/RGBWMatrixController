@@ -74,12 +74,12 @@
                         <VBox>
                            <children>
                               <Label text="Collisions Type :" />
-                              <RadioButton mnemonicParsing="false" text="Edges">
+                              <RadioButton fx:id="EdgeCollisions" mnemonicParsing="false" onAction="#handleEdgeCollisionsButton" text="Edges">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </RadioButton>
-                              <RadioButton mnemonicParsing="false" text="Edges + Particles">
+                              <RadioButton fx:id="ParticlesCollisions" mnemonicParsing="false" onAction="#handleParticleCollisionsButton" text="Edges + Particles">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -95,20 +95,20 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Spinner fx:id="WidthSpinner" />
                               <Label text="Height :">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Spinner fx:id="HeightSpinner" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
                                  </VBox.margin>
                               </Separator>
                               <Label text="Position :" />
-                              <CheckBox mnemonicParsing="false" text="Centered">
+                              <CheckBox fx:id="CenteredCheckBox" mnemonicParsing="false" onAction="#handleCenteredCheckBox" selected="true" text="Centered">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -118,13 +118,13 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Spinner fx:id="HorizontalOffsetSpinner" />
                               <Label text="Vertical Offset :">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Spinner fx:id="VerticalOffsetSpinner" />
                            </children>
                         </VBox>
                      </content>

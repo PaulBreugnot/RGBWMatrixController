@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.InitPosSolver;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.panel.LedPanel;
@@ -24,13 +25,22 @@ public class SimpleBouncingParticles implements Animation {
 	private Color color = Color.BLUE;
 	private ColorType colorType = ColorType.Random;
 
+	// Particles
 	private int particleNumber = 5;
-	private double vMin = 0.5;
-	private double vMax = 2.5;
+	private double vMin = 1;
+	private double vMax = 1;
 	private double minRadius = 0.5;
-	private double maxRadius = 3;
+	private double maxRadius = 2;
+
+	// Area
+	private int areaWidth = LedPanel.MATRIX_WIDTH;
+	private int areaHeight = LedPanel.MATRIX_HEIGHT;
+	private int horizontalOffset = 0;
+	private int verticalOffset = 0;
+	private boolean particleCollision = true;
 
 	private boolean initialize = true;
+	private boolean matrixFull;
 	private BouncingParticlesEngine bouncingParticlesEngine;
 
 	public SimpleBouncingParticles() {
@@ -47,25 +57,32 @@ public class SimpleBouncingParticles implements Animation {
 			currentXpos += radius + 1;
 			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
 			// double angle = 3.1;
-			int x = (int) Math.floor(currentXpos);
+			// int x = (int) Math.floor(currentXpos);
 			currentXpos += radius + 1;
-			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
+			// int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) +
+			// (int) Math.floor(radius);
 			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
 			Color color = Color.hsb(rd.nextInt(360), 1, 1);
-			Particle particle = new Particle(speed, angle, x, y, radius, color);
+			Particle particle = new Particle(speed, angle, 0, 0, radius, color);
 
 			particles.add(particle);
 		}
-		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH,
-				LedPanel.MATRIX_HEIGHT, 0, 0, true);
+
+		InitPosSolver solver = new InitPosSolver(areaWidth, areaHeight, horizontalOffset, verticalOffset, particles);
+		matrixFull = solver.resolve();
+
+		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
+				verticalOffset, particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
 
 	}
 
+	// Particles
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
@@ -73,7 +90,7 @@ public class SimpleBouncingParticles implements Animation {
 	public void setColorType(ColorType colorType) {
 		this.colorType = colorType;
 	}
-	
+
 	public ColorType getColorType() {
 		return colorType;
 	}
@@ -81,7 +98,7 @@ public class SimpleBouncingParticles implements Animation {
 	public void setMinRadius(double minRadius) {
 		this.minRadius = minRadius;
 	}
-	
+
 	public double getMinRadius() {
 		return minRadius;
 	}
@@ -89,7 +106,7 @@ public class SimpleBouncingParticles implements Animation {
 	public void setMaxRadius(double maxRadius) {
 		this.maxRadius = maxRadius;
 	}
-	
+
 	public double getMaxRadius() {
 		return maxRadius;
 	}
@@ -97,13 +114,55 @@ public class SimpleBouncingParticles implements Animation {
 	public void setParticleNumber(int particleNumber) {
 		this.particleNumber = particleNumber;
 	}
-	
+
 	public int getParticleNumber() {
 		return particleNumber;
 	}
-	
+
 	public void setInitialize(boolean initialize) {
 		this.initialize = initialize;
+	}
+
+	// Area
+
+	public boolean getParticleCollision() {
+		return particleCollision;
+	}
+
+	public void setParticleCollision(boolean particleCollision) {
+		this.particleCollision = particleCollision;
+	}
+
+	public int getAreaWidth() {
+		return areaWidth;
+	}
+
+	public void setAreaWidth(int areaWidth) {
+		this.areaWidth = areaWidth;
+	}
+
+	public int getAreaHeight() {
+		return areaHeight;
+	}
+
+	public void setAreaHeight(int areaHeight) {
+		this.areaHeight = areaHeight;
+	}
+
+	public int getHorizontalOffset() {
+		return horizontalOffset;
+	}
+
+	public void setHorizontalOffset(int horizontalOffset) {
+		this.horizontalOffset = horizontalOffset;
+	}
+
+	public int getVerticalOffset() {
+		return verticalOffset;
+	}
+
+	public void setVerticalOffset(int verticalOffset) {
+		this.verticalOffset = verticalOffset;
 	}
 
 	@Override

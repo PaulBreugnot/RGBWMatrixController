@@ -10,6 +10,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.simpleBouncingParticles.SimpleBouncingParticles;
+import main.core.model.panel.LedPanel;
 
 public class BouncingParticlesSettingsController {
 
@@ -34,6 +35,22 @@ public class BouncingParticlesSettingsController {
 	private Spinner<Double> MaxRadiusSpinner;
 	@FXML
 	private Spinner<Integer> ParticleNumberSpinner;
+	
+	// Collision Area menu
+	@FXML
+	private RadioButton EdgeCollisions;
+	@FXML
+	private RadioButton ParticlesCollisions;
+	@FXML
+	private Spinner<Integer> WidthSpinner;
+	@FXML
+	private Spinner<Integer> HeightSpinner;
+	@FXML
+	private CheckBox CenteredCheckBox;
+	@FXML
+	private Spinner<Integer> HorizontalOffsetSpinner;
+	@FXML
+	private Spinner<Integer> VerticalOffsetSpinner;
 
 	private SimpleBouncingParticles simpleBouncingParticles;
 
@@ -66,15 +83,24 @@ public class BouncingParticlesSettingsController {
 			ShadedColorType.setSelected(true);
 			break;
 		}
+		WidthSpinner.getValueFactory().setValue(simpleBouncingParticles.getAreaWidth());
+		HeightSpinner.getValueFactory().setValue(simpleBouncingParticles.getAreaHeight());
+		HorizontalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getHorizontalOffset());
+		VerticalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getVerticalOffset());
+		initCheckBox();
 	}
 	
 	@FXML
 	private void initialize() {
+		// Particles
 		initColorSliders();
 		initRadiusSpinners();
 		initParticleNumberSpinner();
+		// Area
+		initSizeSpinners();
 	}
 
+	// Particles
 	private void initColorSliders() {
 		HueSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
@@ -171,6 +197,97 @@ public class BouncingParticlesSettingsController {
 		RawColorType.setSelected(false);
 		RandomColorType.setSelected(false);
 		simpleBouncingParticles.setColorType(SimpleBouncingParticles.ColorType.Shaded);
+	}
+	
+	// Area
+	private void initSizeSpinners() {
+		WidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 256, 32, 1));
+		WidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				simpleBouncingParticles.setAreaWidth((int) new_val);
+				if(CenteredCheckBox.isSelected()) {
+					centerArea();
+				}
+				simpleBouncingParticles.setInitialize(true);
+			}
+		});
+		
+		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 256, 16, 1));
+		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				simpleBouncingParticles.setAreaHeight((int) new_val);
+				if(CenteredCheckBox.isSelected()) {
+					centerArea();
+				}
+				simpleBouncingParticles.setInitialize(true);
+			}
+		});
+		
+		HorizontalOffsetSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-128, 128, 0, 1));
+		HorizontalOffsetSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				simpleBouncingParticles.setHorizontalOffset((int) new_val);
+				simpleBouncingParticles.setInitialize(true);
+			}
+		});
+		
+		VerticalOffsetSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-128, 128, 0, 1));
+		VerticalOffsetSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				simpleBouncingParticles.setVerticalOffset((int) new_val);
+				simpleBouncingParticles.setInitialize(true);
+			}
+		});
+	}
+	
+	private void initCheckBox() {
+		if(CenteredCheckBox.isSelected()) {
+			HorizontalOffsetSpinner.setDisable(true);
+			VerticalOffsetSpinner.setDisable(true);
+			centerArea();
+		}
+		else {
+			HorizontalOffsetSpinner.setDisable(false);
+			VerticalOffsetSpinner.setDisable(false);
+		}	
+	}
+	
+	@FXML
+	private void handleEdgeCollisionsButton() {
+		ParticlesCollisions.setSelected(false);
+		if(simpleBouncingParticles.getParticleCollision()) {
+			simpleBouncingParticles.setParticleCollision(false);
+			simpleBouncingParticles.setInitialize(true);
+		}
+	}
+	
+	@FXML
+	private void handleParticleCollisionsButton() {
+		EdgeCollisions.setSelected(false);
+		if(!simpleBouncingParticles.getParticleCollision()) {
+			simpleBouncingParticles.setParticleCollision(true);
+			simpleBouncingParticles.setInitialize(true);
+		}
+	}
+	
+	@FXML
+	private void handleCenteredCheckBox() {
+		if(CenteredCheckBox.isSelected()) {
+			HorizontalOffsetSpinner.setDisable(true);
+			VerticalOffsetSpinner.setDisable(true);
+			centerArea();
+		}
+		else {
+			HorizontalOffsetSpinner.setDisable(false);
+			VerticalOffsetSpinner.setDisable(false);
+		}
+	}
+	
+	private void centerArea() {
+		int xOffset = (int) Math.floor((LedPanel.MATRIX_WIDTH - WidthSpinner.getValue()) / 2);
+		int yOffset = (int) Math.floor((LedPanel.MATRIX_HEIGHT - HeightSpinner.getValue()) / 2);
+		HorizontalOffsetSpinner.getValueFactory().setValue(xOffset);
+		VerticalOffsetSpinner.getValueFactory().setValue(yOffset);
 	}
 
 }
