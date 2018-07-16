@@ -1,5 +1,9 @@
 package main.gui.views.ledMatrix;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -111,12 +115,20 @@ public class LedMatrixController {
 
 		@Override
 		public void run() {
+			Instant end = Instant.now().plus(1000 / ledPanel.getFps(), ChronoUnit.MILLIS);
 			if (ledMatrixController.run) {
 				ledPanel.updateDisplay();
+				long delay = Duration.between(Instant.now(), end).toMillis();
+				if(delay>0) {
 				try {
-					Thread.sleep(1000 / ledPanel.getFps());
-				} catch (InterruptedException e) {
+						Thread.sleep(delay);
+					}
+				catch (InterruptedException e) {
 					e.printStackTrace();
+				}
+			}
+				else {
+					System.out.println("Overflow");
 				}
 				Platform.runLater(() -> {
 					displayMatrix();
