@@ -2,15 +2,19 @@ package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.par
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
-public class InitPosSolver {
+public class RandomPosSolver extends ParticlesInitializer {
 
 	// TODO : safe step
 
 	private ArrayList<Space> freeSpaces = new ArrayList<>();
 	private ArrayList<Particle> particles;
+	// This space correspond to twice the maximum distance travelled by a particle in the smaller dt used in engine
+	private double safeSpace;
 
-	public InitPosSolver(double width, double height, double xOrigin, double yOrigin, ArrayList<Particle> particles) {
+	public RandomPosSolver(ArrayList<Particle> particles, double vMax) {
+		super(particles);
 		this.particles = particles;
 		this.particles.sort((Particle p1, Particle p2) -> {
 			if (p1.getRadius() < p2.getRadius()) {
@@ -19,10 +23,13 @@ public class InitPosSolver {
 				return -1;
 			}
 		});
-		freeSpaces.add(new Space(xOrigin, yOrigin, width, height));
+		
+		safeSpace = 2 * vMax * ParticleSet.deltaTsimulation;
 	}
 
-	public boolean resolve() {
+	@Override
+	public boolean resolvePositions(double width, double height, double xOrigin, double yOrigin) {
+		freeSpaces.add(new Space(xOrigin, yOrigin, width, height));
 		boolean full = false;
 		ArrayList<Particle> particlesToRemove = new ArrayList<>();
 		for (Particle p : particles) {
@@ -30,8 +37,8 @@ public class InitPosSolver {
 				int s = 0;
 				boolean assigned = false;
 				while (!assigned && s < freeSpaces.size()) {
-					if (freeSpaces.get(s).getWidth() >= 2 * p.getRadius() + 2) {
-						if (freeSpaces.get(s).getHeight() >= 2 * p.getRadius() + 2) {
+					if (freeSpaces.get(s).getWidth() >= 2 * p.getRadius() + safeSpace) {
+						if (freeSpaces.get(s).getHeight() >= 2 * p.getRadius() + safeSpace) {
 							setParticleInFreespace(p, s);
 							assigned = true;
 						}
@@ -52,14 +59,24 @@ public class InitPosSolver {
 
 	private void setParticleInFreespace(Particle p, int s) {
 		Space freeSpace = freeSpaces.get(s);
-		freeSpaces.add(new Space(freeSpace.getX(), freeSpace.getY() + 2 * p.getRadius() + 2, 2 * p.getRadius() + 2,
-				freeSpace.getHeight() - (2 * p.getRadius() + 2)));
+		freeSpaces.add(new Space(freeSpace.getX(), freeSpace.getY() + 2 * p.getRadius() + safeSpace, 2 * p.getRadius() + safeSpace,
+				freeSpace.getHeight() - (2 * p.getRadius() + safeSpace)));
 		p.setxPos(freeSpace.getX() + 1 + p.getRadius());
 		p.setyPos(freeSpace.getY() + 1 + p.getRadius());
 
-		if (!freeSpace.shrink(2 * p.getRadius() + 2)) {
+		if (!freeSpace.shrink(2 * p.getRadius() + safeSpace)) {
 			freeSpaces.remove(s);
 		}
+	}
+	
+	@Override
+	public void resolveDirections() {
+		
+	}
+	
+	@Override
+	public void resolveSpeeds(double vMin, double vMax) {
+		
 	}
 
 	private class Space {

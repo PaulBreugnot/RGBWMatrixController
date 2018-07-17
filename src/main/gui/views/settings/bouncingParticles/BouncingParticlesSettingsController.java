@@ -60,9 +60,9 @@ public class BouncingParticlesSettingsController {
 	}
 	
 	private void setDisplayedParameters() {
-		HueSlider.setValue(simpleBouncingParticles.getColor().getHue());
-		BrightnessSlider.setValue(simpleBouncingParticles.getColor().getBrightness());
-		SaturationSlider.setValue(simpleBouncingParticles.getColor().getSaturation());
+		HueSlider.setValue(simpleBouncingParticles.getHue());
+		BrightnessSlider.setValue(simpleBouncingParticles.getBrightness());
+		SaturationSlider.setValue(simpleBouncingParticles.getSaturation());
 		MinRadiusSpinner.getValueFactory().setValue(simpleBouncingParticles.getMinRadius());
 		MaxRadiusSpinner.getValueFactory().setValue(simpleBouncingParticles.getMaxRadius());
 		ParticleNumberSpinner.getValueFactory().setValue(simpleBouncingParticles.getParticleNumber());
@@ -87,6 +87,8 @@ public class BouncingParticlesSettingsController {
 		HeightSpinner.getValueFactory().setValue(simpleBouncingParticles.getAreaHeight());
 		HorizontalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getHorizontalOffset());
 		VerticalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getVerticalOffset());
+		EdgeCollisions.setSelected(!simpleBouncingParticles.getParticleCollision());
+		ParticlesCollisions.setSelected(simpleBouncingParticles.getParticleCollision());
 		initCheckBox();
 	}
 	
@@ -104,22 +106,19 @@ public class BouncingParticlesSettingsController {
 	private void initColorSliders() {
 		HueSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				Color newColor = Color.hsb((double) new_val, SaturationSlider.getValue(), BrightnessSlider.getValue());
-				simpleBouncingParticles.setColor(newColor);
+				simpleBouncingParticles.setHue((double) new_val);
 			}
 		});
 
 		BrightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				Color newColor = Color.hsb(HueSlider.getValue(), SaturationSlider.getValue(), (double) new_val);
-				simpleBouncingParticles.setColor(newColor);
+				simpleBouncingParticles.setBrightness((double) new_val);
 			}
 		});
 
 		SaturationSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				Color newColor = Color.hsb(HueSlider.getValue(), (double) new_val, BrightnessSlider.getValue());
-				simpleBouncingParticles.setColor(newColor);
+				simpleBouncingParticles.setSaturation((double) new_val);
 			}
 		});
 	}
@@ -130,6 +129,7 @@ public class BouncingParticlesSettingsController {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedRadiusBox.isSelected()) {
 					MaxRadiusSpinner.getValueFactory().setValue((double) new_val);
+					simpleBouncingParticles.setMinRadius((double) new_val);
 					simpleBouncingParticles.setInitialize(true);
 				} else {
 					if ((double) new_val > MaxRadiusSpinner.getValue()) {
@@ -147,6 +147,7 @@ public class BouncingParticlesSettingsController {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedRadiusBox.isSelected()) {
 					MinRadiusSpinner.getValueFactory().setValue((double) new_val);
+					simpleBouncingParticles.setMaxRadius((double) new_val);
 					simpleBouncingParticles.setInitialize(true);
 				} else {
 					if ((double) new_val < MinRadiusSpinner.getValue()) {
@@ -162,7 +163,7 @@ public class BouncingParticlesSettingsController {
 	
 	@FXML
 	private void initParticleNumberSpinner() {
-		ParticleNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 30, 5, 1));
+		ParticleNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 60, 5, 1));
 		ParticleNumberSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				simpleBouncingParticles.setParticleNumber((int) new_val);

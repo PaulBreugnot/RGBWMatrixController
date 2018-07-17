@@ -18,8 +18,7 @@ public class BouncingParticlesEngine {
 	private ParticleSet particleSet;
 
 	private PriorityQueue<Particle>[][] pixelsToRender;
-	//private RGBWPixel[][] bufferLedMatrix;
-	public double deltaT = 1;
+	public static final double deltaT = 1;
 
 	@SuppressWarnings("unchecked")
 	public BouncingParticlesEngine(ParticleSet particleSet) {

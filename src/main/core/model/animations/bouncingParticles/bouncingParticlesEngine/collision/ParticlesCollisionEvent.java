@@ -23,6 +23,11 @@ public class ParticlesCollisionEvent extends CollisionEvent {
 	}
 	
 	@Override
+	public String toString() {
+		return "P1 : " + a.toString() + ", P2 : " + b.toString();
+	}
+	
+	@Override
 	public CollisionResult trigger() {
 		Particle.bounceParticle(a, b);
 		return new CollisionResult(a, b);

@@ -13,21 +13,24 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.util
 
 public class ParticleSet {
 
-	private double deltaTsimulation = 0.1;
+	public static final double deltaTsimulation = 0.01;
 	private boolean bounceParticles;
 	private double time = 0;
 	private ArrayList<Particle> particles;
+	private int maxIteration;
 	private ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 	private HashMap<Particle, HashSet<CollisionEvent>> ParticleCollisionsMap = new HashMap<>();
 
 	private ParticleSet(ArrayList<Particle> particles, boolean bounceParticles) {
 		this.particles = particles;
+		maxIteration = (int) Math.pow(particles.size(), 2);
 		this.bounceParticles = bounceParticles;
 	}
 
 	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges, boolean bounceParticles) {
 		this.particles = particles;
+		maxIteration = (int) Math.pow(particles.size(), 2);
 		this.edges = edges;
 		this.bounceParticles = bounceParticles;
 		initCollisions();
@@ -48,7 +51,12 @@ public class ParticleSet {
 	public void progress(double deltaT) {
 		double beginTime = time;
 		while (time - beginTime < deltaT) {
-			while (time + deltaTsimulation >= collisions.peek().getTime()) {
+			int iterations = 0;
+			while (time + deltaTsimulation >= collisions.peek().getTime() && iterations < maxIteration) {
+				iterations++;
+				if(iterations>=maxIteration) {
+					System.out.println("Engine Crashed...");
+				}
 				// Trigger next collision
 				CollisionResult collidedParticles = collisions.poll().trigger();
 				if (collidedParticles.getCollidedParticle2() == null) {

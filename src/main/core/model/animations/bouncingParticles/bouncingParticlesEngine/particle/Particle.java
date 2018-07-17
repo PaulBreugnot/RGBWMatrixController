@@ -6,9 +6,11 @@ import java.util.Random;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
-import main.core.model.animations.bouncingParticles.simpleBouncingParticles.BouncingParticle;
+import main.core.util.color.ColorMap;
 
 public class Particle implements Comparable<Particle> {
+	
+	protected static ColorMap colorMap;
 
 	protected ArrayList<Particle> AboveOf = new ArrayList<>();
 	
@@ -18,7 +20,11 @@ public class Particle implements Comparable<Particle> {
 	protected SimpleDoubleProperty xPos;
 	protected SimpleDoubleProperty yPos;
 	protected Color color;
+	protected boolean blinky;
 
+	public static void setColorMap(ColorMap colorMap) {
+		Particle.colorMap = colorMap;
+	}
 	public Particle(double speed, double alpha, double xPos, double yPos, double radius, Color color) {
 		this.speed = speed;
 		this.alpha = alpha;
@@ -26,6 +32,11 @@ public class Particle implements Comparable<Particle> {
 		this.yPos = new SimpleDoubleProperty(yPos);
 		this.radius = radius;
 		this.color = color;
+	}
+	
+	public Particle() {
+		xPos = new SimpleDoubleProperty();
+		yPos = new SimpleDoubleProperty();
 	}
 
 	public double getSpeed() {
@@ -46,6 +57,10 @@ public class Particle implements Comparable<Particle> {
 
 	public double getRadius() {
 		return radius;
+	}
+	
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 	
 	public void setxPos(double x) {
@@ -83,6 +98,14 @@ public class Particle implements Comparable<Particle> {
 	public Color getColor(int x, int y) {
 		// x and y are given in the particle
 		return color;
+	}
+	
+	public void setBlinky(boolean blinky) {
+		this.blinky = blinky;
+	}
+	
+	public boolean isBlinky() {
+		return blinky;
 	}
 	
 	public void addAboveOf(Particle particle) {
@@ -136,9 +159,12 @@ public class Particle implements Comparable<Particle> {
 		p1.bounceEdge(collisionEdge);
 		p2.bounceEdge(collisionEdge);
 		
-		Random rd = new Random();
-		p1.setColor(Color.hsb(rd.nextInt(360), 1, 1));
-		p2.setColor(Color.hsb(rd.nextInt(360), 1, 1));
+		if (p1.isBlinky()) {
+			p1.setColor(colorMap.random());
+		}
+		if (p2.isBlinky()) {
+			p2.setColor(colorMap.random());
+		}
 		
 	}
 
@@ -158,6 +184,7 @@ public class Particle implements Comparable<Particle> {
 			return Double.MAX_VALUE;
 		}
 		double collisionTime = - (deltaX * deltaVx + deltaY * deltaVy + Math.sqrt(d)) / (deltaVx * deltaVx + deltaVy * deltaVy);
+
 		return collisionTime;
 	}
 
@@ -207,6 +234,11 @@ public class Particle implements Comparable<Particle> {
 			return -1;
 		}
 		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		return "xPos : " + getxPos() + ", yPos : " + getyPos();
 	}
 
 }

@@ -34,11 +34,33 @@
                                  </children>
                               </VBox>
                               <Label text="Hue :" />
-                              <Slider fx:id="HueSlider" max="360.0" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Slider fx:id="HueSlider" max="360.0" />
+                                    <Spinner prefWidth="60.0" />
+                                 </children>
+                              </HBox>
                               <Label text="Brightness :" />
-                              <Slider fx:id="BrightnessSlider" max="1.0" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Slider fx:id="BrightnessSlider" max="1.0" />
+                                    <Spinner prefWidth="60.0" />
+                                 </children>
+                              </HBox>
                               <Label text="Saturation :" />
-                              <Slider fx:id="SaturationSlider" max="1.0" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Slider fx:id="SaturationSlider" max="1.0" />
+                                    <Spinner prefWidth="60.0" />
+                                 </children>
+                              </HBox>
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Particle Number :" />
+                              <Spinner fx:id="ParticleNumberSpinner" editable="true" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
@@ -55,17 +77,32 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner fx:id="MinRadiusSpinner" />
+                              <Spinner fx:id="MinRadiusSpinner" editable="true" />
                               <Label text="Maximum Radius :" />
-                              <Spinner fx:id="MaxRadiusSpinner" />
+                              <Spinner fx:id="MaxRadiusSpinner" editable="true" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
                                  </VBox.margin>
                               </Separator>
-                              <Label text="Particle Number :" />
-                              <Spinner fx:id="ParticleNumberSpinner" />
+                              <Label text="Speed" />
+                              <CheckBox mnemonicParsing="false" text="Fixed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Minimum Speed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner />
+                              <Label text="Maximum Speed" />
+                              <Spinner />
                            </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </VBox>
                      </content>
                 </TitledPane>
@@ -95,13 +132,13 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner fx:id="WidthSpinner" />
+                              <Spinner fx:id="WidthSpinner" editable="true" />
                               <Label text="Height :">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner fx:id="HeightSpinner" />
+                              <Spinner fx:id="HeightSpinner" editable="true" />
                               <Separator>
                                  <VBox.margin>
                                     <Insets bottom="5.0" top="10.0" />
@@ -118,13 +155,13 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner fx:id="HorizontalOffsetSpinner" />
+                              <Spinner fx:id="HorizontalOffsetSpinner" editable="true" />
                               <Label text="Vertical Offset :">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner fx:id="VerticalOffsetSpinner" />
+                              <Spinner fx:id="VerticalOffsetSpinner" editable="true" />
                            </children>
                         </VBox>
                      </content>

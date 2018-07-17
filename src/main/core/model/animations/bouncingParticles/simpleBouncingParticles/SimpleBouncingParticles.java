@@ -9,7 +9,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import main.core.model.animations.Animation;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.InitPosSolver;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.AbstractColorInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.RandomColorInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.ShadedColorInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.directionInitializers.RandomDirectionInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.positionInitializers.CompactPositionInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers.RandomRadiusInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers.RandomSpeedInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.RandomPosSolver;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.panel.LedPanel;
@@ -22,8 +29,14 @@ public class SimpleBouncingParticles implements Animation {
 		Random, Raw, Shaded
 	}
 
-	private Color color = Color.BLUE;
+	private double saturation = 1;
+	private double satWidth = 0;
+	private double brightness = 1;
+	private double brightWidth = 0;
+	private double hue = 180;
+	private double hueWidth = 30;
 	private ColorType colorType = ColorType.Random;
+	private boolean blinky = false;
 
 	// Particles
 	private int particleNumber = 5;
@@ -50,26 +63,27 @@ public class SimpleBouncingParticles implements Animation {
 	private void initialize() {
 		ArrayList<Particle> particles = new ArrayList<>();
 		Random rd = new Random();
-		double currentXpos = 1;
 		for (int i = 0; i < particleNumber; i++) {
 			// double radius = 2;
-			double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
-			currentXpos += radius + 1;
-			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
-			// double angle = 3.1;
-			// int x = (int) Math.floor(currentXpos);
-			currentXpos += radius + 1;
-			// int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) +
-			// (int) Math.floor(radius);
-			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			Color color = Color.hsb(rd.nextInt(360), 1, 1);
-			Particle particle = new Particle(speed, angle, 0, 0, radius, color);
-
+			//double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
+			//double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
+			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
+			//Color color = Color.hsb(rd.nextInt(360), 1, 1);
+			Particle particle = new Particle();
 			particles.add(particle);
 		}
-
-		InitPosSolver solver = new InitPosSolver(areaWidth, areaHeight, horizontalOffset, verticalOffset, particles);
-		matrixFull = solver.resolve();
+		AbstractColorInitializer colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
+		Particle.setColorMap(colorInit.getColorMap());
+		colorInit.resolveColor();
+		RandomRadiusInitializer radiusInit = new RandomRadiusInitializer(particles);
+		radiusInit.resolveRadius(minRadius, maxRadius);
+		RandomDirectionInitializer angleInit = new RandomDirectionInitializer(particles);
+		angleInit.resolveDirections();
+		RandomSpeedInitializer speedInit = new RandomSpeedInitializer(particles);
+		speedInit.resolveSpeed(vMin, vMax);
+		CompactPositionInitializer posInit = new CompactPositionInitializer(particles, 2 * vMax * ParticleSet.deltaTsimulation);
+		posInit.resolvePositions(areaWidth, areaHeight, horizontalOffset, verticalOffset);
+		
 
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, particleCollision);
@@ -79,20 +93,60 @@ public class SimpleBouncingParticles implements Animation {
 
 	// Particles
 
-	public void setColor(Color color) {
-		this.color = color;
+	public ColorType getColorType() {
+		return colorType;
 	}
-
-	public Color getColor() {
-		return color;
-	}
-
+	
 	public void setColorType(ColorType colorType) {
 		this.colorType = colorType;
 	}
 
-	public ColorType getColorType() {
-		return colorType;
+	public double getSaturation() {
+		return saturation;
+	}
+
+	public void setSaturation(double saturation) {
+		this.saturation = saturation;
+	}
+
+	public double getSatWidth() {
+		return satWidth;
+	}
+
+	public void setSatWidth(double satWidth) {
+		this.satWidth = satWidth;
+	}
+
+	public double getBrightness() {
+		return brightness;
+	}
+
+	public void setBrightness(double brightness) {
+		this.brightness = brightness;
+	}
+
+	public double getBrightWidth() {
+		return brightWidth;
+	}
+
+	public void setBrightWidth(double brightWidth) {
+		this.brightWidth = brightWidth;
+	}
+
+	public double getHue() {
+		return hue;
+	}
+
+	public void setHue(double hue) {
+		this.hue = hue;
+	}
+
+	public double getHueWidth() {
+		return hueWidth;
+	}
+
+	public void setHueWidth(double hueWidth) {
+		this.hueWidth = hueWidth;
 	}
 
 	public void setMinRadius(double minRadius) {
