@@ -25,18 +25,14 @@ import main.gui.views.settings.bouncingParticles.BouncingParticlesSettingsContro
 
 public class SimpleBouncingParticles implements Animation {
 
-	public static enum ColorType {
-		Random, Raw, Shaded
-	}
-
 	private double saturation = 1;
 	private double satWidth = 0;
 	private double brightness = 1;
 	private double brightWidth = 0;
 	private double hue = 180;
 	private double hueWidth = 30;
-	private ColorType colorType = ColorType.Random;
 	private boolean blinky = false;
+	private AbstractColorInitializer colorInit;
 
 	// Particles
 	private int particleNumber = 5;
@@ -53,8 +49,10 @@ public class SimpleBouncingParticles implements Animation {
 	private boolean particleCollision = true;
 
 	private boolean initialize = true;
+	private boolean initColor = true;
 	private boolean matrixFull;
 	private BouncingParticlesEngine bouncingParticlesEngine;
+	private ArrayList<Particle> particles;
 
 	public SimpleBouncingParticles() {
 
@@ -72,7 +70,7 @@ public class SimpleBouncingParticles implements Animation {
 			Particle particle = new Particle();
 			particles.add(particle);
 		}
-		AbstractColorInitializer colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
+		colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
 		Particle.setColorMap(colorInit.getColorMap());
 		colorInit.resolveColor();
 		RandomRadiusInitializer radiusInit = new RandomRadiusInitializer(particles);
@@ -88,18 +86,17 @@ public class SimpleBouncingParticles implements Animation {
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
+		this.particles = particles;
 
-	}
-
-	// Particles
-
-	public ColorType getColorType() {
-		return colorType;
 	}
 	
-	public void setColorType(ColorType colorType) {
-		this.colorType = colorType;
+	private void initializeColor() {
+		colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
+		Particle.setColorMap(colorInit.getColorMap());
+		colorInit.resolveColor();
 	}
+
+	// Color
 
 	public double getSaturation() {
 		return saturation;
@@ -149,6 +146,8 @@ public class SimpleBouncingParticles implements Animation {
 		this.hueWidth = hueWidth;
 	}
 
+	// Particles
+	
 	public void setMinRadius(double minRadius) {
 		this.minRadius = minRadius;
 	}
@@ -172,9 +171,21 @@ public class SimpleBouncingParticles implements Animation {
 	public int getParticleNumber() {
 		return particleNumber;
 	}
+	
+	public double getvMin() {
+		return vMin;
+	}
 
-	public void setInitialize(boolean initialize) {
-		this.initialize = initialize;
+	public void setvMin(double vMin) {
+		this.vMin = vMin;
+	}
+
+	public double getvMax() {
+		return vMax;
+	}
+
+	public void setvMax(double vMax) {
+		this.vMax = vMax;
 	}
 
 	// Area
@@ -218,6 +229,16 @@ public class SimpleBouncingParticles implements Animation {
 	public void setVerticalOffset(int verticalOffset) {
 		this.verticalOffset = verticalOffset;
 	}
+	
+	// App
+
+	public void setInitialize(boolean initialize) {
+		this.initialize = initialize;
+	}
+	
+	public void setInitColor(boolean initColor) {
+		this.initColor = initColor;
+	}
 
 	@Override
 	public void setNextPicture(RGBWPixel[][] ledMatrix, int matrixWidth, int matrixHeight) {
@@ -225,6 +246,10 @@ public class SimpleBouncingParticles implements Animation {
 			LedPanel.setBlackPanel(ledMatrix);
 			initialize();
 			initialize = false;
+		}
+		else if (initColor) {
+			initializeColor();
+			initColor = false;
 		}
 		bouncingParticlesEngine.progress(ledMatrix);
 	}

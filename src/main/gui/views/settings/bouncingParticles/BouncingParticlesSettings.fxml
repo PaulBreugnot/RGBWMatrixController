@@ -17,48 +17,63 @@
             </Label>
             <Accordion>
               <panes>
-                <TitledPane animated="false" text="Particles">
+                  <TitledPane animated="false" text="Color">
                      <content>
                         <VBox>
                            <children>
                               <Label text="Color type :" />
                               <VBox alignment="TOP_CENTER">
                                  <children>
-                                    <RadioButton fx:id="RandomColorType" mnemonicParsing="false" onAction="#handleRandomButton" selected="true" text="Random" VBox.vgrow="NEVER" />
+                                    <RadioButton fx:id="FullRangeColorType" mnemonicParsing="false" onAction="#handleFullRangeButton" text="Full Range" VBox.vgrow="NEVER" />
                                     <HBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
                                        <children>
                                           <RadioButton fx:id="RawColorType" mnemonicParsing="false" onAction="#handleRawButton" text="Raw" />
-                                          <RadioButton fx:id="ShadedColorType" mnemonicParsing="false" onAction="#handleShadedButton" text="Shaded" />
+                                          <RadioButton fx:id="ShadedColorType" mnemonicParsing="false" onAction="#handleShadedButton" selected="true" text="Shaded" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Label text="Hue :" />
-                              <HBox alignment="CENTER">
+                              <HBox>
                                  <children>
-                                    <Slider fx:id="HueSlider" max="360.0" />
-                                    <Spinner prefWidth="60.0" />
+                                    <VBox>
+                                       <children>
+                                          <Label text="Hue :" />
+                                          <Slider fx:id="HueSlider" max="360.0" prefHeight="26.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Range :" />
+                                          <Spinner fx:id="HueWidthSpinner" prefWidth="70.0" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                               <Label text="Brightness :" />
                               <HBox alignment="CENTER">
                                  <children>
                                     <Slider fx:id="BrightnessSlider" max="1.0" />
-                                    <Spinner prefWidth="60.0" />
+                                    <Spinner fx:id="BrightnessWidthSpinner" prefWidth="70.0" />
                                  </children>
                               </HBox>
                               <Label text="Saturation :" />
                               <HBox alignment="CENTER">
                                  <children>
                                     <Slider fx:id="SaturationSlider" max="1.0" />
-                                    <Spinner prefWidth="60.0" />
+                                    <Spinner fx:id="SaturationWidthSpinner" prefWidth="70.0" />
                                  </children>
                               </HBox>
-                              <Separator>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Separator>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="Particles">
+                     <content>
+                        <VBox>
+                           <children>
                               <Label text="Particle Number :" />
                               <Spinner fx:id="ParticleNumberSpinner" editable="true" />
                               <Separator>
@@ -86,7 +101,7 @@
                                  </VBox.margin>
                               </Separator>
                               <Label text="Speed" />
-                              <CheckBox mnemonicParsing="false" text="Fixed">
+                              <CheckBox fx:id="FixedSpeedBox" mnemonicParsing="false" onAction="#handleFixedSpeed" text="Fixed">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -96,9 +111,9 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Spinner />
+                              <Slider fx:id="MinSpeedSlider" />
                               <Label text="Maximum Speed" />
-                              <Spinner />
+                              <Slider fx:id="MaxSpeedSlider" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -163,6 +178,9 @@
                               </Label>
                               <Spinner fx:id="VerticalOffsetSpinner" editable="true" />
                            </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </VBox>
                      </content>
                 </TitledPane>
