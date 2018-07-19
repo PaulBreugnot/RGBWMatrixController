@@ -35,7 +35,7 @@ public class ConnectionModuleController {
 		ComPortComboBox.setItems(ListComPort);
 		if (ListComPort.size() == 1) {
 			ComPortComboBox.getSelectionModel().selectFirst();
-			// handleConnect();
+			handleConnect();
 		}
 	}
 	
