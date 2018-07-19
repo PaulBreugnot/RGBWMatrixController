@@ -33,6 +33,15 @@
                                     </HBox>
                                  </children>
                               </VBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <CheckBox fx:id="BlinkyCheckBox" mnemonicParsing="false" onAction="#handleBlinky" text="Blinky">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </CheckBox>
+                                 </children>
+                              </HBox>
                               <HBox>
                                  <children>
                                     <VBox>
@@ -44,7 +53,7 @@
                                     <VBox>
                                        <children>
                                           <Label text="Range :" />
-                                          <Spinner fx:id="HueWidthSpinner" prefWidth="70.0" />
+                                          <Spinner fx:id="HueWidthSpinner" editable="true" prefWidth="70.0" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -53,14 +62,14 @@
                               <HBox alignment="CENTER">
                                  <children>
                                     <Slider fx:id="BrightnessSlider" max="1.0" />
-                                    <Spinner fx:id="BrightnessWidthSpinner" prefWidth="70.0" />
+                                    <Spinner fx:id="BrightnessWidthSpinner" editable="true" prefWidth="70.0" />
                                  </children>
                               </HBox>
                               <Label text="Saturation :" />
                               <HBox alignment="CENTER">
                                  <children>
                                     <Slider fx:id="SaturationSlider" max="1.0" />
-                                    <Spinner fx:id="SaturationWidthSpinner" prefWidth="70.0" />
+                                    <Spinner fx:id="SaturationWidthSpinner" editable="true" prefWidth="70.0" />
                                  </children>
                               </HBox>
                            </children>
@@ -186,9 +195,23 @@
                 </TitledPane>
                   <TitledPane animated="false" text="Patterns">
                      <content>
-                        <VBox>
+                        <VBox alignment="TOP_CENTER">
                            <children>
-                              <Label text="Coming Soon..." />
+                              <Button mnemonicParsing="false" onAction="#handleBigBalls" prefWidth="180.0" text="Extended Big Balls!">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#handleTinyParticles" prefWidth="180.0" text="Tiny Particles.">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#handleChaos" prefWidth="180.0" text="Chaos!">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
                            </children>
                         </VBox>
                      </content>

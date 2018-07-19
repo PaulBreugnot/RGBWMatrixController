@@ -86,7 +86,15 @@ public class SimpleBouncingParticles implements Animation {
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
+		
 		this.particles = particles;
+		
+		if (blinky) {
+			enableBlinky();
+		}
+		else {
+			disableBlinky();
+		}
 
 	}
 	
@@ -94,6 +102,18 @@ public class SimpleBouncingParticles implements Animation {
 		colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
 		Particle.setColorMap(colorInit.getColorMap());
 		colorInit.resolveColor();
+	}
+	
+	private void enableBlinky() {
+		for(Particle p : particles) {
+			p.setBlinky(true);
+		}
+	}
+	
+	private void disableBlinky() {
+		for(Particle p : particles) {
+			p.setBlinky(false);
+		}
 	}
 
 	// Color
@@ -146,6 +166,16 @@ public class SimpleBouncingParticles implements Animation {
 		this.hueWidth = hueWidth;
 	}
 
+	public void setBlinky(boolean blinky) {
+		this.blinky = blinky;
+		if (blinky) {
+			enableBlinky();
+		}
+		else {
+			disableBlinky();
+		}
+	}
+	
 	// Particles
 	
 	public void setMinRadius(double minRadius) {
