@@ -54,19 +54,9 @@ public class SimpleBouncingParticles implements Animation {
 	private BouncingParticlesEngine bouncingParticlesEngine;
 	private ArrayList<Particle> particles;
 
-	public SimpleBouncingParticles() {
-
-	}
-
 	private void initialize() {
 		ArrayList<Particle> particles = new ArrayList<>();
-		Random rd = new Random();
 		for (int i = 0; i < particleNumber; i++) {
-			// double radius = 2;
-			//double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
-			//double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
-			//double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			//Color color = Color.hsb(rd.nextInt(360), 1, 1);
 			Particle particle = new Particle();
 			particles.add(particle);
 		}

@@ -24,7 +24,7 @@ public class ParticleSet {
 
 	private ParticleSet(ArrayList<Particle> particles, boolean bounceParticles) {
 		this.particles = particles;
-		maxIteration = (int) Math.pow(particles.size(), 2);
+		maxIteration = (int) Math.pow(particles.size(), 2) + particles.size();
 		this.bounceParticles = bounceParticles;
 	}
 
