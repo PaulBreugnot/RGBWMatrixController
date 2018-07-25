@@ -1,6 +1,5 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -8,8 +7,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet.RectangularSet;
-import main.core.model.animations.bouncingParticles.simpleBouncingParticles.BouncingParticle;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 

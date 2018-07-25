@@ -39,7 +39,7 @@ public class ParticleWave implements Animation {
 
 	// Particles
 	private int particleNumber;
-	private double radius = 0.5;
+	private double radius = 2.5;
 	private double speed = 1;
 
 	// Area
@@ -59,10 +59,11 @@ public class ParticleWave implements Animation {
 	private void initialize() {
 		particles = new ArrayList<>();
 		lastAddedParticles = new ArrayList<>();
-		//waveLength = 2 * areaWidth;
+		waveLength = areaWidth/2;
 		angleOffset = 0;
 		direction = 1;
 		add_wave(Orientation.VERTICAL);
+		/*
 		//waveLength = 2 * areaWidth;
 		angleOffset = Math.PI;
 		direction = -1;
@@ -79,6 +80,7 @@ public class ParticleWave implements Animation {
 		direction = -1;
 		hue = 90;
 		add_wave(Orientation.HORIZONTAL);
+		*/
 
 	}
 

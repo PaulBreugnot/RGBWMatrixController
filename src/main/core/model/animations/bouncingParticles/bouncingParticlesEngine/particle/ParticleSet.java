@@ -47,6 +47,10 @@ public class ParticleSet {
 	public double getTime() {
 		return time;
 	}
+	
+	public void removeParticle(Particle particle) {
+		particles.remove(particle);
+	}
 
 	public void progress(double deltaT) {
 		double beginTime = time;
