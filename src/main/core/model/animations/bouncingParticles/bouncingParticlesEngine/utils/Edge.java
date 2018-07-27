@@ -71,6 +71,10 @@ public class Edge {
 	public double b() {
 		return b;
 	}
+	
+	public double getLength() {
+		return Math.sqrt(Math.pow(xOrigin - xFinal, 2) + Math.pow(yOrigin - yFinal, 2));
+	}
 
 	public double distanceFromPointToEdge(double xPoint, double yPoint) {
 		if (xFinal != xOrigin) {
@@ -78,7 +82,6 @@ public class Edge {
 		} else {
 			return Math.abs(xPoint - xOrigin);
 		}
-
 	}
 
 	@Override

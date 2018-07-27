@@ -21,6 +21,9 @@ public class Particle implements Comparable<Particle> {
 	protected SimpleDoubleProperty yPos;
 	protected Color color;
 	protected boolean blinky;
+	
+	// If true, we need to remove this particle
+	protected boolean outDated;
 
 	public static void setColorMap(ColorMap colorMap) {
 		Particle.colorMap = colorMap;
@@ -106,6 +109,10 @@ public class Particle implements Comparable<Particle> {
 	
 	public boolean isBlinky() {
 		return blinky;
+	}
+	
+	public boolean isOutdated() {
+		return outDated;
 	}
 	
 	public void addAboveOf(Particle particle) {

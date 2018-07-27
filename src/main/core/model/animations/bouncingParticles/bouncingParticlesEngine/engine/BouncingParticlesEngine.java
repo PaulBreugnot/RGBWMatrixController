@@ -31,31 +31,35 @@ public class BouncingParticlesEngine {
 
 	private void setUpParticleListeners() {
 		for (Particle particle : particleSet.getParticles()) {
-			// All the coordinates are forced to fit matrix width and height
-			particle.xPosProperty().addListener(new ChangeListener<Number>() {
-				public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-					int old_x = (int) Math.floor((double) old_val);
-					int new_x = (int) Math.floor((double) new_val);
-					if (new_x != old_x) {
-						int y = (int) Math.floor(particle.getyPos());
-						updateParticlesToShow(particle, old_x, y, new_x, y);
-						// addParticleToShow(particle);
-					}
-				}
-			});
-			particle.yPosProperty().addListener(new ChangeListener<Number>() {
-				public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-					int old_y = (int) Math.floor((double) old_val);
-					int new_y = (int) Math.floor((double) new_val);
-					if (new_y != old_y) {
-						int x = (int) Math.floor(particle.getxPos());
-						updateParticlesToShow(particle, x, old_y, x, new_y);
-						// addParticleToShow(particle);
-					}
-				}
-			});
-			addParticleToShow(particle);
+			setUpParticleListener(particle);
 		}
+	}
+
+	public void setUpParticleListener(Particle particle) {
+		// All the coordinates are forced to fit matrix width and height
+		particle.xPosProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				int old_x = (int) Math.floor((double) old_val);
+				int new_x = (int) Math.floor((double) new_val);
+				if (new_x != old_x) {
+					int y = (int) Math.floor(particle.getyPos());
+					updateParticlesToShow(particle, old_x, y, new_x, y);
+					// addParticleToShow(particle);
+				}
+			}
+		});
+		particle.yPosProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				int old_y = (int) Math.floor((double) old_val);
+				int new_y = (int) Math.floor((double) new_val);
+				if (new_y != old_y) {
+					int x = (int) Math.floor(particle.getxPos());
+					updateParticlesToShow(particle, x, old_y, x, new_y);
+					// addParticleToShow(particle);
+				}
+			}
+		});
+		addParticleToShow(particle);
 	}
 
 	public void progress(RGBWPixel[][] ledMatrix) {
@@ -81,11 +85,10 @@ public class BouncingParticlesEngine {
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) > radius) {
 							// We are NOT in the new position
 							pixelsToRender[y][x].remove(p);
-						}
-						else {
+						} else {
 							// We are in new and old position intersection
 							for (Particle particle : pixelsToRender[y][x]) {
-								if(!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
+								if (!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
 									particlesStillUnder.add(particle);
 								}
 							}
@@ -95,7 +98,7 @@ public class BouncingParticlesEngine {
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) <= radius) {
 							// We are in the new position
 							for (Particle particle : pixelsToRender[y][x]) {
-								if(!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
+								if (!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
 									particlesStillUnder.add(particle);
 								}
 								if (!p.isAboveOf(particle) && !particle.isAboveOf(p)) {
@@ -110,12 +113,12 @@ public class BouncingParticlesEngine {
 
 		}
 		ArrayList<Particle> particlesNoMoreUnder = new ArrayList<>();
-		for(Particle particleUnder : p.getAboveOf()) {
-			if(!particlesStillUnder.contains(particleUnder)) {
+		for (Particle particleUnder : p.getAboveOf()) {
+			if (!particlesStillUnder.contains(particleUnder)) {
 				particlesNoMoreUnder.add(particleUnder);
 			}
 		}
-		for(Particle particleNoMoreUnder : particlesNoMoreUnder) {
+		for (Particle particleNoMoreUnder : particlesNoMoreUnder) {
 			p.removeAboveOf(particleNoMoreUnder);
 		}
 	}
@@ -129,6 +132,21 @@ public class BouncingParticlesEngine {
 					if (yParticle + y >= 0 && yParticle + y < LedPanel.MATRIX_HEIGHT && xParticle + x >= 0
 							&& xParticle + x < LedPanel.MATRIX_WIDTH) {
 						pixelsToRender[yParticle + y][xParticle + x].add(p);
+					}
+				}
+			}
+		}
+	}
+	
+	public void removeParticleToShow(Particle p) {
+		for (int x = (int) Math.floor(-p.getRadius()); x <= p.getRadius(); x++) {
+			for (int y = (int) Math.floor(-p.getRadius()); y <= p.getRadius(); y++) {
+				if (Math.sqrt(x * x + y * y) <= p.getRadius()) {
+					int xParticle = (int) Math.floor(p.getxPos());
+					int yParticle = (int) Math.floor(p.getyPos());
+					if (yParticle + y >= 0 && yParticle + y < LedPanel.MATRIX_HEIGHT && xParticle + x >= 0
+							&& xParticle + x < LedPanel.MATRIX_WIDTH) {
+						pixelsToRender[yParticle + y][xParticle + x].remove(p);
 					}
 				}
 			}

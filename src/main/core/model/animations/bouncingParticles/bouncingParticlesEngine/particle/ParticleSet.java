@@ -20,17 +20,15 @@ public class ParticleSet {
 	private int maxIteration;
 	private ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
-	private HashMap<Particle, HashSet<CollisionEvent>> ParticleCollisionsMap = new HashMap<>();
+	private HashMap<Particle, HashSet<CollisionEvent>> particleCollisionsMap = new HashMap<>();
 
 	private ParticleSet(ArrayList<Particle> particles, boolean bounceParticles) {
 		this.particles = particles;
-		maxIteration = (int) Math.pow(particles.size(), 2) + particles.size();
 		this.bounceParticles = bounceParticles;
 	}
 
 	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges, boolean bounceParticles) {
 		this.particles = particles;
-		maxIteration = (int) Math.pow(particles.size(), 2);
 		this.edges = edges;
 		this.bounceParticles = bounceParticles;
 		initCollisions();
@@ -40,14 +38,18 @@ public class ParticleSet {
 		this.edges = edges;
 	}
 
+	public ArrayList<Edge> getEdges() {
+		return edges;
+	}
+
 	public ArrayList<Particle> getParticles() {
 		return particles;
 	}
-	
+
 	public double getTime() {
 		return time;
 	}
-	
+
 	public void removeParticle(Particle particle) {
 		particles.remove(particle);
 	}
@@ -56,32 +58,43 @@ public class ParticleSet {
 		double beginTime = time;
 		while (time - beginTime < deltaT) {
 			int iterations = 0;
-			while (time + deltaTsimulation >= collisions.peek().getTime() && iterations < maxIteration) {
+			while (particles.size() > 0 && time + deltaTsimulation >= collisions.peek().getTime()
+					&& iterations < maxIteration) {
 				iterations++;
-				if(iterations>=maxIteration) {
+				if (iterations >= maxIteration) {
 					System.out.println("Engine Crashed...");
 				}
 				// Trigger next collision
 				CollisionResult collidedParticles = collisions.poll().trigger();
-				if (collidedParticles.getCollidedParticle2() == null) {
+				if (!collidedParticles.getCollidedParticle1().isOutdated()) {
+					if (collidedParticles.getCollidedParticle2() == null) {
+						Particle collidedParticle = collidedParticles.getCollidedParticle1();
+						// Edge collision
+						// All other events evolving this particle becomes obsoletes
+						collisions.removeAll(particleCollisionsMap.get(collidedParticle));
+						particleCollisionsMap.get(collidedParticle).clear();
+						updateCollisions(collidedParticle, null);
+					} else {
+						Particle collidedParticle1 = collidedParticles.getCollidedParticle1();
+						// Edge collision
+						// All other events evolving this particle becomes obsoletes
+						collisions.removeAll(particleCollisionsMap.get(collidedParticle1));
+						particleCollisionsMap.get(collidedParticle1).clear();
+						Particle collidedParticle2 = collidedParticles.getCollidedParticle2();
+						// Edge collision
+						// All other events evolving this particle becomes obsoletes
+						collisions.removeAll(particleCollisionsMap.get(collidedParticle2));
+						particleCollisionsMap.get(collidedParticle2).clear();
+						updateCollisions(collidedParticle1, collidedParticle2);
+					}
+				} else {
 					Particle collidedParticle = collidedParticles.getCollidedParticle1();
 					// Edge collision
 					// All other events evolving this particle becomes obsoletes
-					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle));
-					ParticleCollisionsMap.get(collidedParticle).clear();
-					updateCollisions(collidedParticle, null);
-				} else {
-					Particle collidedParticle1 = collidedParticles.getCollidedParticle1();
-					// Edge collision
-					// All other events evolving this particle becomes obsoletes
-					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle1));
-					ParticleCollisionsMap.get(collidedParticle1).clear();
-					Particle collidedParticle2 = collidedParticles.getCollidedParticle2();
-					// Edge collision
-					// All other events evolving this particle becomes obsoletes
-					collisions.removeAll(ParticleCollisionsMap.get(collidedParticle2));
-					ParticleCollisionsMap.get(collidedParticle2).clear();
-					updateCollisions(collidedParticle1, collidedParticle2);
+					collisions.removeAll(particleCollisionsMap.get(collidedParticle));
+					particleCollisionsMap.remove(collidedParticle);
+					System.out.println(particleCollisionsMap.size());
+					particles.remove(collidedParticle);
 				}
 			}
 			// Now we are safe
@@ -93,6 +106,9 @@ public class ParticleSet {
 	}
 
 	public void initCollisions() {
+		collisions.clear();
+		particleCollisionsMap.clear();
+		maxIteration = (int) Math.pow(particles.size(), 2) + particles.size();
 		// Generate all collisions from current particles set
 		checkEdgesCollisions();
 		if (bounceParticles) {
@@ -112,19 +128,19 @@ public class ParticleSet {
 					if (t < Double.MAX_VALUE) {
 						CollisionEvent col = new ParticlesCollisionEvent(particle1, p, time + t);
 						collisions.add(col);
-						if (ParticleCollisionsMap.containsKey(particle1)) {
-							ParticleCollisionsMap.get(particle1).add(col);
+						if (particleCollisionsMap.containsKey(particle1)) {
+							particleCollisionsMap.get(particle1).add(col);
 						} else {
 							HashSet<CollisionEvent> collisionSet = new HashSet<>();
 							collisionSet.add(col);
-							ParticleCollisionsMap.put(particle1, collisionSet);
+							particleCollisionsMap.put(particle1, collisionSet);
 						}
-						if (ParticleCollisionsMap.containsKey(p)) {
-							ParticleCollisionsMap.get(p).add(col);
+						if (particleCollisionsMap.containsKey(p)) {
+							particleCollisionsMap.get(p).add(col);
 						} else {
 							HashSet<CollisionEvent> collisionSet = new HashSet<>();
 							collisionSet.add(col);
-							ParticleCollisionsMap.put(p, collisionSet);
+							particleCollisionsMap.put(p, collisionSet);
 						}
 					}
 				}
@@ -138,19 +154,19 @@ public class ParticleSet {
 						if (t < Double.MAX_VALUE) {
 							CollisionEvent col = new ParticlesCollisionEvent(particle2, p, time + t);
 							collisions.add(col);
-							if (ParticleCollisionsMap.containsKey(particle2)) {
-								ParticleCollisionsMap.get(particle2).add(col);
+							if (particleCollisionsMap.containsKey(particle2)) {
+								particleCollisionsMap.get(particle2).add(col);
 							} else {
 								HashSet<CollisionEvent> collisionSet = new HashSet<>();
 								collisionSet.add(col);
-								ParticleCollisionsMap.put(particle2, collisionSet);
+								particleCollisionsMap.put(particle2, collisionSet);
 							}
-							if (ParticleCollisionsMap.containsKey(p)) {
-								ParticleCollisionsMap.get(p).add(col);
+							if (particleCollisionsMap.containsKey(p)) {
+								particleCollisionsMap.get(p).add(col);
 							} else {
 								HashSet<CollisionEvent> collisionSet = new HashSet<>();
 								collisionSet.add(col);
-								ParticleCollisionsMap.put(p, collisionSet);
+								particleCollisionsMap.put(p, collisionSet);
 							}
 						}
 					}
@@ -167,12 +183,12 @@ public class ParticleSet {
 			if (t < Double.MAX_VALUE) {
 				CollisionEvent col = new EdgeCollisionEvent(particle, edge, time + t);
 				collisions.add(col);
-				if (ParticleCollisionsMap.containsKey(particle)) {
-					ParticleCollisionsMap.get(particle).add(col);
+				if (particleCollisionsMap.containsKey(particle)) {
+					particleCollisionsMap.get(particle).add(col);
 				} else {
 					HashSet<CollisionEvent> collisionSet = new HashSet<>();
 					collisionSet.add(col);
-					ParticleCollisionsMap.put(particle, collisionSet);
+					particleCollisionsMap.put(particle, collisionSet);
 				}
 			}
 		}
@@ -185,13 +201,14 @@ public class ParticleSet {
 				double t = Particle.collisionTime(p, edge);
 				if (t < Double.MAX_VALUE) {
 					CollisionEvent col = new EdgeCollisionEvent(p, edge, time + t);
+					System.out.println("New Edge Collision : " + col);
 					collisions.add(col);
-					if (ParticleCollisionsMap.containsKey(p)) {
-						ParticleCollisionsMap.get(p).add(col);
+					if (particleCollisionsMap.containsKey(p)) {
+						particleCollisionsMap.get(p).add(col);
 					} else {
 						HashSet<CollisionEvent> collisionSet = new HashSet<>();
 						collisionSet.add(col);
-						ParticleCollisionsMap.put(p, collisionSet);
+						particleCollisionsMap.put(p, collisionSet);
 					}
 				}
 			}
@@ -207,19 +224,19 @@ public class ParticleSet {
 				if (t < Double.MAX_VALUE) {
 					CollisionEvent col = new ParticlesCollisionEvent(p1, p2, time + t);
 					collisions.add(col);
-					if (ParticleCollisionsMap.containsKey(p1)) {
-						ParticleCollisionsMap.get(p1).add(col);
+					if (particleCollisionsMap.containsKey(p1)) {
+						particleCollisionsMap.get(p1).add(col);
 					} else {
 						HashSet<CollisionEvent> collisionSet = new HashSet<>();
 						collisionSet.add(col);
-						ParticleCollisionsMap.put(p1, collisionSet);
+						particleCollisionsMap.put(p1, collisionSet);
 					}
-					if (ParticleCollisionsMap.containsKey(p2)) {
-						ParticleCollisionsMap.get(p2).add(col);
+					if (particleCollisionsMap.containsKey(p2)) {
+						particleCollisionsMap.get(p2).add(col);
 					} else {
 						HashSet<CollisionEvent> collisionSet = new HashSet<>();
 						collisionSet.add(col);
-						ParticleCollisionsMap.put(p2, collisionSet);
+						particleCollisionsMap.put(p2, collisionSet);
 					}
 				}
 			}
@@ -227,7 +244,8 @@ public class ParticleSet {
 	}
 
 	public static class RectangularSet extends ParticleSet {
-		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset, boolean bounceParticles) {
+		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset,
+				boolean bounceParticles) {
 			super(particles, bounceParticles);
 			ArrayList<Edge> edges = new ArrayList<>();
 			edges.add(new Edge(widthOffset, heightOffset, widthOffset + width, heightOffset));

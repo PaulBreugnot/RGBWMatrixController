@@ -25,7 +25,7 @@ public class EdgeCollisionEvent extends CollisionEvent {
 	
 	@Override
 	public String toString() {
-		return "P : " + particle.toString();
+		return "P : " + particle.toString() + ", t : " + t;
 	}
 	
 	@Override
