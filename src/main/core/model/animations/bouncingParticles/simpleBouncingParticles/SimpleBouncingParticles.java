@@ -53,7 +53,8 @@ public class SimpleBouncingParticles extends ParticleAnimation {
 		else {
 			disableBlinky();
 		}
-
+		
+		initializeLayers();
 	}
 
 	@Override

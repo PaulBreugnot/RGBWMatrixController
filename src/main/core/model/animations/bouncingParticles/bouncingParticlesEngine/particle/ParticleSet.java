@@ -94,9 +94,6 @@ public class ParticleSet {
 					collisions.removeAll(particleCollisionsMap.get(collidedParticle));
 					particleCollisionsMap.remove(collidedParticle);
 					particles.remove(collidedParticle);
-					for(Particle p : particles) {
-						p.removeAboveOf(collidedParticle);
-					}
 				}
 			}
 			// Now we are safe

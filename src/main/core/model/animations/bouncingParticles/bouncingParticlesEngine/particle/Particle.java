@@ -21,6 +21,7 @@ public class Particle implements Comparable<Particle> {
 	protected SimpleDoubleProperty yPos;
 	protected Color color;
 	protected boolean blinky;
+	protected int layer;
 	
 	// If true, we need to remove this particle
 	protected boolean outDated;
@@ -115,6 +116,15 @@ public class Particle implements Comparable<Particle> {
 		return outDated;
 	}
 	
+	public int getLayer() {
+		return layer;
+	}
+	
+	public void setLayer(int layer) {
+		this.layer = layer;
+	}
+	
+	/*
 	public void addAboveOf(Particle particle) {
 		AboveOf.add(particle);
 	}
@@ -130,6 +140,7 @@ public class Particle implements Comparable<Particle> {
 	public ArrayList<Particle> getAboveOf(){
 		return AboveOf;
 	}
+	*/
 
 	public void progress(double deltaT) {
 		xPos.set(xPos.get() + speed * Math.cos(alpha) * deltaT);
@@ -237,7 +248,7 @@ public class Particle implements Comparable<Particle> {
 
 	@Override
 	public int compareTo(Particle arg0) {
-		if(AboveOf.contains(arg0)) {
+		if(layer < arg0.getLayer()) {
 			return -1;
 		}
 		return 0;

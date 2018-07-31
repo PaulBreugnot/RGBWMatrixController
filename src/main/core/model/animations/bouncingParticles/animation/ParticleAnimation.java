@@ -17,23 +17,23 @@ public abstract class ParticleAnimation implements Animation {
 	protected double brightness = 1;
 	protected double brightWidth = 0;
 	protected double hue = 180;
-	protected double hueWidth = 30;
+	protected double hueWidth = 100;
 	protected boolean blinky = false;
 	protected AbstractColorInitializer colorInit;
 
 	// Particles
-	protected int particleNumber = 5;
-	protected double vMin = 0.5;
-	protected double vMax = 2;
-	protected double minRadius = 3;
-	protected double maxRadius = 3;
+	protected int particleNumber = 4;
+	protected double vMin = 1;
+	protected double vMax = 1;
+	protected double minRadius = 2;
+	protected double maxRadius = 2;
 
 	// Area
 	protected int areaWidth = LedPanel.MATRIX_WIDTH;
 	protected int areaHeight = LedPanel.MATRIX_HEIGHT;
 	protected int horizontalOffset = 0;
 	protected int verticalOffset = 0;
-	protected boolean particleCollision = true;
+	protected boolean particleCollision = false;
 
 	protected boolean initialize = true;
 	protected boolean initColor = true;
@@ -41,6 +41,11 @@ public abstract class ParticleAnimation implements Animation {
 	protected ArrayList<Particle> particles;
 	
 	
+	protected void initializeLayers() {
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).setLayer(i);
+		}
+	}
 	protected void initializeColor() {
 		colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);
 		Particle.setColorMap(colorInit.getColorMap());

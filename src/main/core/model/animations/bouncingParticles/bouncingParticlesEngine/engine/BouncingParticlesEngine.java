@@ -1,6 +1,5 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine;
 
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import javafx.beans.value.ChangeListener;
@@ -28,8 +27,8 @@ public class BouncingParticlesEngine {
 		}
 		setUpParticleListeners();
 	}
-	
-	public PriorityQueue<Particle>[][] getPixelsToRender(){
+
+	public PriorityQueue<Particle>[][] getPixelsToRender() {
 		return pixelsToRender;
 	}
 
@@ -77,7 +76,6 @@ public class BouncingParticlesEngine {
 		int max_x = Math.max(old_x, new_x) + (int) Math.ceil(radius);
 		int min_y = Math.min(old_y, new_y) + (int) Math.floor(-radius);
 		int max_y = Math.max(old_y, new_y) + (int) Math.ceil(radius);
-		ArrayList<Particle> particlesStillUnder = new ArrayList<>();
 		for (int x = min_x; x <= max_x + radius; x++) {
 			// Reduce x to check
 			for (int y = min_y; y <= max_y; y++) {
@@ -89,41 +87,16 @@ public class BouncingParticlesEngine {
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) > radius) {
 							// We are NOT in the new position
 							pixelsToRender[y][x].remove(p);
-						} else {
-							// We are in new and old position intersection
-							for (Particle particle : pixelsToRender[y][x]) {
-								if (!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
-									particlesStillUnder.add(particle);
-								}
-							}
 						}
 					} else {
 						// We are not in the old position
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) <= radius) {
 							// We are in the new position
-							for (Particle particle : pixelsToRender[y][x]) {
-								if (!particlesStillUnder.contains(particle) && p.isAboveOf(particle)) {
-									particlesStillUnder.add(particle);
-								}
-								if (!p.isAboveOf(particle) && !particle.isAboveOf(p)) {
-									p.addAboveOf(particle);
-								}
-							}
 							pixelsToRender[y][x].add(p);
 						}
 					}
 				}
 			}
-
-		}
-		ArrayList<Particle> particlesNoMoreUnder = new ArrayList<>();
-		for (Particle particleUnder : p.getAboveOf()) {
-			if (!particlesStillUnder.contains(particleUnder)) {
-				particlesNoMoreUnder.add(particleUnder);
-			}
-		}
-		for (Particle particleNoMoreUnder : particlesNoMoreUnder) {
-			p.removeAboveOf(particleNoMoreUnder);
 		}
 	}
 
@@ -141,7 +114,7 @@ public class BouncingParticlesEngine {
 			}
 		}
 	}
-	
+
 	public void removeParticleToShow(Particle p) {
 		for (int x = (int) Math.floor(-p.getRadius()); x <= p.getRadius(); x++) {
 			for (int y = (int) Math.floor(-p.getRadius()); y <= p.getRadius(); y++) {
@@ -166,9 +139,6 @@ public class BouncingParticlesEngine {
 							.getColor(j - (int) Math.floor(p.getxPos()), i - (int) Math.floor(p.getyPos())));
 					ledMatrix[i][j] = pixelToRender;
 				} else {
-					System.out.println("Null peek");
-					System.out.println(pixelsToRender[i][j].size());
-					System.out.println(i + " : " + j);
 					ledMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 0);
 				}
 			}
