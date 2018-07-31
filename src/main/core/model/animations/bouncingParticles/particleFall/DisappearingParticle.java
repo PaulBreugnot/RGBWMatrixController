@@ -10,6 +10,7 @@ public class DisappearingParticle extends Particle {
 	private BouncingParticlesEngine bouncingParticlesEngine;
 	
 	public DisappearingParticle(BouncingParticlesEngine bouncingParticlesEngine) {
+		super();
 		this.bouncingParticlesEngine = bouncingParticlesEngine;
 	}
 	

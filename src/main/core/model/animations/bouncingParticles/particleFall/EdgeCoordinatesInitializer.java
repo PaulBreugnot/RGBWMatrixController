@@ -6,6 +6,7 @@ import java.util.Random;
 import javafx.util.Pair;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.positionInitializers.AbstractPositionInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
 
 public class EdgeCoordinatesInitializer extends AbstractPositionInitializer {
@@ -37,12 +38,8 @@ public class EdgeCoordinatesInitializer extends AbstractPositionInitializer {
 			p.setyPos(coordinates.getValue());
 			while(edge.distanceFromPointToEdge(p.getxPos(), p.getyPos()) < p.getRadius() + 0.1) {
 				// We assume that angle and speed are already set so that the particle go away from edge
-				System.out.println("Adjusting...");
-				p.progress(1);
+				p.progress(ParticleSet.deltaTsimulation);
 			}
-			System.out.println(p.getRadius());
-			System.out.println("x : " + p.getxPos());
-			System.out.println("y : " + p.getyPos());
 		}
 		return true;
 	}

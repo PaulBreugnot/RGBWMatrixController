@@ -28,6 +28,10 @@ public class BouncingParticlesEngine {
 		}
 		setUpParticleListeners();
 	}
+	
+	public PriorityQueue<Particle>[][] getPixelsToRender(){
+		return pixelsToRender;
+	}
 
 	private void setUpParticleListeners() {
 		for (Particle particle : particleSet.getParticles()) {
@@ -162,6 +166,9 @@ public class BouncingParticlesEngine {
 							.getColor(j - (int) Math.floor(p.getxPos()), i - (int) Math.floor(p.getyPos())));
 					ledMatrix[i][j] = pixelToRender;
 				} else {
+					System.out.println("Null peek");
+					System.out.println(pixelsToRender[i][j].size());
+					System.out.println(i + " : " + j);
 					ledMatrix[i][j] = RGBWPixel.rgbPixel(0, 0, 0);
 				}
 			}

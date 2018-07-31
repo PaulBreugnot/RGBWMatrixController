@@ -93,8 +93,10 @@ public class ParticleSet {
 					// All other events evolving this particle becomes obsoletes
 					collisions.removeAll(particleCollisionsMap.get(collidedParticle));
 					particleCollisionsMap.remove(collidedParticle);
-					System.out.println(particleCollisionsMap.size());
 					particles.remove(collidedParticle);
+					for(Particle p : particles) {
+						p.removeAboveOf(collidedParticle);
+					}
 				}
 			}
 			// Now we are safe
@@ -201,7 +203,6 @@ public class ParticleSet {
 				double t = Particle.collisionTime(p, edge);
 				if (t < Double.MAX_VALUE) {
 					CollisionEvent col = new EdgeCollisionEvent(p, edge, time + t);
-					System.out.println("New Edge Collision : " + col);
 					collisions.add(col);
 					if (particleCollisionsMap.containsKey(p)) {
 						particleCollisionsMap.get(p).add(col);

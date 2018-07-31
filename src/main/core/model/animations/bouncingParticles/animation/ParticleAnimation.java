@@ -23,8 +23,8 @@ public abstract class ParticleAnimation implements Animation {
 
 	// Particles
 	protected int particleNumber = 5;
-	protected double vMin = 1;
-	protected double vMax = 1;
+	protected double vMin = 0.5;
+	protected double vMax = 2;
 	protected double minRadius = 3;
 	protected double maxRadius = 3;
 
