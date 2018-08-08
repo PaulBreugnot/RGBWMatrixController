@@ -1,5 +1,6 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine;
 
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 import javafx.beans.value.ChangeListener;
@@ -15,15 +16,23 @@ public class BouncingParticlesEngine {
 
 	private PriorityQueue<Particle>[][] pixelsToRender;
 	public static final double deltaT = 1;
+	private boolean shufflingLayers;
+	private HashSet<Particle> lastAloneParticles;
+	private HashSet<Particle> aloneParticles;
 
 	@SuppressWarnings("unchecked")
-	public BouncingParticlesEngine(ParticleSet particleSet) {
+	public BouncingParticlesEngine(ParticleSet particleSet, boolean shufflingLayers) {
 		this.particleSet = particleSet;
+		this.shufflingLayers = shufflingLayers;
 		pixelsToRender = (PriorityQueue<Particle>[][]) new PriorityQueue[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				pixelsToRender[i][j] = new PriorityQueue<>();
 			}
+		}
+		if (shufflingLayers) {
+			lastAloneParticles = new HashSet<>();
+			aloneParticles = new HashSet<>();
 		}
 		setUpParticleListeners();
 	}
@@ -67,6 +76,14 @@ public class BouncingParticlesEngine {
 
 	public void progress(RGBWPixel[][] ledMatrix) {
 		particleSet.progress(deltaT);
+		if (shufflingLayers) {
+			if (aloneParticles.size() > 0 && !lastAloneParticles.equals(aloneParticles)) {
+				// When particles that are alone in their area changed, we shuffle their layers
+				particleSet.shuffleLayers(aloneParticles);
+				lastAloneParticles = new HashSet<>(aloneParticles);
+			}
+			aloneParticles.clear();
+		}
 		render(ledMatrix);
 	}
 
@@ -76,6 +93,7 @@ public class BouncingParticlesEngine {
 		int max_x = Math.max(old_x, new_x) + (int) Math.ceil(radius);
 		int min_y = Math.min(old_y, new_y) + (int) Math.floor(-radius);
 		int max_y = Math.max(old_y, new_y) + (int) Math.ceil(radius);
+		boolean alone = true;
 		for (int x = min_x; x <= max_x + radius; x++) {
 			// Reduce x to check
 			for (int y = min_y; y <= max_y; y++) {
@@ -93,10 +111,16 @@ public class BouncingParticlesEngine {
 						if (Math.sqrt((x - new_x) * (x - new_x) + (y - new_y) * (y - new_y)) <= radius) {
 							// We are in the new position
 							pixelsToRender[y][x].add(p);
+							if (shufflingLayers && alone && pixelsToRender[y][x].size() > 1) {
+								alone = false;
+							}
 						}
 					}
 				}
 			}
+		}
+		if (shufflingLayers && alone) {
+			aloneParticles.add(p);
 		}
 	}
 

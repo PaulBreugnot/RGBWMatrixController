@@ -1,9 +1,11 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.CollisionEvent;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.EdgeCollisionEvent;
@@ -52,6 +54,11 @@ public class ParticleSet {
 
 	public void removeParticle(Particle particle) {
 		particles.remove(particle);
+		for(Particle p : particles) {
+			if (p.getLayer() > particle.getLayer()) {
+				p.setLayer(p.getLayer() - 1);
+			}
+		}
 	}
 
 	public void progress(double deltaT) {
@@ -240,6 +247,21 @@ public class ParticleSet {
 			}
 		}
 	}
+	
+	public void shuffleLayers(Collection<Particle> aloneParticles) {
+		ArrayList<Integer> layers = new ArrayList<>();
+		for (Particle p : aloneParticles) {
+			layers.add(p.getLayer());
+		}
+		Random rd = new Random();
+		for (Particle p : aloneParticles) {
+			int layerIndex = rd.nextInt(layers.size());
+			p.setLayer(layers.get(layerIndex));
+			layers.remove(layerIndex);
+		}
+	}
+	
+	
 
 	public static class RectangularSet extends ParticleSet {
 		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset,

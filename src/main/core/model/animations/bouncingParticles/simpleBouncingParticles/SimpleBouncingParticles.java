@@ -43,7 +43,7 @@ public class SimpleBouncingParticles extends ParticleAnimation {
 
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, particleCollision);
-		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
+		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, true);
 		
 		this.particles = particles;
 		

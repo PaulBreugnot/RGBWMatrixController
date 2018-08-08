@@ -136,7 +136,7 @@ public class ParticleWave implements Animation {
 		
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, false);
-		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
+		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
 	}
 
 	private void initializeColor() {

@@ -32,26 +32,15 @@ public class ParticleFall extends ParticleAnimation {
 		particles = new ArrayList<>();
 		particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset, verticalOffset,
 				particleCollision);
-		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet);
+		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
 		edge = particleSet.getEdges().get(2);
-
-		/*
-		 * Particle particle = new Particle(); particle.setAlpha(- Math.PI / 2);
-		 * particle.setColor(Color.RED); particle.setSpeed(1); particle.setxPos(15);
-		 * particle.setyPos(14); particles.add(particle); particleSet.initCollisions();
-		 * bouncingParticlesEngine.setUpParticleListener(particle);
-		 */
 	}
 
 	private void initializeArea() {
-		// areaHeight = (int) (LedPanel.MATRIX_HEIGHT + 4 * Math.ceil(maxRadius));
-		// verticalOffset = (int) (- 2 * Math.ceil(maxRadius));
-		areaHeight = LedPanel.MATRIX_HEIGHT;
-		verticalOffset = 0;
-		// areaWidth = (int) (LedPanel.MATRIX_WIDTH + 4 * Math.ceil(maxRadius));
-		// horizontalOffset = (int) (- 2 * Math.ceil(maxRadius));
-		areaWidth = (int) (LedPanel.MATRIX_WIDTH + 2);
-		horizontalOffset = -1;
+		areaHeight = (int) (LedPanel.MATRIX_HEIGHT + 4 * Math.ceil(maxRadius));
+		verticalOffset = (int) (- 2 * Math.ceil(maxRadius));
+		areaWidth = LedPanel.MATRIX_WIDTH;
+		horizontalOffset = 0;
 	}
 
 	private void popParticle() {
@@ -70,11 +59,9 @@ public class ParticleFall extends ParticleAnimation {
 		speedInit.resolveSpeed(vMin, vMax);
 		EdgeCoordinatesInitializer posInit = new EdgeCoordinatesInitializer(particles, edge);
 		posInit.resolvePositions(areaWidth, areaHeight, horizontalOffset, verticalOffset);
-		for (Particle p : this.particles) {
-			particle.addAboveOf(p);
-		}
 		bouncingParticlesEngine.setUpParticleListener(particle);
 		this.particles.addAll(particles);
+		particle.setLayer(this.particles.size() - 1);
 		particleSet.initCollisions();
 	}
 
