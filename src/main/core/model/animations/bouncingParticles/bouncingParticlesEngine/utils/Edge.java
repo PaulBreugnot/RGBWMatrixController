@@ -24,6 +24,9 @@ public class Edge {
 		} else {
 			alpha = Math.PI / 2;
 		}
+		if (alpha < 0) {
+			alpha += Math.PI;
+		}
 	}
 
 	public Edge(double alpha) {
@@ -86,22 +89,6 @@ public class Edge {
 		}
 	}
 
-	public void rotate(double rotationAngle, double xCenter, double yCenter) {
-		double dOrigin = Math.sqrt(Math.pow(xCenter - xOrigin, 2) + Math.pow(yCenter - yOrigin, 2));
-		xOrigin = xCenter + dOrigin * Math.cos(rotationAngle);
-		yOrigin = yCenter + dOrigin * Math.sin(rotationAngle);
-		double dFinal = Math.sqrt(Math.pow(xCenter - xFinal, 2) + Math.pow(yCenter - yFinal, 2));
-		xFinal = xCenter + dFinal * Math.cos(rotationAngle);
-		yFinal = yCenter + dFinal * Math.sin(rotationAngle);
-		alpha += rotationAngle;
-		while (alpha < 0) {
-			alpha += Math.PI;
-		}
-		while (alpha >= Math.PI) {
-			alpha -= Math.PI;
-		}
-	}
-
 	public static ArrayList<Edge> generateEdgesFromPoints(ArrayList<Point> points) {
 		ArrayList<Edge> edges = new ArrayList<>();
 		for (int i = 0; i < points.size(); i++) {
@@ -117,7 +104,7 @@ public class Edge {
 
 	@Override
 	public String toString() {
-		return "Edge [xOrigin=" + xOrigin + ", yOrigin=" + yOrigin + ", xFinal=" + xFinal + ", yFinal=" + yFinal + "]";
+		return "Edge [xOrigin=" + xOrigin + ", yOrigin=" + yOrigin + ", xFinal=" + xFinal + ", yFinal=" + yFinal + ", alpha=" + alpha + "]";
 	}
 
 }

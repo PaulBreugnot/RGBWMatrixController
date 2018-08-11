@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.CollisionEvent;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.EdgeCollisionEvent;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.ParticlesCollisionEvent;
@@ -22,8 +23,8 @@ public class ParticleSet {
 	private double time = 0;
 	private ArrayList<Particle> particles;
 	private int maxIteration;
-	private ArrayList<Point> points;
-	private ArrayList<Edge> edges;
+	protected ArrayList<Point> points;
+	protected ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 	private HashMap<Particle, HashSet<CollisionEvent>> particleCollisionsMap = new HashMap<>();
 
@@ -67,6 +68,7 @@ public class ParticleSet {
 
 	public void progress(double deltaT) {
 		double beginTime = time;
+		//System.out.println(collisions);
 		while (time - beginTime < deltaT) {
 			int iterations = 0;
 			while (particles.size() > 0 && time + deltaTsimulation >= collisions.peek().getTime()
@@ -266,10 +268,13 @@ public class ParticleSet {
 	}
 	
 	public void rotate(double rotationAngle, double xCenter, double yCenter) {
-		for(Edge e : edges) {
-			e.rotate(rotationAngle, xCenter, yCenter);
-			System.out.println("New edge : " + e);
+		for(Point p : points) {
+			p.rotate(rotationAngle, new Point(xCenter, yCenter));
 		}
+		for(Particle p : particles) {
+			p.rotate(rotationAngle, new Point(xCenter, yCenter));
+		}
+		edges = Edge.generateEdgesFromPoints(points);
 	}
 	
 	
@@ -278,13 +283,13 @@ public class ParticleSet {
 		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset,
 				boolean bounceParticles) {
 			super(particles, bounceParticles);
-			ArrayList<Point> points = new ArrayList<>();
+			points = new ArrayList<>();
 			points.add(new Point(widthOffset, heightOffset));
 			points.add(new Point(widthOffset, heightOffset + height));
 			points.add(new Point(widthOffset + width, heightOffset + height));
 			points.add(new Point(widthOffset + width, heightOffset));
-			setEdges(Edge.generateEdgesFromPoints(points));
-			// rotate(Math.PI/3, widthOffset + width / 2, heightOffset + height / 2);
+			edges = Edge.generateEdgesFromPoints(points);
+			rotate(Math.PI/3, widthOffset + width / 2, heightOffset + height / 2);
 			initCollisions();
 		}
 	}

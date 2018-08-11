@@ -6,6 +6,7 @@ import java.util.Random;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Point;
 import main.core.util.color.ColorMap;
 
 public class Particle implements Comparable<Particle> {
@@ -214,7 +215,8 @@ public class Particle implements Comparable<Particle> {
 			if (e.getAlpha() != Math.PI / 2) {
 				xCollision = (p.getyPos() - Math.tan(p.getAlpha()) * p.getxPos() - e.b())
 						/ (e.a() - Math.tan(p.getAlpha()));
-				yCollision = e.a() * (xCollision - p.getxPos()) + e.b();
+
+				yCollision = e.a() * (xCollision) + e.b();
 			} else {
 				xCollision = e.getxOrigin();
 				yCollision = Math.tan(p.getAlpha()) * (xCollision - p.getxPos()) + p.getyPos();
@@ -227,6 +229,7 @@ public class Particle implements Comparable<Particle> {
 					&& Math.sin(p.getAlpha()) * (uncorrectedY - p.getyPos()) >= 0) {
 				double distance = Math
 						.sqrt(Math.pow(p.getxPos() - xCollision, 2) + Math.pow(p.getyPos() - yCollision, 2));
+
 				return distance / p.getSpeed();
 			} else {
 				return Double.MAX_VALUE;
@@ -244,6 +247,15 @@ public class Particle implements Comparable<Particle> {
 				bounceEdge(edge);
 			}
 		}
+	}
+	
+	public void rotate(double angle, Point center) {
+		double newX = Math.cos(angle) * (getxPos() - center.getX()) - Math.sin(angle) * (getyPos() - center.getY())
+				+ center.getX();
+		double newY = Math.sin(angle) * (getxPos() - center.getX()) + Math.cos(angle) * (getyPos() - center.getY())
+				+ center.getY();
+		setxPos(newX);
+		setyPos(newY);
 	}
 
 	@Override

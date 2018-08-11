@@ -33,7 +33,7 @@ public abstract class ParticleAnimation implements Animation {
 	protected int areaHeight = LedPanel.MATRIX_HEIGHT;
 	protected int horizontalOffset = 0;
 	protected int verticalOffset = 0;
-	protected boolean particleCollision = false;
+	protected boolean particleCollision = true;
 
 	protected boolean initialize = true;
 	protected boolean initColor = true;
