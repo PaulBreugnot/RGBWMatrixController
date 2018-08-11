@@ -33,7 +33,8 @@ public class ParticleFall extends ParticleAnimation {
 		particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset, verticalOffset,
 				particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
-		edge = particleSet.getEdges().get(2);
+		edge = particleSet.getEdges().get(1);
+		System.out.println(edge);
 	}
 
 	private void initializeArea() {
@@ -63,6 +64,9 @@ public class ParticleFall extends ParticleAnimation {
 		this.particles.addAll(particles);
 		particle.setLayer(this.particles.size() - 1);
 		particleSet.initCollisions();
+		System.out.println("Angle : " + particle.getAlpha());
+		System.out.println("xPos : " + particle.getxPos());
+		System.out.println("yPos : " + particle.getyPos());
 	}
 
 	private boolean checkFreeSpace(Particle p) {

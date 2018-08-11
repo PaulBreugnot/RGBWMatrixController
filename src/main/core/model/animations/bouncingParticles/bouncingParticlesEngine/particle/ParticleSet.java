@@ -12,6 +12,8 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.coll
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.collision.ParticlesCollisionEvent;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.CollisionResult;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Point;
+import main.core.model.panel.LedPanel;
 
 public class ParticleSet {
 
@@ -20,6 +22,7 @@ public class ParticleSet {
 	private double time = 0;
 	private ArrayList<Particle> particles;
 	private int maxIteration;
+	private ArrayList<Point> points;
 	private ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 	private HashMap<Particle, HashSet<CollisionEvent>> particleCollisionsMap = new HashMap<>();
@@ -28,13 +31,14 @@ public class ParticleSet {
 		this.particles = particles;
 		this.bounceParticles = bounceParticles;
 	}
-
-	public ParticleSet(ArrayList<Particle> particles, ArrayList<Edge> edges, boolean bounceParticles) {
+	
+	/*public ParticleSet(ArrayList<Particle> particles, ArrayList<Point> points, boolean bounceParticles) {
 		this.particles = particles;
-		this.edges = edges;
+		this.points = points;
+		edges = Edge.generateEdgesFromPoints(points);
 		this.bounceParticles = bounceParticles;
 		initCollisions();
-	}
+	}*/
 
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = edges;
@@ -261,18 +265,26 @@ public class ParticleSet {
 		}
 	}
 	
+	public void rotate(double rotationAngle, double xCenter, double yCenter) {
+		for(Edge e : edges) {
+			e.rotate(rotationAngle, xCenter, yCenter);
+			System.out.println("New edge : " + e);
+		}
+	}
+	
 	
 
 	public static class RectangularSet extends ParticleSet {
 		public RectangularSet(ArrayList<Particle> particles, int width, int height, int widthOffset, int heightOffset,
 				boolean bounceParticles) {
 			super(particles, bounceParticles);
-			ArrayList<Edge> edges = new ArrayList<>();
-			edges.add(new Edge(widthOffset, heightOffset, widthOffset + width, heightOffset));
-			edges.add(new Edge(widthOffset, heightOffset, widthOffset, heightOffset + height));
-			edges.add(new Edge(widthOffset, heightOffset + height, widthOffset + width, heightOffset + height));
-			edges.add(new Edge(widthOffset + width, heightOffset, widthOffset + width, heightOffset + height));
-			setEdges(edges);
+			ArrayList<Point> points = new ArrayList<>();
+			points.add(new Point(widthOffset, heightOffset));
+			points.add(new Point(widthOffset, heightOffset + height));
+			points.add(new Point(widthOffset + width, heightOffset + height));
+			points.add(new Point(widthOffset + width, heightOffset));
+			setEdges(Edge.generateEdgesFromPoints(points));
+			// rotate(Math.PI/3, widthOffset + width / 2, heightOffset + height / 2);
 			initCollisions();
 		}
 	}

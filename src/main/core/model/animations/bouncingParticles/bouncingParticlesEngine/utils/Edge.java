@@ -1,5 +1,7 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils;
 
+import java.util.ArrayList;
+
 public class Edge {
 
 	private double xOrigin;
@@ -23,7 +25,7 @@ public class Edge {
 			alpha = Math.PI / 2;
 		}
 	}
-	
+
 	public Edge(double alpha) {
 		this.alpha = alpha;
 	}
@@ -71,7 +73,7 @@ public class Edge {
 	public double b() {
 		return b;
 	}
-	
+
 	public double getLength() {
 		return Math.sqrt(Math.pow(xOrigin - xFinal, 2) + Math.pow(yOrigin - yFinal, 2));
 	}
@@ -82,6 +84,35 @@ public class Edge {
 		} else {
 			return Math.abs(xPoint - xOrigin);
 		}
+	}
+
+	public void rotate(double rotationAngle, double xCenter, double yCenter) {
+		double dOrigin = Math.sqrt(Math.pow(xCenter - xOrigin, 2) + Math.pow(yCenter - yOrigin, 2));
+		xOrigin = xCenter + dOrigin * Math.cos(rotationAngle);
+		yOrigin = yCenter + dOrigin * Math.sin(rotationAngle);
+		double dFinal = Math.sqrt(Math.pow(xCenter - xFinal, 2) + Math.pow(yCenter - yFinal, 2));
+		xFinal = xCenter + dFinal * Math.cos(rotationAngle);
+		yFinal = yCenter + dFinal * Math.sin(rotationAngle);
+		alpha += rotationAngle;
+		while (alpha < 0) {
+			alpha += Math.PI;
+		}
+		while (alpha >= Math.PI) {
+			alpha -= Math.PI;
+		}
+	}
+
+	public static ArrayList<Edge> generateEdgesFromPoints(ArrayList<Point> points) {
+		ArrayList<Edge> edges = new ArrayList<>();
+		for (int i = 0; i < points.size(); i++) {
+			if (i < points.size() - 1) {
+				edges.add(new Edge(points.get(i).getX(), points.get(i).getY(), points.get(i+1).getX(), points.get(i+1).getY()));
+			}
+			else {
+				edges.add(new Edge(points.get(i).getX(), points.get(i).getY(), points.get(0).getX(), points.get(0).getY()));
+			}
+		}
+		return edges;
 	}
 
 	@Override
