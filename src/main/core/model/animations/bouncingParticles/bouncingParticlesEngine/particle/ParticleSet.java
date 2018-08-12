@@ -27,6 +27,7 @@ public class ParticleSet {
 	protected ArrayList<Edge> edges;
 	private PriorityQueue<CollisionEvent> collisions = new PriorityQueue<>();
 	private HashMap<Particle, HashSet<CollisionEvent>> particleCollisionsMap = new HashMap<>();
+	private double orientation = 0;
 
 	private ParticleSet(ArrayList<Particle> particles, boolean bounceParticles) {
 		this.particles = particles;
@@ -48,6 +49,10 @@ public class ParticleSet {
 	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
+	
+	public ArrayList<Point> getPoints() {
+		return points;
+	}
 
 	public ArrayList<Particle> getParticles() {
 		return particles;
@@ -55,6 +60,10 @@ public class ParticleSet {
 
 	public double getTime() {
 		return time;
+	}
+	
+	public double getOrientation() {
+		return orientation;
 	}
 
 	public void removeParticle(Particle particle) {
@@ -117,7 +126,7 @@ public class ParticleSet {
 		}
 	}
 
-	public void initCollisions() {
+	public int initCollisions() {
 		collisions.clear();
 		particleCollisionsMap.clear();
 		maxIteration = (int) Math.pow(particles.size(), 2) + particles.size();
@@ -126,6 +135,7 @@ public class ParticleSet {
 		if (bounceParticles) {
 			checkParticleCollisions();
 		}
+		return collisions.size();
 	}
 
 	private void updateCollisions(Particle particle1, Particle particle2) {
@@ -275,6 +285,13 @@ public class ParticleSet {
 			p.rotate(rotationAngle, new Point(xCenter, yCenter));
 		}
 		edges = Edge.generateEdgesFromPoints(points);
+		orientation += rotationAngle;
+		while (orientation < 0) {
+			orientation += 2 * Math.PI;
+		}
+		while (orientation >= 2 * Math.PI) {
+			orientation -= 2 * Math.PI;
+		}
 	}
 	
 	
@@ -289,7 +306,8 @@ public class ParticleSet {
 			points.add(new Point(widthOffset + width, heightOffset + height));
 			points.add(new Point(widthOffset + width, heightOffset));
 			edges = Edge.generateEdgesFromPoints(points);
-			rotate(Math.PI/3, widthOffset + width / 2, heightOffset + height / 2);
+			rotate(0, widthOffset + width / 2, heightOffset + height / 2);
+			System.out.print(edges);
 			initCollisions();
 		}
 	}

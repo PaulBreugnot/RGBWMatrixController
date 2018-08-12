@@ -17,13 +17,13 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engi
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Point;
 import main.core.model.panel.LedPanel;
 import main.core.model.pixel.RGBWPixel;
 
 public class ParticleFall extends ParticleAnimation {
 
 	private double ParticleByFrame = 5. / 25;
-	private Edge edge;
 	private ParticleSet particleSet;
 
 	@Override
@@ -33,8 +33,6 @@ public class ParticleFall extends ParticleAnimation {
 		particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset, verticalOffset,
 				particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
-		edge = particleSet.getEdges().get(1);
-		System.out.println(edge);
 	}
 
 	private void initializeArea() {
@@ -45,10 +43,18 @@ public class ParticleFall extends ParticleAnimation {
 	}
 
 	private void popParticle() {
-
+		
+		Edge edge = particleSet.getEdges().get(0);
+		System.out.println(edge);
 		ArrayList<Particle> particles = new ArrayList<>();
 		Particle particle = new DisappearingParticle(bouncingParticlesEngine);
-		particle.setAlpha(edge.getAlpha() - Math.PI / 2);
+		System.out.println(edge);
+		if (Math.PI / 2 < particleSet.getOrientation() && particleSet.getOrientation() <= 3 * Math.PI / 2) {
+			particle.setAlpha(edge.getAlpha() + Math.PI / 2);
+		}
+		else {
+			particle.setAlpha(edge.getAlpha() - Math.PI / 2);
+		}
 		particles.add(particle);
 
 		colorInit = new ShadedColorInitializer(particles, saturation, satWidth, brightness, brightWidth, hue, hueWidth);

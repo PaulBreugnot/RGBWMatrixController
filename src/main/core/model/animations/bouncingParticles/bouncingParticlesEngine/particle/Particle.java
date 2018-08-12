@@ -57,6 +57,12 @@ public class Particle implements Comparable<Particle> {
 	}
 
 	public void setAlpha(double alpha) {
+		while(alpha > Math.PI) {
+			alpha -= 2 * Math.PI;
+		}
+		while(alpha <= -Math.PI) {
+			alpha += 2 * Math.PI;
+		}
 		this.alpha = alpha;
 	}
 
