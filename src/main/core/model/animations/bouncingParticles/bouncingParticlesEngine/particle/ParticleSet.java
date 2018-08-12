@@ -33,14 +33,6 @@ public class ParticleSet {
 		this.particles = particles;
 		this.bounceParticles = bounceParticles;
 	}
-	
-	/*public ParticleSet(ArrayList<Particle> particles, ArrayList<Point> points, boolean bounceParticles) {
-		this.particles = particles;
-		this.points = points;
-		edges = Edge.generateEdgesFromPoints(points);
-		this.bounceParticles = bounceParticles;
-		initCollisions();
-	}*/
 
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = edges;

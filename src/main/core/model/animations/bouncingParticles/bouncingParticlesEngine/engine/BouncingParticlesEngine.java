@@ -27,7 +27,7 @@ public class BouncingParticlesEngine {
 		pixelsToRender = (PriorityQueue<Particle>[][]) new PriorityQueue[LedPanel.MATRIX_HEIGHT][LedPanel.MATRIX_WIDTH];
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
-				pixelsToRender[i][j] = new PriorityQueue<>();
+				pixelsToRender[i][j] = new PriorityQueue<>(new LayerComparator());
 			}
 		}
 		if (shufflingLayers) {
@@ -49,28 +49,30 @@ public class BouncingParticlesEngine {
 
 	public void setUpParticleListener(Particle particle) {
 		// All the coordinates are forced to fit matrix width and height
-		particle.xPosProperty().addListener(new ChangeListener<Number>() {
+		ChangeListener<Number> xListener = new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				int old_x = (int) Math.floor((double) old_val);
 				int new_x = (int) Math.floor((double) new_val);
 				if (new_x != old_x) {
 					int y = (int) Math.floor(particle.getyPos());
 					updateParticlesToShow(particle, old_x, y, new_x, y);
-					// addParticleToShow(particle);
 				}
 			}
-		});
-		particle.yPosProperty().addListener(new ChangeListener<Number>() {
+		};
+		particle.xPosProperty().addListener(xListener);
+		
+		ChangeListener<Number> yListener = new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				int old_y = (int) Math.floor((double) old_val);
 				int new_y = (int) Math.floor((double) new_val);
 				if (new_y != old_y) {
 					int x = (int) Math.floor(particle.getxPos());
 					updateParticlesToShow(particle, x, old_y, x, new_y);
-					// addParticleToShow(particle);
 				}
 			}
-		});
+		};
+		particle.yPosProperty().addListener(yListener);
+		
 		addParticleToShow(particle);
 	}
 

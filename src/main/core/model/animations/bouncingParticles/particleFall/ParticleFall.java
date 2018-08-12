@@ -29,17 +29,18 @@ public class ParticleFall extends ParticleAnimation {
 		particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset, verticalOffset,
 				particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
+		particleSet.rotate(- Math.PI / 3, verticalOffset + areaHeight / 2, horizontalOffset + areaWidth / 2);
 	}
 
-	private void initializeArea() {
-		areaHeight = (int) (LedPanel.MATRIX_HEIGHT + 4 * Math.ceil(maxRadius));
-		verticalOffset = (int) (- 2 * Math.ceil(maxRadius));
-		areaWidth = LedPanel.MATRIX_WIDTH;
-		horizontalOffset = 0;
+	protected void initializeArea() {
+		areaHeight = LedPanel.MATRIX_HEIGHT;
+		verticalOffset = 0;
+		areaWidth = (int) (LedPanel.MATRIX_WIDTH + 4 * Math.ceil(maxRadius));
+		horizontalOffset = (int) (-2 * Math.ceil(maxRadius));
 	}
 
 	protected void popParticle() {
-		
+
 		Edge edge = particleSet.getEdges().get(0);
 		System.out.println(edge);
 		ArrayList<Particle> particles = new ArrayList<>();
@@ -47,8 +48,7 @@ public class ParticleFall extends ParticleAnimation {
 		System.out.println(edge);
 		if (Math.PI / 2 < particleSet.getOrientation() && particleSet.getOrientation() <= 3 * Math.PI / 2) {
 			particle.setAlpha(edge.getAlpha() + Math.PI / 2);
-		}
-		else {
+		} else {
 			particle.setAlpha(edge.getAlpha() - Math.PI / 2);
 		}
 		particles.add(particle);

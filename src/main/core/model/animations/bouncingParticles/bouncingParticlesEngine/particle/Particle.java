@@ -9,7 +9,7 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.util
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Point;
 import main.core.util.color.ColorMap;
 
-public class Particle implements Comparable<Particle> {
+public class Particle {
 	
 	protected static ColorMap colorMap;
 
@@ -25,7 +25,7 @@ public class Particle implements Comparable<Particle> {
 	protected int layer;
 	
 	// If true, we need to remove this particle
-	protected boolean outDated;
+	protected boolean outdated;
 
 	public static void setColorMap(ColorMap colorMap) {
 		Particle.colorMap = colorMap;
@@ -119,8 +119,12 @@ public class Particle implements Comparable<Particle> {
 		return blinky;
 	}
 	
+	protected void setOutdated(boolean outdated) {
+		this.outdated = outdated;
+	}
+	
 	public boolean isOutdated() {
-		return outDated;
+		return outdated;
 	}
 	
 	public int getLayer() {
@@ -262,14 +266,6 @@ public class Particle implements Comparable<Particle> {
 				+ center.getY();
 		setxPos(newX);
 		setyPos(newY);
-	}
-
-	@Override
-	public int compareTo(Particle arg0) {
-		if(layer < arg0.getLayer()) {
-			return -1;
-		}
-		return 0;
 	}
 	
 	@Override

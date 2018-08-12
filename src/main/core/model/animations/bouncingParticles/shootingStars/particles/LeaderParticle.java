@@ -1,20 +1,16 @@
 package main.core.model.animations.bouncingParticles.shootingStars.particles;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 
-import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.animations.bouncingParticles.particleFall.DisappearingParticle;
 
 public class LeaderParticle extends DisappearingParticle {
 	
-	private int historyLength = 200;
-	private int followersCount = 20;
+	public static final int followersCount = 20;
+	private static final int historyLength = followersCount * FollowerParticle.resolution;
 	private int step = 0;
 	
 	private HashSet<FollowerParticle> followers = new HashSet<>();
@@ -28,7 +24,6 @@ public class LeaderParticle extends DisappearingParticle {
 	private void initFollowers() {
 		for(int i = 0; i < followersCount; i++) {
 			FollowerParticle follower = new FollowerParticle(bouncingParticlesEngine, this, i);
-			follower.setLayer(layer);
 			followers.add(follower);
 		}
 	}
@@ -46,6 +41,26 @@ public class LeaderParticle extends DisappearingParticle {
 	}
 	
 	@Override
+	public void setLayer(int layer) {
+		// Overridden to propagate layer to followers
+		this.layer = layer;
+		for (FollowerParticle follower : followers) {
+			follower.setLayer(layer);
+		}
+	}
+	
+	@Override
+	protected void setOutdated(boolean outdated) {
+		// This method is called by DisapperingParticle when leader collides.
+		// We override it to propagate the collision to followers.
+		this.outdated = outdated;
+		for(FollowerParticle follower : followers) {
+			// Because leader is now outdated, followers will be removed in this last progress
+			follower.progress();
+		}
+	}
+	
+	@Override
 	public void progress(double deltaT) {
 		if(history.size() > historyLength) {
 			history.remove(history.firstKey());
@@ -57,17 +72,11 @@ public class LeaderParticle extends DisappearingParticle {
 			follower.progress();
 		}
 		step++;
-	}
-	
-	@Override
-	public int compareTo(Particle arg0) {
-		if(arg0.getColor().getBrightness() > getColor().getBrightness()) {
-			return 1;
-		}
-		else if (arg0.getColor().getBrightness() < getColor().getBrightness()) {
-			return -1;
-		}
-		return 0;
+		/*System.out.println("Leader layer : " + layer);
+		System.out.println("Followers : ");
+		for (Particle p : followers) {
+			System.out.println(p.getLayer());
+		}*/
 	}
 
 }

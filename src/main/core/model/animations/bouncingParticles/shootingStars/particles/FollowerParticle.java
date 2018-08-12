@@ -2,14 +2,17 @@ package main.core.model.animations.bouncingParticles.shootingStars.particles;
 
 import javafx.util.Pair;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.particleFall.DisappearingParticle;
 
 public class FollowerParticle extends DisappearingParticle {
 
 	private LeaderParticle particleToFollow;
+	
+	// Define position of the follower in followers list
 	private int offset;
-	private int resolution = 10;
+	
+	// Define how many old leader positions we should skip
+	public static final int resolution = 100;
 
 	public FollowerParticle(BouncingParticlesEngine bouncingParticlesEngine, LeaderParticle particleToFollow,
 			int offset) {
@@ -40,15 +43,5 @@ public class FollowerParticle extends DisappearingParticle {
 		} else {
 			bouncingParticlesEngine.removeParticleToShow(this);
 		}
-	}
-
-	@Override
-	public int compareTo(Particle arg0) {
-		if (arg0.getColor().getBrightness() > getColor().getBrightness()) {
-			return 1;
-		} else if (arg0.getColor().getBrightness() < getColor().getBrightness()) {
-			return -1;
-		}
-		return 0;
 	}
 }

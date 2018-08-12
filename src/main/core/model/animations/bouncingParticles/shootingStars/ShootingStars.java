@@ -1,22 +1,13 @@
 package main.core.model.animations.bouncingParticles.shootingStars;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
-
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import main.core.model.animations.Animation;
-import main.core.model.animations.bouncingParticles.animation.ParticleAnimation;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.ShadedColorInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers.RandomRadiusInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers.RandomSpeedInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.utils.Edge;
-import main.core.model.animations.bouncingParticles.particleFall.DisappearingParticle;
 import main.core.model.animations.bouncingParticles.particleFall.EdgeCoordinatesInitializer;
 import main.core.model.animations.bouncingParticles.particleFall.ParticleFall;
 import main.core.model.animations.bouncingParticles.shootingStars.followerInitializers.FollowerColorInitializer;
@@ -27,58 +18,57 @@ import main.core.model.animations.bouncingParticles.shootingStars.followerInitia
 import main.core.model.animations.bouncingParticles.shootingStars.particles.FollowerParticle;
 import main.core.model.animations.bouncingParticles.shootingStars.particles.LeaderParticle;
 import main.core.model.panel.LedPanel;
-import main.core.model.pixel.RGBWPixel;
 
 public class ShootingStars extends ParticleFall {
-	
-	private int particleNumber = 10;
-	private double vMin = 1;
-	private double vMax = 1;
-	private double minRadius = 1;
-	private double maxRadius = 1;
-	
+
 	// Collision area parameters
-	
-	private BouncingParticlesEngine bouncingParticlesEngine;
-	
-	/*public ShootingStars(RGBWPixel[][] ledMatrix) {
-		ArrayList<DisappearingParticle> particles = new ArrayList<>();
-		Random rd = new Random();
-		double currentXpos = 1;
-		for (int i = 0; i < particleNumber; i++) {
-			//double radius = 2;
-			double radius = rd.nextDouble() * (maxRadius - minRadius) + minRadius;
-			currentXpos += radius + 1;
-			double angle = (rd.nextDouble() - 0.5) * 2 * Math.PI;
-			//double angle = 3.1;
-			int x = (int) Math.floor(currentXpos);
-			currentXpos += radius + 1;
-			int y = rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int) Math.floor(radius);
-			double speed = rd.nextDouble() * (vMax - vMin) + vMin;
-			Color color = Color.hsb(rd.nextInt(360), 1, 1);
-			LeaderParticle particle = new LeaderParticle(speed, angle, x, y, radius, color);
-			
-			particles.add(particle);
-			particles.addAll(particle.getFollowers());
-		}
-		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, LedPanel.MATRIX_WIDTH + 20, LedPanel.MATRIX_HEIGHT + 20, -10, -10, false);
-		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
-	}*/
-	
+
+	/*
+	 * public ShootingStars(RGBWPixel[][] ledMatrix) {
+	 * ArrayList<DisappearingParticle> particles = new ArrayList<>(); Random rd =
+	 * new Random(); double currentXpos = 1; for (int i = 0; i < particleNumber;
+	 * i++) { //double radius = 2; double radius = rd.nextDouble() * (maxRadius -
+	 * minRadius) + minRadius; currentXpos += radius + 1; double angle =
+	 * (rd.nextDouble() - 0.5) * 2 * Math.PI; //double angle = 3.1; int x = (int)
+	 * Math.floor(currentXpos); currentXpos += radius + 1; int y =
+	 * rd.nextInt(LedPanel.MATRIX_HEIGHT - 2 * (int) Math.floor(radius)) + (int)
+	 * Math.floor(radius); double speed = rd.nextDouble() * (vMax - vMin) + vMin;
+	 * Color color = Color.hsb(rd.nextInt(360), 1, 1); LeaderParticle particle = new
+	 * LeaderParticle(speed, angle, x, y, radius, color);
+	 * 
+	 * particles.add(particle); particles.addAll(particle.getFollowers()); }
+	 * ParticleSet particleSet = new ParticleSet.RectangularSet(particles,
+	 * LedPanel.MATRIX_WIDTH + 20, LedPanel.MATRIX_HEIGHT + 20, -10, -10, false);
+	 * bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false); }
+	 */
+
+	public ShootingStars() {
+		super();
+	}
+
+	@Override
+	protected void initializeArea() {
+		int approximatedMaxSize = (int) Math.ceil((LeaderParticle.followersCount + 1) * FollowerParticle.resolution
+				* vMax * ParticleSet.deltaTsimulation);
+		areaHeight = LedPanel.MATRIX_HEIGHT;
+		verticalOffset = 0;
+		areaWidth = (int) (LedPanel.MATRIX_WIDTH + approximatedMaxSize);
+		horizontalOffset = 0;
+	}
+
 	@Override
 	protected void popParticle() {
-		
+
 		Edge edge = particleSet.getEdges().get(0);
-		System.out.println(edge);
 		ArrayList<Particle> particles = new ArrayList<>();
 		LeaderParticle particle = new LeaderParticle(bouncingParticlesEngine);
-		System.out.println(edge);
 		if (Math.PI / 2 < particleSet.getOrientation() && particleSet.getOrientation() <= 3 * Math.PI / 2) {
 			particle.setAlpha(edge.getAlpha() + Math.PI / 2);
-		}
-		else {
+		} else {
 			particle.setAlpha(edge.getAlpha() - Math.PI / 2);
 		}
+
+		particle.setLayer(this.particles.size());
 		particles.add(particle);
 
 		// Leader Init
@@ -92,7 +82,7 @@ public class ShootingStars extends ParticleFall {
 		EdgeCoordinatesInitializer posInit = new EdgeCoordinatesInitializer(particles, edge);
 		posInit.resolvePositions(areaWidth, areaHeight, horizontalOffset, verticalOffset);
 		bouncingParticlesEngine.setUpParticleListener(particle);
-		
+
 		// Followers init
 		HashSet<FollowerParticle> followers = particle.getFollowers();
 		FollowerColorInitializer followerColorInit = new FollowerColorInitializer(followers);
@@ -106,14 +96,13 @@ public class ShootingStars extends ParticleFall {
 		FollowerSpeedInitializer followerSpeedInitializer = new FollowerSpeedInitializer(followers);
 		followerSpeedInitializer.resolveSpeed(0, 0);
 		for (Particle p : followers) {
-			// Followers are not added to the ParticleSet of the engine, because their leader make them move.
+			// Followers are not added to the ParticleSet of the engine, because their
+			// leader make them move.
 			// However, listeners are set to show them.
 			bouncingParticlesEngine.setUpParticleListener(p);
 		}
-		
-		
+
 		this.particles.addAll(particles);
-		particle.setLayer(this.particles.size() - 1);
 		particleSet.initCollisions();
 	}
 
