@@ -1,13 +1,13 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public class RandomRadiusInitializer extends AbstractRadiusInitializer {
 
-	public RandomRadiusInitializer(ArrayList<Particle> particles) {
+	public RandomRadiusInitializer(Collection<? extends Particle> particles) {
 		super(particles);
 	}
 

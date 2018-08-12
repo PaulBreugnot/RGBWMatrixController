@@ -1,6 +1,7 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.positionInitializers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
@@ -9,12 +10,12 @@ public class CompactPositionInitializer extends AbstractPositionInitializer {
 	private ArrayList<Space> freeSpaces = new ArrayList<>();
 	private double safeSpace;
 	
-	public CompactPositionInitializer(ArrayList<Particle> particles, double safeSpace) {
+	public CompactPositionInitializer(Collection<? extends Particle> particles, double safeSpace) {
 		super(particles);
 		this.safeSpace = safeSpace;
-		this.particles = particles;
+		this.particles = new ArrayList<>(particles);
 		// Sort particles by radius
-		this.particles.sort((Particle p1, Particle p2) -> {
+		((ArrayList<? extends Particle>) this.particles).sort((Particle p1, Particle p2) -> {
 			if (p1.getRadius() < p2.getRadius()) {
 				return 1;
 			} else {

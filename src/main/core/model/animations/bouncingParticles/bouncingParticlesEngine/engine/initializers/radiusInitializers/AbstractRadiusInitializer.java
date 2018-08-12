@@ -1,13 +1,13 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.general.AbstractInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public abstract class AbstractRadiusInitializer extends AbstractInitializer {
 
-	public AbstractRadiusInitializer(ArrayList<Particle> particles) {
+	public AbstractRadiusInitializer(Collection<? extends Particle> particles) {
 		super(particles);
 	}
 	

@@ -6,10 +6,12 @@ import java.util.TreeMap;
 
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
+import main.core.model.animations.bouncingParticles.particleFall.DisappearingParticle;
 
-public class LeaderParticle extends Particle {
+public class LeaderParticle extends DisappearingParticle {
 	
 	private int historyLength = 200;
 	private int followersCount = 20;
@@ -18,16 +20,15 @@ public class LeaderParticle extends Particle {
 	private HashSet<FollowerParticle> followers = new HashSet<>();
 	private TreeMap<Integer, Pair<Double, Double>> history = new TreeMap<>();
 
-	public LeaderParticle(double speed, double alpha, double xPos, double yPos, double radius, Color color) {
-		super(speed, alpha, xPos, yPos, radius, color);
+	public LeaderParticle(BouncingParticlesEngine bouncingParticlesEngine) {
+		super(bouncingParticlesEngine);
 		initFollowers();
 	}
 	
 	private void initFollowers() {
 		for(int i = 0; i < followersCount; i++) {
-			Color color = Color.hsb(this.color.getHue(), 1, 0.005 + 0.095/followersCount * (followersCount - i));
-			FollowerParticle follower = new FollowerParticle(radius/2, color, this, i);
-			follower.setAboveOf(AboveOf);
+			FollowerParticle follower = new FollowerParticle(bouncingParticlesEngine, this, i);
+			follower.setLayer(layer);
 			followers.add(follower);
 		}
 	}

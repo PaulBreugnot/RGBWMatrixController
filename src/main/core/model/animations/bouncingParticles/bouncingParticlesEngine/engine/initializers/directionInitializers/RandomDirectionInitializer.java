@@ -1,13 +1,13 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.directionInitializers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public class RandomDirectionInitializer extends AbstractDirectionInitializer {
 
-	public RandomDirectionInitializer(ArrayList<Particle> particles) {
+	public RandomDirectionInitializer(Collection<? extends Particle> particles) {
 		super(particles);
 	}
 

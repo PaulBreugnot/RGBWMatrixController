@@ -7,7 +7,7 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.util
 
 public class DisappearingParticle extends Particle {
 
-	private BouncingParticlesEngine bouncingParticlesEngine;
+	protected BouncingParticlesEngine bouncingParticlesEngine;
 	
 	public DisappearingParticle(BouncingParticlesEngine bouncingParticlesEngine) {
 		super();

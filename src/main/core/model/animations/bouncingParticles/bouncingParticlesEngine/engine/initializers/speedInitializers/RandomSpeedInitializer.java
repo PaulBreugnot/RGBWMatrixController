@@ -1,15 +1,14 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public class RandomSpeedInitializer extends AbstractSpeedInitializer {
 
-	public RandomSpeedInitializer(ArrayList<Particle> particles) {
+	public RandomSpeedInitializer(Collection<? extends Particle> particles) {
 		super(particles);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

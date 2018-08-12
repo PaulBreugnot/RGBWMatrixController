@@ -1,13 +1,13 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.positionInitializers;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.general.AbstractInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 
 public abstract class AbstractPositionInitializer extends AbstractInitializer {
 
-	public AbstractPositionInitializer(ArrayList<Particle> particles) {
+	public AbstractPositionInitializer(Collection<? extends Particle> particles) {
 		super(particles);
 	}
 
