@@ -17,23 +17,23 @@ public abstract class ParticleAnimation implements Animation {
 	protected double brightness = 1;
 	protected double brightWidth = 0;
 	protected double hue = 180;
-	protected double hueWidth = 100;
+	protected double hueWidth = 0;
 	protected boolean blinky = false;
 	protected AbstractColorInitializer colorInit;
 
 	// Particles
-	protected int particleNumber = 4;
-	protected double vMin = 1;
-	protected double vMax = 1;
-	protected double minRadius = 1;
-	protected double maxRadius = 1;
+	protected int particleNumber = 10;
+	protected double vMin = 0.5;
+	protected double vMax = 0.5;
+	protected double minRadius = 0.5;
+	protected double maxRadius = 2;
 
 	// Area
-	protected int areaWidth = LedPanel.MATRIX_WIDTH;
-	protected int areaHeight = LedPanel.MATRIX_HEIGHT;
+	protected int areaWidth = LedPanel.MATRIX_WIDTH * 2;
+	protected int areaHeight = LedPanel.MATRIX_HEIGHT * 2;
 	protected int horizontalOffset = 0;
 	protected int verticalOffset = 0;
-	protected boolean particleCollision = true;
+	protected boolean particleCollision = false;
 
 	protected boolean initialize = true;
 	protected boolean initColor = true;

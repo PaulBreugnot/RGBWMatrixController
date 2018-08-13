@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.ShadedColorInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers.RandomRadiusInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.renderedRadiusInitializer.DefaultRenderedRadiusInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers.RandomSpeedInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
@@ -52,7 +53,7 @@ public class ShootingStars extends ParticleFall {
 				* vMax * ParticleSet.deltaTsimulation);
 		areaHeight = LedPanel.MATRIX_HEIGHT;
 		verticalOffset = 0;
-		areaWidth = (int) (LedPanel.MATRIX_WIDTH + approximatedMaxSize);
+		areaWidth = (int) (LedPanel.MATRIX_WIDTH + 2 * approximatedMaxSize);
 		horizontalOffset = 0;
 	}
 
@@ -77,6 +78,8 @@ public class ShootingStars extends ParticleFall {
 		colorInit.resolveColor();
 		RandomRadiusInitializer radiusInit = new RandomRadiusInitializer(particles);
 		radiusInit.resolveRadius(minRadius, maxRadius);
+		DefaultRenderedRadiusInitializer renderedRadiusInit = new DefaultRenderedRadiusInitializer(particles);
+		renderedRadiusInit.resolveRenderedRadius(0, 0); // Just copy radius
 		RandomSpeedInitializer speedInit = new RandomSpeedInitializer(particles);
 		speedInit.resolveSpeed(vMin, vMax);
 		EdgeCoordinatesInitializer posInit = new EdgeCoordinatesInitializer(particles, edge);

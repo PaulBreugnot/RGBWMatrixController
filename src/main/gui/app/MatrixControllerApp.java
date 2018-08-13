@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import main.core.model.animations.bouncingParticles.blobs.BouncingBlobs;
 import main.core.model.animations.bouncingParticles.particleFall.ParticleFall;
 import main.core.model.animations.bouncingParticles.particleWave.ParticleWave;
 import main.core.model.animations.bouncingParticles.shootingStars.ShootingStars;
@@ -44,7 +45,8 @@ public class MatrixControllerApp extends Application {
 
 		// ledPanel.setCurrentAnimation(new ParticleFall());
 		// ledPanel.setCurrentAnimation(new SimpleBouncingParticles());
-		ledPanel.setCurrentAnimation(new ShootingStars());
+		// ledPanel.setCurrentAnimation(new ShootingStars());
+		ledPanel.setCurrentAnimation(new BouncingBlobs());
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Min'Bot 2018 - PixLed Controller");
 		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/LogoMinBot.jpg")));

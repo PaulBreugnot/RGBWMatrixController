@@ -1,7 +1,6 @@
 package main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
@@ -18,6 +17,7 @@ public class Particle {
 	protected double speed;
 	protected double alpha;
 	protected double radius;
+	protected double renderedRadius;
 	protected SimpleDoubleProperty xPos;
 	protected SimpleDoubleProperty yPos;
 	protected Color color;
@@ -73,7 +73,14 @@ public class Particle {
 	public void setRadius(double radius) {
 		this.radius = radius;
 	}
+
+	public double getRenderedRadius() {
+		return renderedRadius;
+	}
 	
+	public void setRenderedRadius(double renderedRadius) {
+		this.renderedRadius = renderedRadius;
+	}
 	public void setxPos(double x) {
 		xPos.set(x);
 	}
@@ -134,24 +141,6 @@ public class Particle {
 	public void setLayer(int layer) {
 		this.layer = layer;
 	}
-	
-	/*
-	public void addAboveOf(Particle particle) {
-		AboveOf.add(particle);
-	}
-	
-	public void removeAboveOf(Particle particle) {
-		AboveOf.remove(particle);
-	}
-	
-	public boolean isAboveOf(Particle particle) {
-		return AboveOf.contains(particle);
-	}
-	
-	public ArrayList<Particle> getAboveOf(){
-		return AboveOf;
-	}
-	*/
 
 	public void progress(double deltaT) {
 		xPos.set(xPos.get() + speed * Math.cos(alpha) * deltaT);

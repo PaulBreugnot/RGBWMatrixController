@@ -14,7 +14,7 @@ public class BouncingParticlesEngine {
 
 	private ParticleSet particleSet;
 
-	private PriorityQueue<Particle>[][] pixelsToRender;
+	protected PriorityQueue<Particle>[][] pixelsToRender;
 	public static final double deltaT = 1;
 	private boolean shufflingLayers;
 	private HashSet<Particle> lastAloneParticles;
@@ -90,7 +90,7 @@ public class BouncingParticlesEngine {
 	}
 
 	private void updateParticlesToShow(Particle p, int old_x, int old_y, int new_x, int new_y) {
-		double radius = p.getRadius();
+		double radius = p.getRenderedRadius();
 		int min_x = Math.min(old_x, new_x) + (int) Math.floor(-radius);
 		int max_x = Math.max(old_x, new_x) + (int) Math.ceil(radius);
 		int min_y = Math.min(old_y, new_y) + (int) Math.floor(-radius);
@@ -127,9 +127,9 @@ public class BouncingParticlesEngine {
 	}
 
 	private void addParticleToShow(Particle p) {
-		for (int x = (int) Math.floor(-p.getRadius()); x <= p.getRadius(); x++) {
-			for (int y = (int) Math.floor(-p.getRadius()); y <= p.getRadius(); y++) {
-				if (Math.sqrt(x * x + y * y) <= p.getRadius()) {
+		for (int x = (int) Math.floor(-p.getRenderedRadius()); x <= p.getRenderedRadius(); x++) {
+			for (int y = (int) Math.floor(-p.getRenderedRadius()); y <= p.getRenderedRadius(); y++) {
+				if (Math.sqrt(x * x + y * y) <= p.getRenderedRadius()) {
 					int xParticle = (int) Math.floor(p.getxPos());
 					int yParticle = (int) Math.floor(p.getyPos());
 					if (yParticle + y >= 0 && yParticle + y < LedPanel.MATRIX_HEIGHT && xParticle + x >= 0
@@ -142,8 +142,8 @@ public class BouncingParticlesEngine {
 	}
 
 	public void removeParticleToShow(Particle p) {
-		for (int x = (int) Math.floor(-p.getRadius()); x <= p.getRadius(); x++) {
-			for (int y = (int) Math.floor(-p.getRadius()); y <= p.getRadius(); y++) {
+		for (int x = (int) Math.floor(-p.getRenderedRadius()); x <= p.getRenderedRadius(); x++) {
+			for (int y = (int) Math.floor(-p.getRenderedRadius()); y <= p.getRenderedRadius(); y++) {
 				if (Math.sqrt(x * x + y * y) <= p.getRadius()) {
 					int xParticle = (int) Math.floor(p.getxPos());
 					int yParticle = (int) Math.floor(p.getyPos());
@@ -156,7 +156,7 @@ public class BouncingParticlesEngine {
 		}
 	}
 
-	private void render(RGBWPixel[][] ledMatrix) {
+	protected void render(RGBWPixel[][] ledMatrix) {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
 			for (int j = 0; j < LedPanel.MATRIX_WIDTH; j++) {
 				Particle p = pixelsToRender[i][j].peek();

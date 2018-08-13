@@ -10,6 +10,7 @@ import main.core.model.animations.bouncingParticles.animation.ParticleAnimation;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.ShadedColorInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.radiusInitializers.RandomRadiusInitializer;
+import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.renderedRadiusInitializer.DefaultRenderedRadiusInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers.RandomSpeedInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
@@ -29,7 +30,7 @@ public class ParticleFall extends ParticleAnimation {
 		particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset, verticalOffset,
 				particleCollision);
 		bouncingParticlesEngine = new BouncingParticlesEngine(particleSet, false);
-		particleSet.rotate(- Math.PI / 3, verticalOffset + areaHeight / 2, horizontalOffset + areaWidth / 2);
+		particleSet.rotate(0, verticalOffset + areaHeight / 2, horizontalOffset + areaWidth / 2);
 	}
 
 	protected void initializeArea() {
@@ -58,6 +59,8 @@ public class ParticleFall extends ParticleAnimation {
 		colorInit.resolveColor();
 		RandomRadiusInitializer radiusInit = new RandomRadiusInitializer(particles);
 		radiusInit.resolveRadius(minRadius, maxRadius);
+		DefaultRenderedRadiusInitializer renderedRadiusInit = new DefaultRenderedRadiusInitializer(particles);
+		renderedRadiusInit.resolveRenderedRadius(0, 0); // Just copy radius
 		RandomSpeedInitializer speedInit = new RandomSpeedInitializer(particles);
 		speedInit.resolveSpeed(vMin, vMax);
 		EdgeCoordinatesInitializer posInit = new EdgeCoordinatesInitializer(particles, edge);
