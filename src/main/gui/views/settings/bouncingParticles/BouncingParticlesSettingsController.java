@@ -9,98 +9,101 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
-import main.core.model.animations.bouncingParticles.simpleBouncingParticles.SimpleBouncingParticles;
+import main.core.model.animations.bouncingParticles.animation.ParticleAnimation;
 import main.core.model.panel.LedPanel;
 
 public class BouncingParticlesSettingsController {
 
 	// Color menu
 	@FXML
-	private RadioButton FullRangeColorType;
+	protected RadioButton FullRangeColorType;
 	@FXML
-	private RadioButton RawColorType;
+	protected RadioButton RawColorType;
 	@FXML
-	private RadioButton ShadedColorType;
+	protected RadioButton ShadedColorType;
 	@FXML
-	private Slider HueSlider;
+	protected Slider HueSlider;
 	@FXML
-	private Spinner<Double> HueWidthSpinner;
+	protected Spinner<Double> HueWidthSpinner;
 	@FXML
-	private Slider BrightnessSlider;
+	protected Slider BrightnessSlider;
 	@FXML
-	private Spinner<Double> BrightnessWidthSpinner;
+	protected Spinner<Double> BrightnessWidthSpinner;
 	@FXML
-	private Slider SaturationSlider;
+	protected Slider SaturationSlider;
 	@FXML
-	private Spinner<Double> SaturationWidthSpinner;
-	@FXML
-	private CheckBox BlinkyCheckBox;
+	protected Spinner<Double> SaturationWidthSpinner;
 
 	// Particles menu
 	@FXML
-	private Spinner<Integer> ParticleNumberSpinner;
+	protected Spinner<Integer> ParticleNumberSpinner;
 	@FXML
-	private CheckBox FixedRadiusBox;
+	protected CheckBox FixedRadiusBox;
 	@FXML
-	private Spinner<Double> MinRadiusSpinner;
+	protected Spinner<Double> MinRadiusSpinner;
 	@FXML
-	private Spinner<Double> MaxRadiusSpinner;
+	protected Spinner<Double> MaxRadiusSpinner;
 	@FXML
-	private CheckBox FixedSpeedBox;
+	protected CheckBox FixedSpeedBox;
 	@FXML
-	private Slider MinSpeedSlider;
+	protected Slider MinSpeedSlider;
 	@FXML
-	private Slider MaxSpeedSlider;
+	protected Slider MaxSpeedSlider;
 
 	// Collision Area menu
 	@FXML
-	private RadioButton EdgeCollisions;
+	protected RadioButton EdgeCollisions;
 	@FXML
-	private RadioButton ParticlesCollisions;
+	protected RadioButton ParticlesCollisions;
 	@FXML
-	private Spinner<Integer> WidthSpinner;
+	protected Spinner<Integer> WidthSpinner;
 	@FXML
-	private Spinner<Integer> HeightSpinner;
+	protected Spinner<Integer> HeightSpinner;
 	@FXML
-	private CheckBox CenteredCheckBox;
+	protected CheckBox CenteredCheckBox;
 	@FXML
-	private Spinner<Integer> HorizontalOffsetSpinner;
+	protected Spinner<Integer> HorizontalOffsetSpinner;
 	@FXML
-	private Spinner<Integer> VerticalOffsetSpinner;
+	protected Spinner<Integer> VerticalOffsetSpinner;
 
-	private SimpleBouncingParticles simpleBouncingParticles;
+	protected ParticleAnimation particleAnimation;
 
-	public void setSimpleBouncingParticles(SimpleBouncingParticles simpleBouncingParticles) {
-		this.simpleBouncingParticles = simpleBouncingParticles;
+	public void setParticleAnimation(ParticleAnimation particleAnimation) {
+		this.particleAnimation = particleAnimation;
 		setDisplayedParameters();
 	}
 
-	private void setDisplayedParameters() {
+	protected void setDisplayedParameters() {
 		// Color
-		HueSlider.setValue(simpleBouncingParticles.getHue());
-		HueWidthSpinner.getValueFactory().setValue(simpleBouncingParticles.getHueWidth());
-		BrightnessSlider.setValue(simpleBouncingParticles.getBrightness());
-		BrightnessWidthSpinner.getValueFactory().setValue(simpleBouncingParticles.getBrightWidth());
-		SaturationSlider.setValue(simpleBouncingParticles.getSaturation());
-		SaturationWidthSpinner.getValueFactory().setValue(simpleBouncingParticles.getSatWidth());
+		HueSlider.setValue(particleAnimation.getHue());
+		HueWidthSpinner.getValueFactory().setValue(particleAnimation.getHueWidth());
+		BrightnessSlider.setValue(particleAnimation.getBrightness());
+		BrightnessWidthSpinner.getValueFactory().setValue(particleAnimation.getBrightWidth());
+		SaturationSlider.setValue(particleAnimation.getSaturation());
+		SaturationWidthSpinner.getValueFactory().setValue(particleAnimation.getSatWidth());
 
 		// Particle
-		MinRadiusSpinner.getValueFactory().setValue(simpleBouncingParticles.getMinRadius());
-		MaxRadiusSpinner.getValueFactory().setValue(simpleBouncingParticles.getMaxRadius());
-		MinSpeedSlider.setValue(simpleBouncingParticles.getvMin());
-		MaxSpeedSlider.setValue(simpleBouncingParticles.getvMax());
-		ParticleNumberSpinner.getValueFactory().setValue(simpleBouncingParticles.getParticleNumber());
-		WidthSpinner.getValueFactory().setValue(simpleBouncingParticles.getAreaWidth());
-		HeightSpinner.getValueFactory().setValue(simpleBouncingParticles.getAreaHeight());
-		HorizontalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getHorizontalOffset());
-		VerticalOffsetSpinner.getValueFactory().setValue(simpleBouncingParticles.getVerticalOffset());
-		EdgeCollisions.setSelected(!simpleBouncingParticles.getParticleCollision());
-		ParticlesCollisions.setSelected(simpleBouncingParticles.getParticleCollision());
+		MinRadiusSpinner.getValueFactory().setValue(particleAnimation.getMinRadius());
+		MaxRadiusSpinner.getValueFactory().setValue(particleAnimation.getMaxRadius());
+		MinSpeedSlider.setValue(particleAnimation.getvMin());
+		MaxSpeedSlider.setValue(particleAnimation.getvMax());
+		ParticleNumberSpinner.getValueFactory().setValue(particleAnimation.getParticleNumber());
+		WidthSpinner.getValueFactory().setValue(particleAnimation.getAreaWidth());
+		HeightSpinner.getValueFactory().setValue(particleAnimation.getAreaHeight());
+		HorizontalOffsetSpinner.getValueFactory().setValue(particleAnimation.getHorizontalOffset());
+		VerticalOffsetSpinner.getValueFactory().setValue(particleAnimation.getVerticalOffset());
+		EdgeCollisions.setSelected(!particleAnimation.getParticleCollision());
+		ParticlesCollisions.setSelected(particleAnimation.getParticleCollision());
 		initCheckBoxes();
+		setChildDisplayedParameters();
+	}
+	
+	protected void setChildDisplayedParameters() {
+		//To override
 	}
 
 	@FXML
-	private void initialize() {
+	protected void initialize() {
 		// Color
 		initColorSliders();
 		initColorWidthSpinners();
@@ -110,60 +113,65 @@ public class BouncingParticlesSettingsController {
 		initParticleNumberSpinner();
 		// Area
 		initSizeSpinners();
+		initializeChild();
+	}
+	
+	protected void initializeChild() {
+		// To override
 	}
 
 	// Color
-	private void initColorSliders() {
+	protected void initColorSliders() {
 		HueSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setHue((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setHue((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 
 		BrightnessSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setBrightness((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setBrightness((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 
 		SaturationSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setSaturation((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setSaturation((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 	}
 
-	private void initColorWidthSpinners() {
+	protected void initColorWidthSpinners() {
 		HueWidthSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 360, 0, 10));
 		HueWidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setHueWidth((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setHueWidth((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 
 		SaturationWidthSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1, 0, 0.1));
 		SaturationWidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setSatWidth((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setSatWidth((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 
 		BrightnessWidthSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1, 0, 0.1));
 		BrightnessWidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setBrightWidth((double) new_val);
-				simpleBouncingParticles.setInitColor(true);
+				particleAnimation.setBrightWidth((double) new_val);
+				particleAnimation.setInitColor(true);
 			}
 		});
 	}
 
 	@FXML
-	private void handleFullRangeButton() {
+	protected void handleFullRangeButton() {
 		if (!FullRangeColorType.isSelected() && !RawColorType.isSelected() && !ShadedColorType.isSelected()) {
 			FullRangeColorType.setSelected(true);
 		}
@@ -172,11 +180,11 @@ public class BouncingParticlesSettingsController {
 		HueWidthSpinner.getValueFactory().setValue(360.0);
 		;
 		HueWidthSpinner.setDisable(true);
-		simpleBouncingParticles.setInitColor(true);
+		particleAnimation.setInitColor(true);
 	}
 
 	@FXML
-	private void handleRawButton() {
+	protected void handleRawButton() {
 		if (!FullRangeColorType.isSelected() && !RawColorType.isSelected() && !ShadedColorType.isSelected()) {
 			RawColorType.setSelected(true);
 		}
@@ -185,40 +193,35 @@ public class BouncingParticlesSettingsController {
 		HueWidthSpinner.getValueFactory().setValue(0.0);
 		;
 		HueWidthSpinner.setDisable(true);
-		simpleBouncingParticles.setInitColor(true);
+		particleAnimation.setInitColor(true);
 	}
 
 	@FXML
-	private void handleShadedButton() {
+	protected void handleShadedButton() {
 		if (!FullRangeColorType.isSelected() && !RawColorType.isSelected() && !ShadedColorType.isSelected()) {
 			ShadedColorType.setSelected(true);
 		}
 		RawColorType.setSelected(false);
 		FullRangeColorType.setSelected(false);
 		HueWidthSpinner.setDisable(false);
-		simpleBouncingParticles.setInitColor(true);
-	}
-
-	@FXML
-	private void handleBlinky() {
-		simpleBouncingParticles.setBlinky(BlinkyCheckBox.isSelected());
+		particleAnimation.setInitColor(true);
 	}
 
 	// Particles
-	private void initRadiusSpinners() {
+	protected void initRadiusSpinners() {
 		MinRadiusSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0.5, 5, 1, 0.5));
 		MinRadiusSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedRadiusBox.isSelected()) {
 					MaxRadiusSpinner.getValueFactory().setValue((double) new_val);
-					simpleBouncingParticles.setMinRadius((double) new_val);
-					simpleBouncingParticles.setInitialize(true);
+					particleAnimation.setMinRadius((double) new_val);
+					particleAnimation.setInitialize(true);
 				} else {
 					if ((double) new_val > MaxRadiusSpinner.getValue()) {
 						MinRadiusSpinner.getValueFactory().setValue((double) old_val);
 					} else {
-						simpleBouncingParticles.setMinRadius((double) new_val);
-						simpleBouncingParticles.setInitialize(true);
+						particleAnimation.setMinRadius((double) new_val);
+						particleAnimation.setInitialize(true);
 					}
 				}
 			}
@@ -229,35 +232,35 @@ public class BouncingParticlesSettingsController {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedRadiusBox.isSelected()) {
 					MinRadiusSpinner.getValueFactory().setValue((double) new_val);
-					simpleBouncingParticles.setMaxRadius((double) new_val);
-					simpleBouncingParticles.setInitialize(true);
+					particleAnimation.setMaxRadius((double) new_val);
+					particleAnimation.setInitialize(true);
 				} else {
 					if ((double) new_val < MinRadiusSpinner.getValue()) {
 						MaxRadiusSpinner.getValueFactory().setValue((double) old_val);
 					} else {
-						simpleBouncingParticles.setMaxRadius((double) new_val);
-						simpleBouncingParticles.setInitialize(true);
+						particleAnimation.setMaxRadius((double) new_val);
+						particleAnimation.setInitialize(true);
 					}
 				}
 			}
 		});
 	}
 
-	private void initSpeedSliders() {
+	protected void initSpeedSliders() {
 		MinSpeedSlider.setMin(0.1);
 		MinSpeedSlider.setMax(10);
 		MinSpeedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedSpeedBox.isSelected()) {
 					MaxSpeedSlider.setValue((double) new_val);
-					simpleBouncingParticles.setvMin((double) new_val);
-					simpleBouncingParticles.setInitialize(true);
+					particleAnimation.setvMin((double) new_val);
+					particleAnimation.setInitialize(true);
 				} else {
 					if ((double) new_val > MaxSpeedSlider.getValue()) {
 						MinSpeedSlider.setValue((double) old_val);
 					} else {
-						simpleBouncingParticles.setvMin((double) new_val);
-						simpleBouncingParticles.setInitialize(true);
+						particleAnimation.setvMin((double) new_val);
+						particleAnimation.setInitialize(true);
 					}
 				}
 			}
@@ -269,14 +272,14 @@ public class BouncingParticlesSettingsController {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				if (FixedSpeedBox.isSelected()) {
 					MinSpeedSlider.setValue((double) new_val);
-					simpleBouncingParticles.setvMax((double) new_val);
-					simpleBouncingParticles.setInitialize(true);
+					particleAnimation.setvMax((double) new_val);
+					particleAnimation.setInitialize(true);
 				} else {
 					if ((double) new_val < MinSpeedSlider.getValue()) {
 						MaxSpeedSlider.setValue((double) old_val);
 					} else {
-						simpleBouncingParticles.setvMax((double) new_val);
-						simpleBouncingParticles.setInitialize(true);
+						particleAnimation.setvMax((double) new_val);
+						particleAnimation.setInitialize(true);
 					}
 				}
 			}
@@ -284,72 +287,72 @@ public class BouncingParticlesSettingsController {
 	}
 
 	@FXML
-	private void handleFixedSpeed() {
+	protected void handleFixedSpeed() {
 		if (FixedSpeedBox.isSelected()) {
 			MaxSpeedSlider.setValue(MinSpeedSlider.getValue());
 		}
 	}
 
 	@FXML
-	private void initParticleNumberSpinner() {
+	protected void initParticleNumberSpinner() {
 		ParticleNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH / 2, 5, 1));
 		ParticleNumberSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setParticleNumber((int) new_val);
-				simpleBouncingParticles.setInitialize(true);
+				particleAnimation.setParticleNumber((int) new_val);
+				particleAnimation.setInitialize(true);
 			}
 		});
 	}
 
 	@FXML
-	private void handleFixedRadius() {
+	protected void handleFixedRadius() {
 		if (FixedRadiusBox.isSelected()) {
 			MaxRadiusSpinner.getValueFactory().setValue(MinRadiusSpinner.getValue());
 		}
 	}
 
 	// Area
-	private void initSizeSpinners() {
+	protected void initSizeSpinners() {
 		WidthSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 256, 32, 1));
 		WidthSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setAreaWidth((int) new_val);
+				particleAnimation.setAreaWidth((int) new_val);
 				if (CenteredCheckBox.isSelected()) {
 					centerArea();
 				}
-				simpleBouncingParticles.setInitialize(true);
+				particleAnimation.setInitialize(true);
 			}
 		});
 
 		HeightSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 256, 16, 1));
 		HeightSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setAreaHeight((int) new_val);
+				particleAnimation.setAreaHeight((int) new_val);
 				if (CenteredCheckBox.isSelected()) {
 					centerArea();
 				}
-				simpleBouncingParticles.setInitialize(true);
+				particleAnimation.setInitialize(true);
 			}
 		});
 
 		HorizontalOffsetSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-128, 128, 0, 1));
 		HorizontalOffsetSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setHorizontalOffset((int) new_val);
-				simpleBouncingParticles.setInitialize(true);
+				particleAnimation.setHorizontalOffset((int) new_val);
+				particleAnimation.setInitialize(true);
 			}
 		});
 
 		VerticalOffsetSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-128, 128, 0, 1));
 		VerticalOffsetSpinner.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				simpleBouncingParticles.setVerticalOffset((int) new_val);
-				simpleBouncingParticles.setInitialize(true);
+				particleAnimation.setVerticalOffset((int) new_val);
+				particleAnimation.setInitialize(true);
 			}
 		});
 	}
 
-	private void initCheckBoxes() {
+	protected void initCheckBoxes() {
 		if (CenteredCheckBox.isSelected()) {
 			HorizontalOffsetSpinner.setDisable(true);
 			VerticalOffsetSpinner.setDisable(true);
@@ -361,25 +364,25 @@ public class BouncingParticlesSettingsController {
 	}
 
 	@FXML
-	private void handleEdgeCollisionsButton() {
+	protected void handleEdgeCollisionsButton() {
 		ParticlesCollisions.setSelected(false);
-		if (simpleBouncingParticles.getParticleCollision()) {
-			simpleBouncingParticles.setParticleCollision(false);
-			simpleBouncingParticles.setInitialize(true);
+		if (particleAnimation.getParticleCollision()) {
+			particleAnimation.setParticleCollision(false);
+			particleAnimation.setInitialize(true);
 		}
 	}
 
 	@FXML
-	private void handleParticleCollisionsButton() {
+	protected void handleParticleCollisionsButton() {
 		EdgeCollisions.setSelected(false);
-		if (!simpleBouncingParticles.getParticleCollision()) {
-			simpleBouncingParticles.setParticleCollision(true);
-			simpleBouncingParticles.setInitialize(true);
+		if (!particleAnimation.getParticleCollision()) {
+			particleAnimation.setParticleCollision(true);
+			particleAnimation.setInitialize(true);
 		}
 	}
 
 	@FXML
-	private void handleCenteredCheckBox() {
+	protected void handleCenteredCheckBox() {
 		if (CenteredCheckBox.isSelected()) {
 			HorizontalOffsetSpinner.setDisable(true);
 			VerticalOffsetSpinner.setDisable(true);
@@ -390,64 +393,11 @@ public class BouncingParticlesSettingsController {
 		}
 	}
 
-	private void centerArea() {
+	protected void centerArea() {
 		int xOffset = (int) Math.floor((LedPanel.MATRIX_WIDTH - WidthSpinner.getValue()) / 2);
 		int yOffset = (int) Math.floor((LedPanel.MATRIX_HEIGHT - HeightSpinner.getValue()) / 2);
 		HorizontalOffsetSpinner.getValueFactory().setValue(xOffset);
 		VerticalOffsetSpinner.getValueFactory().setValue(yOffset);
 	}
-
-	// Patterns
-	@FXML
-	private void handleBigBalls() {
-		FixedRadiusBox.setSelected(true);
-		MinRadiusSpinner.getValueFactory().setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 8);
-		MaxRadiusSpinner.getValueFactory().setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 8);
-		FixedSpeedBox.setSelected(true);
-		MinSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 30);
-		MaxSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 30);
-		CenteredCheckBox.setSelected(true);
-		WidthSpinner.getValueFactory().setValue(2 * LedPanel.MATRIX_WIDTH);
-		HeightSpinner.getValueFactory().setValue(2 * LedPanel.MATRIX_HEIGHT);
-		ParticleNumberSpinner.getValueFactory()
-				.setValue((int) Math.floor(Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 4));
-	}
-	
-	@FXML
-	private void handleTinyParticles() {
-		FixedRadiusBox.setSelected(true);
-		MinRadiusSpinner.getValueFactory().setValue(0.5);
-		MaxRadiusSpinner.getValueFactory().setValue(0.5);
-		FixedSpeedBox.setSelected(true);
-		MinSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 30);
-		MaxSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 30);
-		CenteredCheckBox.setSelected(true);
-		WidthSpinner.getValueFactory().setValue(LedPanel.MATRIX_WIDTH);
-		HeightSpinner.getValueFactory().setValue(LedPanel.MATRIX_HEIGHT);
-		ParticleNumberSpinner.getValueFactory()
-				.setValue(LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH / 4);
-	}
-	
-	@FXML
-	private void handleChaos() {
-		FixedRadiusBox.setSelected(false);
-		MinRadiusSpinner.getValueFactory().setValue(0.5);
-		MaxRadiusSpinner.getValueFactory().setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 16);
-		FixedSpeedBox.setSelected(false);
-		MinSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 50);
-		MaxSpeedSlider.setValue((double) Math.max(LedPanel.MATRIX_WIDTH, LedPanel.MATRIX_HEIGHT) / 10);
-		CenteredCheckBox.setSelected(true);
-		WidthSpinner.getValueFactory().setValue(LedPanel.MATRIX_WIDTH * 3);
-		HeightSpinner.getValueFactory().setValue(LedPanel.MATRIX_HEIGHT * 3);
-		ParticleNumberSpinner.getValueFactory()
-				.setValue(LedPanel.MATRIX_HEIGHT * LedPanel.MATRIX_WIDTH / 4);
-		//RawColorType.setSelected(false);
-		//ShadedColorType.setSelected(false);
-		FullRangeColorType.setSelected(true);
-		handleFullRangeButton();
-		BlinkyCheckBox.setSelected(true);
-		handleBlinky();
-	}
-	
 
 }

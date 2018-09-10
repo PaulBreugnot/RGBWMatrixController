@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import main.core.model.animations.Animation;
+import main.core.model.animations.bouncingParticles.blobs.BouncingBlobs;
 import main.core.model.animations.bouncingParticles.simpleBouncingParticles.SimpleBouncingParticles;
 import main.core.model.animations.circularWave.CircularWave;
 import main.core.model.animations.diamondWave.DiamondWave;
@@ -127,6 +128,7 @@ public class LoopingAnimationsTabController {
 
 		ListSpecialEffects.clear();
 		ListSpecialEffects.add(new SimpleBouncingParticles());
+		ListSpecialEffects.add(new BouncingBlobs());
 
 		RandomListView.setItems(ListRandomEffects);
 		GeometricListView.setItems(ListGeometricEffects);

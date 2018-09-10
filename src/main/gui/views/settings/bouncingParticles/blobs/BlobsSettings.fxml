@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.bouncingParticles.BouncingParticlesSettingsController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.bouncingParticles.blobs.BlobsSettingsController">
    <children>
       <VBox alignment="TOP_CENTER">
          <children>
@@ -33,15 +33,6 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <HBox alignment="CENTER">
-                                 <children>
-                                    <CheckBox fx:id="BlinkyCheckBox" mnemonicParsing="false" onAction="#handleBlinky" text="Blinky">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </CheckBox>
-                                 </children>
-                              </HBox>
                               <HBox>
                                  <children>
                                     <VBox>
@@ -193,25 +184,16 @@
                         </VBox>
                      </content>
                 </TitledPane>
-                  <TitledPane animated="false" text="Patterns">
+                  <TitledPane animated="false" text="Blob">
                      <content>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#handleBigBalls" prefWidth="180.0" text="Extended Big Balls!">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#handleTinyParticles" prefWidth="180.0" text="Tiny Particles.">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Button mnemonicParsing="false" onAction="#handleChaos" prefWidth="180.0" text="Chaos!">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
+                              <VBox>
+                                 <children>
+                                    <Label text="Treshold :" />
+                                    <Slider fx:id="TresholdSlider" />
+                                 </children>
+                              </VBox>
                            </children>
                         </VBox>
                      </content>

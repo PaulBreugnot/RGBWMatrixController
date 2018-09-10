@@ -64,10 +64,10 @@ public class SimpleBouncingParticles extends ParticleAnimation {
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass()
-				.getResource("/main/gui/views/settings/bouncingParticles/BouncingParticlesSettings.fxml"));
+				.getResource("/main/gui/views/settings/bouncingParticles/simpleBouncingParticles/SimpleBouncingParticlesSettings.fxml"));
 		configAnchorPane.getChildren().add(loader.load());
 		BouncingParticlesSettingsController bouncingParticlesSettingsController = loader.getController();
-		bouncingParticlesSettingsController.setSimpleBouncingParticles(this);
+		bouncingParticlesSettingsController.setParticleAnimation(this);
 
 	}
 

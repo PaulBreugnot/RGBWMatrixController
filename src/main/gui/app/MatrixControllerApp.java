@@ -46,7 +46,7 @@ public class MatrixControllerApp extends Application {
 		// ledPanel.setCurrentAnimation(new ParticleFall());
 		// ledPanel.setCurrentAnimation(new SimpleBouncingParticles());
 		// ledPanel.setCurrentAnimation(new ShootingStars());
-		ledPanel.setCurrentAnimation(new BouncingBlobs());
+		// ledPanel.setCurrentAnimation(new BouncingBlobs());
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Min'Bot 2018 - PixLed Controller");
 		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/img/LogoMinBot.jpg")));

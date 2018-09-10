@@ -11,10 +11,23 @@ import main.core.model.pixel.RGBWPixel;
 
 public class BlobsEngine extends BouncingParticlesEngine {
 
-	public BlobsEngine(ParticleSet particleSet) {
+	private boolean hardColorMode;
+	private double hardColorThreshold = 0.05;
+	private double minTreshold = 0.05;
+
+	public BlobsEngine(ParticleSet particleSet, boolean hardColorMode) {
 		super(particleSet, false);
+		this.hardColorMode = hardColorMode;
 	}
 	
+	public void setMinTreshold(double minTreshold) {
+		this.minTreshold = minTreshold;
+	}
+	
+	public double getMinTreshold() {
+		return minTreshold;
+	}
+
 	@Override
 	protected void render(RGBWPixel[][] ledMatrix) {
 		for (int i = 0; i < LedPanel.MATRIX_HEIGHT; i++) {
@@ -29,18 +42,18 @@ public class BlobsEngine extends BouncingParticlesEngine {
 			}
 		}
 	}
-	
+
 	private RGBWPixel addColors(int i, int j) {
 		Collection<? extends Particle> pixels = pixelsToRender[i][j];
 		double hue = 0;
 		double saturation = 0;
 		double brightness = 0;
 		int notNullCount = 0;
-		for(Particle p : pixels) {
+		for (Particle p : pixels) {
 			Color c = p.getColor(j - (int) Math.floor(p.getxPos()), i - (int) Math.floor(p.getyPos()));
 			hue += c.getHue();
 			if (c.getHue() != 0) {
-				notNullCount ++;
+				notNullCount++;
 			}
 			saturation += c.getSaturation();
 			brightness += c.getBrightness();
@@ -48,13 +61,16 @@ public class BlobsEngine extends BouncingParticlesEngine {
 		hue = hue / notNullCount;
 		saturation = Math.min(saturation, 1);
 		brightness = Math.min(brightness, 1);
-		if (brightness > 0.05) {
-			brightness = 1;
-		}
-		else {
+		if (brightness < minTreshold) {
 			brightness = 0;
 		}
-		
+		if (hardColorMode) {
+			if (brightness > hardColorThreshold) {
+				brightness = 1;
+			} else {
+				brightness = 0;
+			}
+		}
 		return new RGBWPixel(Color.hsb(hue, saturation, brightness));
 	}
 }

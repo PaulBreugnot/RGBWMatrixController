@@ -3,10 +3,10 @@ package main.core.model.animations.bouncingParticles.blobs;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import main.core.model.animations.Animation;
 import main.core.model.animations.bouncingParticles.animation.ParticleAnimation;
-import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.BouncingParticlesEngine;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.colorInitializers.ShadedColorInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.directionInitializers.RandomDirectionInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.positionInitializers.CompactPositionInitializer;
@@ -14,8 +14,12 @@ import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engi
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.engine.initializers.speedInitializers.RandomSpeedInitializer;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.Particle;
 import main.core.model.animations.bouncingParticles.bouncingParticlesEngine.particle.ParticleSet;
+import main.gui.views.settings.bouncingParticles.blobs.BlobsSettingsController;
 
 public class BouncingBlobs extends ParticleAnimation {
+	
+	private boolean hardColorMode = false;
+	private BlobsEngine blobsEngine;
 
 
 	@Override
@@ -30,6 +34,8 @@ public class BouncingBlobs extends ParticleAnimation {
 		colorInit.resolveColor();
 		RandomRadiusInitializer radiusInit = new RandomRadiusInitializer(particles);
 		radiusInit.resolveRadius(minRadius, maxRadius);
+		RenderedRadiusInitializer renderedRadiusInit = new RenderedRadiusInitializer(particles, 10);
+		renderedRadiusInit.resolveRenderedRadius(0, 0);
 		RandomDirectionInitializer angleInit = new RandomDirectionInitializer(particles);
 		angleInit.resolveDirections();
 		RandomSpeedInitializer speedInit = new RandomSpeedInitializer(particles);
@@ -40,22 +46,44 @@ public class BouncingBlobs extends ParticleAnimation {
 
 		ParticleSet particleSet = new ParticleSet.RectangularSet(particles, areaWidth, areaHeight, horizontalOffset,
 				verticalOffset, particleCollision);
-		bouncingParticlesEngine = new BlobsEngine(particleSet);
+		bouncingParticlesEngine = new BlobsEngine(particleSet, hardColorMode);
 		
 		this.particles = particles;
-			disableBlinky();
+		disableBlinky();
+	}
+	
+	public void setMinTreshold(double minTreshold) {
+		if (blobsEngine != null){
+			blobsEngine.setMinTreshold(minTreshold);
+		}
+	}
+	
+	public double getMinTreshold() {
+		if (blobsEngine != null){
+			return blobsEngine.getMinTreshold();
+		}
+		return 0.05;
 	}
 	
 	@Override
 	public void setAnimationSettings(AnchorPane configAnchorPane) throws IOException {
-		// TODO Auto-generated method stub
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass()
+				.getResource("/main/gui/views/settings/bouncingParticles/blobs/BlobsSettings.fxml"));
+		configAnchorPane.getChildren().add(loader.load());
+		BlobsSettingsController blobsSettingsController = loader.getController();
+		blobsSettingsController.setParticleAnimation(this);
 		
 	}
 
 	@Override
 	public Animation newAnimationInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BouncingBlobs();
+	}
+	
+	@Override
+	public String toString() {
+		return "Bouncing Blobs";
 	}
 
 }

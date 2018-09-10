@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.gui.views.settings.bouncingParticles.simpleBouncingParticles.SimpleBouncingParticlesSettings">
+   <children>
+      <VBox alignment="TOP_CENTER">
+         <children>
+            <Label text="Seems like chemistry.">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <Accordion>
+              <panes>
+                  <TitledPane animated="false" text="Color">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Color type :" />
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <RadioButton fx:id="FullRangeColorType" mnemonicParsing="false" onAction="#handleFullRangeButton" text="Full Range" VBox.vgrow="NEVER" />
+                                    <HBox alignment="TOP_CENTER" VBox.vgrow="NEVER">
+                                       <children>
+                                          <RadioButton fx:id="RawColorType" mnemonicParsing="false" onAction="#handleRawButton" text="Raw" />
+                                          <RadioButton fx:id="ShadedColorType" mnemonicParsing="false" onAction="#handleShadedButton" selected="true" text="Shaded" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <CheckBox fx:id="BlinkyCheckBox" mnemonicParsing="false" onAction="#handleBlinky" text="Blinky">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </CheckBox>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Hue :" />
+                                          <Slider fx:id="HueSlider" max="360.0" prefHeight="26.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Range :" />
+                                          <Spinner fx:id="HueWidthSpinner" editable="true" prefWidth="70.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <Label text="Brightness :" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Slider fx:id="BrightnessSlider" max="1.0" />
+                                    <Spinner fx:id="BrightnessWidthSpinner" editable="true" prefWidth="70.0" />
+                                 </children>
+                              </HBox>
+                              <Label text="Saturation :" />
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Slider fx:id="SaturationSlider" max="1.0" />
+                                    <Spinner fx:id="SaturationWidthSpinner" editable="true" prefWidth="70.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="Particles">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Particle Number :" />
+                              <Spinner fx:id="ParticleNumberSpinner" editable="true" />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Radius :" />
+                              <CheckBox fx:id="FixedRadiusBox" mnemonicParsing="false" onAction="#handleFixedRadius" text="Fixed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Minimum Radius :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner fx:id="MinRadiusSpinner" editable="true" />
+                              <Label text="Maximum Radius :" />
+                              <Spinner fx:id="MaxRadiusSpinner" editable="true" />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Speed" />
+                              <CheckBox fx:id="FixedSpeedBox" mnemonicParsing="false" onAction="#handleFixedSpeed" text="Fixed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Minimum Speed">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Slider fx:id="MinSpeedSlider" />
+                              <Label text="Maximum Speed" />
+                              <Slider fx:id="MaxSpeedSlider" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Collision Area">
+                     <content>
+                        <VBox>
+                           <children>
+                              <Label text="Collisions Type :" />
+                              <RadioButton fx:id="EdgeCollisions" mnemonicParsing="false" onAction="#handleEdgeCollisionsButton" text="Edges">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <RadioButton fx:id="ParticlesCollisions" mnemonicParsing="false" onAction="#handleParticleCollisionsButton" text="Edges + Particles">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Size :" />
+                              <Label text="Width :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner fx:id="WidthSpinner" editable="true" />
+                              <Label text="Height :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner fx:id="HeightSpinner" editable="true" />
+                              <Separator>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <Label text="Position :" />
+                              <CheckBox fx:id="CenteredCheckBox" mnemonicParsing="false" onAction="#handleCenteredCheckBox" selected="true" text="Centered">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Horizontal Offset :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner fx:id="HorizontalOffsetSpinner" editable="true" />
+                              <Label text="Vertical Offset :">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Spinner fx:id="VerticalOffsetSpinner" editable="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                </TitledPane>
+                  <TitledPane animated="false" text="Patterns">
+                     <content>
+                        <VBox alignment="TOP_CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#handleBigBalls" prefWidth="180.0" text="Extended Big Balls!">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#handleTinyParticles" prefWidth="180.0" text="Tiny Particles.">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#handleChaos" prefWidth="180.0" text="Chaos!">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
